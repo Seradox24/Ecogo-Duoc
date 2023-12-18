@@ -1,7 +1,37 @@
 body{
-    background: #222222 !important;
+    background: url(../images/caminante-mochila-pie-cima-montana.jpg) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100vh !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
+    font-family: inherit !important;
 }
 
 h1{
     color: blue;
+}
+
+.btn1{
+    display: block;
+    border: 2px solid #CCCCCC;
+    outline: none;
+    height: 40px;
+    background: transparent;
+    color: #222222;
+    font-size: 12px;
+    border-radius: 50px;
+    width: 100px;
+    text-decoration: none;
+    position: relative;
+    padding: 10px;
+    text-align: center;
+
+}
+
+.btn1:hover{
+    text-decoration: none;
+    color: #222222;
+    background: #CCCCCC;
 }
