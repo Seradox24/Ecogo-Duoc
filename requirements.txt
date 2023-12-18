@@ -3,3 +3,7 @@ asgiref==3.7.2
 psycopg2==2.9.9
 sqlparse==0.4.4
 tzdata==2023.3
+django-crispy-forms==2.0.0
+crispy-bootstrap4==2022.1
+django-allauth==0.57.0
+django-admin-interface==0.26.0
