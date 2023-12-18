@@ -1,7 +1,10 @@
+import dataclasses
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
+from requests import request 
+from .forms import CustomUserCreationForm
 
 
 @login_required
@@ -19,4 +22,10 @@ def login_view(request):
             # Redirige al usuario a alguna página después del inicio de sesión exitoso
             return HttpResponseRedirect('ruta-a-tu-pagina')
 
-    return render(request, 'login.html')
+    return render(request, 'acceso/login.html')
+
+def register(request):
+        data = {
+            'form': CustomUserCreationForm()
+        }
+        return render(request, 'acceso/registro.html', data)
