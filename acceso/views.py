@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login
 from requests import request 
 from .forms import  CustomUserCreationForm
 from django.shortcuts import render, redirect
-
+from django.urls import reverse
 
 def acceso_login(request):
     return render(request, 'acceso/login.html')
@@ -19,7 +19,8 @@ def login_view(request):
         if user is not None:
             login(request, user)
             # Redirige al usuario a alguna página después del inicio de sesión exitoso
-            return HttpResponseRedirect('')
+            return HttpResponseRedirect(reverse('/alumno/home/', kwargs={'parametro': user}))
+
 
     return render(request, 'acceso/login.html')
 
