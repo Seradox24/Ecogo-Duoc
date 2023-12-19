@@ -1,0 +1,25 @@
+body{
+    background: #f8f9fa!important
+}
+
+.colormn{
+    background-color: #012C56;
+}
+
+.nav-pills li a {
+    background-color: transparent;
+    border: none;
+    transition: box-shadow 0.3s ease;
+}
+
+.nav-pills li a:hover {
+    box-shadow: 0 0 0 1px #fff; 
+}
+
+.logo-img {
+    max-width: 100px;
+    max-height: 100px;
+    
+}
+
+
