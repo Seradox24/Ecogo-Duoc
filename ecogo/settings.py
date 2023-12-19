@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['*','http://ecogo.brazilsouth.cloudapp.azure.com','ecogo.cloud'
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'core',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -169,3 +170,31 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "cerulean",
+}
+
+JAZZMIN_SETTINGS = {
+    # title of the window (Will default to current_admin_site.site_title if absent or None)
+    "site_title": "Eco-Go Administracion",
+
+    # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    "site_header": "Backend Eco-Go",
+
+    # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    "site_brand": "Backend Eco-go",
+
+    # Logo to use for your site, must be present in static files, used for brand on top left
+    "site_logo": "",
+    "site_logo_classes": "",
+    
+    "copyright": "Desarrollado por <a href='https://www.admin.cl/' target='_blank'>Eco-Go</a>",
+    "show_sidebar": True,
+    "changeform_format": "horizontal_tabs",
+    "user_avatar": None,
+
+    
+}
