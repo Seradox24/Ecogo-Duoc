@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-08*br$bv^h5p1)ug01l27s1c)51@wv$qub&1fd-5h8*b%v-)=y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*','http://ecogo.brazilsouth.cloudapp.azure.com','ecogo.cloud','http://ecogo.cloud','https://ecogo.cloud']
 
 
 # Application definition
