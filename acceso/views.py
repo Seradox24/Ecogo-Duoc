@@ -6,6 +6,7 @@ from requests import request
 from .forms import  CustomUserCreationForm
 from django.shortcuts import render, redirect
 
+
 def acceso_login(request):
     return render(request, 'acceso/login.html')
 
