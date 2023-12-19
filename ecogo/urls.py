@@ -23,6 +23,6 @@ from django import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('acceso.urls'),name="acceso_urls"),
-  
+    
     
 ]
