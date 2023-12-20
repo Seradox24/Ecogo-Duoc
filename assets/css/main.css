@@ -109,3 +109,96 @@ body{
   .login-box a:hover {
     color: #fff;
   }
+
+/* Registro */
+.register-box {
+  width: 350px;
+  height: 750px;
+  background: #012C56;
+  color: #fff;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  padding: 50px 30px;
+  border-radius: 10px;
+  font-family: inherit !important;
+}
+
+.register-box label {
+  font-size: 12px;
+}
+
+.helptext{
+  font-size: 10px;
+}
+
+.register-box ul{
+  font-size: 10px;
+}
+
+.register-box .avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  position: absolute;
+  top: -50px;
+  left: calc(50% - 50px);
+}
+
+.register-box h1 {
+  margin: 0;
+  padding: 0 0 20px;
+  text-align: center;
+  font-size: 22px;
+}
+
+.register-box label {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+  display: block;
+}
+
+.register-box input {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.register-box input[type="text"], .register-box input[type="password"], .register-box input[type="email"] {
+  border: none !important;
+  border-bottom: 1px solid #fff !important;
+  background: transparent !important;
+  outline: none !important;
+  height: 40px !important;
+  color: #fff !important;
+  font-size: 16px !important;
+}
+
+.register-box input[type="submit"] {
+  border: 2px solid #fff;
+  outline: none;
+  height: 40px;
+  background: transparent;
+  color: #fff;
+  font-size: 18px;
+  border-radius: 20px;
+}
+
+.register-box input[type="submit"]:hover {
+  cursor: pointer;
+  color: #012C56;
+  background: #fff;
+}
+
+.register-box a {
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 20px;
+  color: darkgrey;
+}
+
+.register-box a:hover {
+  color: #fff;
+}
