@@ -3,11 +3,23 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <h2>Registro</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }} 
-        <button type="submit" class="btn btn-primary">Registrarse</button>
-    </form>
+    
+    <div class="container">
+  <div class="row justify-content-center">
+    <div class="">
+      <div class="register-box">
+        <img src="../assets/images/ecogo.png" class="avatar" alt="Avatar Image">
+        <h1>Registro</h1>
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }} 
+          <input type="submit" value="Registrar" class="btn btn-primary btn-block">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 {% endblock %}
 

@@ -141,7 +141,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'UTC'
 
@@ -164,8 +164,8 @@ STATICFILES_DIRS = (
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'resetprizus@gmail.com'
-EMAIL_HOST_PASSWORD = 'nkqzgcoubezwtpqd'
+EMAIL_HOST_USER = 'ecogoreset@gmail.com'
+EMAIL_HOST_PASSWORD = 'hmeq rnyx otjq eaza'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 MEDIA_URL = '/media/'
