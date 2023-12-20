@@ -12,6 +12,11 @@
   </head>
   <body>
     <header>
+
+      <!-- aca el navbar tiene un break para pantallas grandes para que no apareza el menu en pantalla grandes pero si cuando se va  movil  -->
+
+<!-- luego hay que hacer que sea dinamico con un arrary y un if para el permiso de usuario -->
+
       <nav class="navbar colormn navbar-expand-lg  ">
           <div class="container-fluid ">
 
@@ -58,7 +63,7 @@
 
   </header>
 
-
+<!-- aca hay un break point para que el menu side no apareza cuando es pantalla pequeña hay que probar si cual es limite y modificarlo  -->
   <div class="d-lg-none">hide on lg and wider screens</div>
 <div class="d-none d-lg-block">hide on screens smaller than lg
 {% include 'includes/sidebar_dashboard.html' %}</div>
