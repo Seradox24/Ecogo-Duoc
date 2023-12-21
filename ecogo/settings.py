@@ -14,6 +14,9 @@ from pathlib import Path
 from django.utils.html import format_html
 
 
+
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -194,8 +197,8 @@ JAZZMIN_SETTINGS = {
     "site_brand": "Backend Eco-go",
 
     # Logo to use for your site, must be present in static files, used for brand on top left
-    "site_logo": "",
-    "site_logo_classes": "",
+    "site_logo": "images/ecogo.png",
+    "site_logo_classes": "img-circle",
     
     "copyright": "Desarrollado por <a href='https://www.admin.cl/' target='_blank'>Eco-Go</a>",
     "show_sidebar": True,

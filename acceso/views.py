@@ -6,7 +6,10 @@ from requests import request
 from .forms import  CustomUserCreationForm
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.contrib.auth.decorators import user_passes_test
 
+
+@user_passes_test(lambda user: not user.is_authenticated, login_url='accounts/profile/')
 def acceso_login(request):
     return render(request, 'acceso/login.html')
 
@@ -18,9 +21,10 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            # Redirige al usuario a alguna página después del inicio de sesión exitoso
-            return HttpResponseRedirect(reverse('/alumno/home/', kwargs={'parametro': user}))
-
+            return redirect('profile_view', parametro=user.id)
+        else:
+            
+            return redirect('acceso_login')
 
     return render(request, 'acceso/login.html')
 
@@ -38,3 +42,25 @@ def registro(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'acceso/registro.html', {'form': form})
+
+
+
+@login_required
+def profile_view(request):
+    # Aquí puedes agregar el código para obtener la información del perfil del usuario
+    # Por ejemplo, puedes obtener el usuario actual con request.user
+    user = request.user
+
+    # Luego puedes renderizar una plantilla con la información del perfil
+    return render(request, 'db_alumno/db_home.html', {'user': user})
+
+
+def acceso_error(request):
+    # Aquí puedes agregar el código para obtener la información del perfil del usuario
+    # Por ejemplo, puedes obtener el usuario actual con request.user
+    user = request.user
+
+    # Luego puedes renderizar una plantilla con la información del perfil
+    return render(request, 'acceso/login.html', {'user': user})
+
+
