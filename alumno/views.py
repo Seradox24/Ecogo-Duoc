@@ -12,4 +12,7 @@ def ji_alumno(request):
 def msalida_alumno(request):
     return render(request, 'db_alumno/db_alumno_mysali.html')
 
+def aperfil(request):
+    return render(request, 'db_alumno/db_alumno_perfil.html')
+
 # Create your views here.
