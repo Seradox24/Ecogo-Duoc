@@ -1,0 +1,34 @@
+{% extends '../layout/dash_base.html' %} 
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}  
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title text-bg-dark text-center ">Perfil Alumno: {{user.username}} </h5>
+     
+        <table class="table table-hover">
+            
+            <thead class="table-light">
+        
+                <tbody>
+                    <tr>
+                    
+                        <td>
+                            <h5>Carga de ficha médica:</h5>
+                            <div class="input-group">
+                                <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                <button class="btn btn-outline-danger" type="button" id="inputGroupFileAddon04" 
+                                onclick="document.getElementById('inputGroupFile04').value = '';">Limpiar</button><button class="btn btn-outline-primary" type="button" id="inputGroupFileAddon05" onclick="alert('Archivo enviado')">Enviar</button>
+                            </div>
+                    
+                        </td>
+                    </tr>
+                  
+                </tbody>
+            </table>  
+        
+        </table>
+    </div>
+</div>
+{% endblock %}
