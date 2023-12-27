@@ -1,0 +1,58 @@
+<div class="container-fluid   ">
+    <div class="row flex-nowrap ">
+        <div class="colormn col-auto col-md-4 col-lg-2 min-vh-100 d-flex flex-column justify-content-between d-none d-lg-block  ">
+            <div class="colormn p-2   ">
+                <a class="d-flex text-decoration-none mt-1 aling-items-center text-white">
+                    <span class="fs-4 d-none d-sm-inline">Menu</span>
+                </a>
+                <ul
+                    class="nav nav-pills flex-column mt-4">
+                    <li class="nav-item py-2 py-sm-0 mb-4">
+                        <a href="{% url 'home_alumno' %}" class="nav-link text-white">
+                            <i class="fs-5 fa fa-house"></i><span class="fs-4 ms-2 d-none d-sm-inline">Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item py-2 py-sm-0 mb-4">
+                        <a href="{% url 'ji_alumno' %}" class="nav-link text-white">
+                            <i class="fs-5 fa fa-heart-circle-plus"></i><span class="fs-4 ms-2 d-none d-sm-inline">Justificación
+                                de inasistencia</span>
+                        </a>
+                    </li>
+                    <li class="nav-item py-2 py-sm-0 mb-4">
+                        <a href="{% url 'msalida_alumno' %}" class="nav-link text-white">
+                            <i class="fs-5 fa fa-person-walking-luggage"></i><span class="fs-4 ms-2 d-none d-sm-inline">Salida a Terreno</span>
+                        </a>
+                    </li>
+                    <li class="nav-item py-2 py-sm-0 mb-4">
+                        <a href="#" class="nav-link text-white">
+                            <i class="fs-5 fa fa-table-list"></i><span class="fs-4 ms-2 d-none d-sm-inline">Lista de Actividades</span>
+                        </a>
+                    </li>
+                    <li class="nav-item py-2 py-sm-0 mb-4">
+                        <a href="#" class="nav-link text-white">
+                            <i class="fs-5 fa fa-book-bookmark"></i><span class="fs-4 ms-2 d-none d-sm-inline">Asignatura</span>
+                        </a>
+                    </li>
+                    <li class="nav-item py-2 py-sm-0 mb-4">
+                        <a href="{% url 'gest_users' %}" class="nav-link text-white">
+                            <i class="fs-5 fa fa-users-gear"></i><span class="fs-4 ms-2 d-none d-sm-inline">Gestionar Usuarios</span>
+                        </a>
+                    </li>
+                </ul>
+                 
+            </div>
+            <div class="dropdown open p-2  ">
+                <a class="btn border-none dropdown-toggle text-white" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-user"></i><span class="ms-2">{{user.username}}</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="triggerId">
+                    <a class="dropdown-item" href="#">Setting</a>
+                    <a class="dropdown-item" href="#">Profile</a>
+                    <a class="dropdown-item" href="{% url 'logout' %}">Salir</a>
+                </div>
+            </div>
+            
+
+        </div>
+
+        
