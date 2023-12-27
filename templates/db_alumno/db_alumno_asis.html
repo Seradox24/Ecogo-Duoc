@@ -1,0 +1,65 @@
+{% extends '../layout/dash_base.html' %} 
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}  
+
+
+
+
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title text-bg-dark text-center ">Justificación de inasistencia:</h5>
+     
+        <table class="table table-hover">
+            
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Salida a terreno</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Documento</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>- Trekking/Los molles</td>
+                    <td>- Obligatoria</td>
+                    <td>-----</td>
+                    <td>
+                        <div class="input-group">
+                            <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                            <button class="btn btn-outline-danger" type="button" id="inputGroupFileAddon04" 
+                            onclick="document.getElementById('inputGroupFile04').value = '';">Limpiar</button><button class="btn btn-outline-primary" type="button" id="inputGroupFileAddon05" onclick="alert('Archivo enviado')">Enviar</button>
+                          </div>
+                    
+                    </td>
+                  </tr>
+                  
+              </tbody>
+          </table>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

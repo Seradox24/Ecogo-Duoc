@@ -36,3 +36,22 @@ body{
 .navbar-toggler {
     border: 1px solid rgba(255, 255, 255, 0.76) !important;
 }
+
+
+.cardgrandient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.782), rgba(0, 0, 0, 0.519));
+  }
+  
+.card-transparent {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+  
+
+
+  

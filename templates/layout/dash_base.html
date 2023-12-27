@@ -33,7 +33,8 @@
               </li>
               <li class="nav-item py-2 py-sm-0 mb-4">
                   <a href="#" class="nav-link text-white text-center">
-                      <i class="fs-5 fa fa-heart-circle-plus"></i><span class=" fs-4 ms-2 d-sm-inline">Ficha Medica</span>
+                      <i class="fs-5 fa fa-heart-circle-plus"></i><span class=" fs-4 ms-2 d-sm-inline">Justificación
+                        de inasistencia</span>
                   </a>
               </li>
               <li class="nav-item py-2 py-sm-0 mb-4">
@@ -53,11 +54,12 @@
               </li>
               <div class="dropdown open  text-center">
                 <a class="btn dropdown-toggle text-white p-3 bg-info bg-opacity-10 border border-info border-start-0 rounded-end" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-user"></i><span class="ms-2">Tu</span>
+                    <i class="fa fa-user"></i><span class="ms-2">{{user.username}}</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="triggerId">
                     <a class="dropdown-item p-3 bg-info bg-opacity-10 border border-info border-start-0 rounded-end " href="#">Setting</a>
                     <a class="dropdown-item p-3 bg-info bg-opacity-10 border border-info border-start-0 rounded-end" href="#">Profile</a>
+                    <a class="dropdown-item p-3 bg-danger bg-opacity-10 border border-info border-start-0 rounded-end" href="{% url 'logout' %}">Salir</a>
                 </div>
             </div>
               </ul>
