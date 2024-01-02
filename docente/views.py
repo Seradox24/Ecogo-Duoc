@@ -15,6 +15,10 @@ def msalida_docente(request):
 def gest_users(request):
     return render(request, 'db_docente/db_docente_gest_users.html')
 
+
+def crear_salida(request):
+    return render(request, 'db_docente/db_docente_crear_sl.html')
+
 def gest_users(request):
     return render(request, 'db_docente/db_docente_gest_users.html')
 

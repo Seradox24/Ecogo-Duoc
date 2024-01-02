@@ -11,6 +11,10 @@ body{
     background-color: #012C56;
 }
 
+.txt{
+    font-size: 12px !important;
+}
+
 .nav-pills li a {
     background-color: transparent;
     border: none;
