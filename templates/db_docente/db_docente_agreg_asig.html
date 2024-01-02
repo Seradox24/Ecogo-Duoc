@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Crear Nueva Asignatura</title>
+</head>
+<body>
+    <h1>Agregar asignatura</h1>
+    <form method="post" action="{% url 'guardar_asignatura' %}">
+        {% csrf_token %}
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre"><br>
+    
+        <label for="sigla">Sigla:</label>
+        <input type="text" id="sigla" name="sigla"><br>
+    
+        <label for="docentes">Docentes:</label>
+        <select id="docentes" name="docentes" multiple>
+            {% for docente in docentes_disponibles %}
+                <option value="{{ docente.id }}">{{ docente }}</option>
+            {% endfor %}
+        </select><br>
+    
+        <label for="secciones">Secciones:</label>
+        <select id="secciones" name="secciones" multiple>
+            {% for seccion in secciones_disponibles %}
+                <option value="{{ seccion.id }}">{{ seccion }}</option>
+            {% endfor %}
+        </select><br>
+    
+        <input type="submit" value="Guardar">
+    </form>
+</body>
+</html>
+
