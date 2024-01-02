@@ -1,0 +1,190 @@
+{% extends '../layout/dash_base_docente.html' %} 
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}  
+
+
+
+
+
+<div class="card text-bg-dark ">
+    <h1>Agendar Salida a Terreno</h1>
+</div>
+
+<div class="container justify-content-center py-4">
+    <div class="card p-4">
+        <div class="d-flex align-items-center pb-3">
+            <label style="margin-right: 12px;" for="">Situacion: </label>
+            <select class="form-select" aria-label="Default select example">
+                <option selected>--</option>
+                <option value="1">Ejecutado</option>
+                <option value="2">Por Ejecutar</option>
+              </select>
+        </div>
+
+        <div class="pb-3">
+            <div class="form-floating">
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                <label for="floatingTextarea">Numero de cuenta...</label>
+              </div>
+        </div>
+        
+        <div class="d-flex align-items-center pb-3">
+            <label style="margin-right: 12px;" for="">Semestre:</label>
+            <select class="form-select" aria-label="Default select example">
+                <option selected>--</option>
+                <option value="1">I</option>
+                <option value="2">II</option>
+                <option value="3">III</option>
+                <option value="4">IV</option>
+                <option value="5">V</option>
+                <option value="6">VI</option>
+                <option value="7">VII</option>
+              </select>
+        </div>
+
+        <div class="pb-3">
+            <div class="form-floating">
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                <label for="floatingTextarea">Año...</label>
+              </div>
+        </div>
+        
+        <div class="pb-3">
+            <div class="form-floating">
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                <label for="floatingTextarea">Semana...</label>
+              </div>
+        </div>
+
+        <div class="d-flex align-items-center pb-3">
+            <label style="margin-right: 12px;" for="">Actividad:</label>
+            <select class="form-select" aria-label="Default select example">
+                <option selected>--</option>
+                <option value="1">Interpretación de comunidades (TTO Experiencias)</option>
+                <option value="2">Técnicas Invernales</option>
+                <option value="3">Cabalgata</option>
+                <option value="">Caracterización de la unidad</option>
+                <option value="">Análisis de riesgo</option>
+                <option value="">Valorización del entorno, servicios ecosistémicos y capital humano</option>
+              </select>
+        </div>
+        
+        <div class="d-flex pb-3">
+            <label for="fecha">Fecha Ingreso:</label>
+            <input type="date" class="form-control" id="fecha" name="fecha">
+        </div>
+
+        <div class="d-flex pb-3">       
+            <label for="fecha">Fecha Termino:</label>
+            <input type="date" class="form-control" id="fecha" name="fecha">
+        </div>
+        
+        <div class="d-flex pb-3">
+            <div class="form-floating">
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                <label for="floatingTextarea">Dias...</label>
+            </div>
+        
+            <div class="form-floating">
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                <label for="floatingTextarea">Noches...</label>
+            </div>
+        </div>
+
+        <div class="pb-3">
+            <div class="form-floating">
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                <label for="floatingTextarea">Dias de actividad...</label>
+              </div>
+        </div>
+        
+        <div class="form-floating pb-3">
+            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+            <label for="floatingTextarea">Lugar de Ejecucion...</label>
+        </div>
+
+        <div class="d-flex align-items-center pb-3">
+            <label style="margin-right: 12px;" for="">Asignatura:</label>
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+        </div>
+
+        <div class="d-flex align-items-center pb-3">
+            <label style="margin-right: 12px;" for="">Exp. de aprendizaje:</label>
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+        </div>
+
+        <div class="form-floating pb-3">
+            <input type="number" id="typeNumber" class="form-control" />
+            <label class="form-label" for="typeNumber">Numero de alumnos</label>
+        </div>
+        
+        <div class="d-flex align-items-center pb-3">
+            <label style="margin-right: 12px;" for="">Seccion por docente:</label>
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+        </div>
+
+        <div class="d-flex align-items-center pb-3">
+            <label style="margin-right: 12px;" for="">Docente titular:</label>
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+        </div>
+        
+        <div class="pb-3">
+            <div class="form-floating">
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                <label for="floatingTextarea">Docentes de apoyo...</label>
+              </div>
+        </div>
+
+        <div class="form-floating pb-3">
+            <input type="number" id="typeNumber" class="form-control" />
+            <label class="form-label" for="typeNumber">Numero de salida</label>
+        </div>
+        
+        <div class="d-flex align-items-center pb-3">
+            <label style="margin-right: 12px;" for="">Asig. comp. terreno:</label>
+            <select class="form-select" aria-label="Default select example">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+        </div>
+    
+    
+        <div class="form-floating pb-3">
+            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+            <label for="floatingTextarea2">Observaciones...</label>
+        </div>
+
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <button class="btn btnagre" type="button">Listar Alumnos</button>
+            <button class="btn btnagre" type="button">Generar salida a Terreno <i class="fa-regular fa-square-plus mas"></i></button>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
