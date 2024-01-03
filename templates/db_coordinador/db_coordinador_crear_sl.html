@@ -1,0 +1,238 @@
+{% extends '../layout/dash_base_docente.html' %} 
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}  
+
+
+
+
+
+<div class="card text-bg-dark align-items-center">
+    <h1>Agendar Salida a Terreno</h1>
+</div>
+
+<div class="container justify-content-center py-4">
+    <div class="card p-4">
+        <form method="post" action="{% url 'crear_salida' %}">
+            {% csrf_token %}
+            <div class="d-flex align-items-center pb-3">
+                <label style="margin-right: 12px;" for="">Situacion: </label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>--</option>
+                    <option value="1">Ejecutado</option>
+                    <option value="2">Por Ejecutar</option>
+                </select>
+            </div>
+
+            <div class="pb-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                    <label for="floatingTextarea">Numero de cuenta...</label>
+                </div>
+            </div>
+            
+            <div class="d-flex align-items-center pb-3">
+                <label style="margin-right: 12px;" for="">Semestre:</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>--</option>
+                    <option value="1">I</option>
+                    <option value="2">II</option>
+                    <option value="3">III</option>
+                    <option value="4">IV</option>
+                    <option value="5">V</option>
+                    <option value="6">VI</option>
+                    <option value="7">VII</option>
+                </select>
+            </div>
+
+            <div class="pb-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                    <label for="floatingTextarea">Año...</label>
+                </div>
+            </div>
+            
+            <div class="pb-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                    <label for="floatingTextarea">Semana...</label>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center pb-3">
+                <label style="margin-right: 12px;" for="">Actividad:</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>--</option>
+                    <option value="1">Interpretación de comunidades (TTO Experiencias)</option>
+                    <option value="2">Técnicas Invernales</option>
+                    <option value="3">Cabalgata</option>
+                    <option value="4">Caracterización de la unidad</option>
+                    <option value="5">Análisis de riesgo</option>
+                    <option value="6">Valorización del entorno, servicios ecosistémicos y capital humano</option>
+                    <option value="7">Interpretación</option>
+                    <option value="8">Buceo</option>
+                    <option value="9">MTB y KAYAK</option>
+                    <option value="10">Escalada</option>
+                    <option value="11">MTB</option>
+                    <option value="12">KAYAK</option>
+                    <option value="13">Terreno Fauna</option>
+                    <option value="14">Normativas y procesos, programacion de actividades</option>
+                    <option value="15">Trekking</option>
+                    <option value="16">Examen Transversal</option>
+                    <option value="17">Por Definir</option>
+                </select>
+            </div>
+            
+            <div class="d-flex pb-3">
+                <label for="fecha">Fecha Ingreso:</label>
+                <input type="date" class="form-control" id="fecha" name="fecha">
+            </div>
+
+            <div class="d-flex pb-3">       
+                <label for="fecha">Fecha Termino:</label>
+                <input type="date" class="form-control" id="fecha" name="fecha">
+            </div>
+            
+            <div class="d-flex pb-3">
+                <div class="form-floating mgr">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                    <label for="floatingTextarea">Dias...</label>
+                </div>
+            
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                    <label for="floatingTextarea">Noches...</label>
+                </div>
+            </div>
+
+            <div class="pb-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                    <label for="floatingTextarea">Dias de actividad...</label>
+                </div>
+            </div>
+            
+            <div class="form-floating pb-3">
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                <label for="floatingTextarea">Lugar de Ejecucion...</label>
+            </div>
+
+            <div class="d-flex align-items-center pb-3">
+                <label style="margin-right: 12px;" for="">Asignatura:</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>--</option>
+                    <option value="1">Taller de Integración de Comunidades en Ecoturismo</option>
+                    <option value="2">Taller de Actividades al Aire Libre II</option>
+                    <option value="3">Taller de Actividades al Aire Libre IV</option>
+                    <option value="4">Planificación y Logística de Programas Ecoturísticos</option>
+                    <option value="5">Administración Turística de Áreas Protegidas</option>
+                    <option value="6">Taller de Gestión de Riesgos en Zonas Remotas</option>
+                    <option value="7">Taller de Integración de Ecoturismo en Áreas Silvestres</option>
+                    <option value="8">Técnicas de Guiado e interpretación del patrimonio natural</option>
+                    <option value="9">Taller Básico de Primeros Auxilios en Áreas Silvestres</option>
+                    <option value="10">FAUNA DE CHILE</option>
+                    <option value="11">FLORA DE CHILE</option>
+                    <option value="12">Taller de Operaciones de Programas de Ecoturismo</option>
+                </select>
+            </div>
+
+            <div class="d-flex align-items-center pb-3">
+                <label style="margin-right: 12px;" for="">Exp. de aprendizaje:</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>--</option>
+                    <option value="1">EA 1</option>
+                    <option value="2">EA 2</option>
+                    <option value="3">EA 3</option>
+                    <option value="4">EA 4</option>
+                    <option value="5">EA 5</option>
+                    <option value="6">EA 6</option>
+                    <option value="7">Examen Transversal</option>
+                    <option value="8">Por Definir</option>
+                </select>
+            </div>
+
+            <div class="form-floating pb-3">
+                <input type="number" id="typeNumber" class="form-control" />
+                <label class="form-label" for="typeNumber">Numero de alumnos</label>
+            </div>
+            
+            <div class="d-flex align-items-center pb-3">
+                <label style="margin-right: 12px;" for="">Seccion por docente:</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>--</option>
+                    <option value="1">001-D</option>
+                    <option value="2">002-D</option>
+                    <option value="3">003-D</option>
+                    <option value="4">005-D</option>
+                    <option value="5">001-D / 003-D</option>
+                    <option value="6">002-D / 004-D</option>
+                    <option value="7">001-D / 002-D / 003-D</option>
+                    <option value="8">001-D / 003-D / 005-D</option>
+                    <option value="9">Por Definir</option>
+                </select>
+            </div>
+
+            <div class="d-flex align-items-center pb-3">
+                <label style="margin-right: 12px;" for="">Docente titular:</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>--</option>
+                    <option value="1">Cristián Thorsoe</option>
+                    <option value="2">Matías Sierra</option>
+                    <option value="3">Valentina Vergara</option>
+                    <option value="4">Hernán Castillo</option>
+                    <option value="5">Ramón Andrade</option>
+                    <option value="6">Fernando Retamal</option>
+                    <option value="7">Marcela Cerda</option>
+                    <option value="8">Christian Guntert</option>
+                    <option value="9">Victoria Leiva</option>
+                    <option value="10">No se requiere</option>
+                </select>
+            </div>
+            
+            <div class="pb-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                    <label for="floatingTextarea">Docentes de apoyo...</label>
+                </div>
+            </div>
+
+            <div class="form-floating pb-3">
+                <input type="number" id="typeNumber" class="form-control" />
+                <label class="form-label" for="typeNumber">Numero de salida</label>
+            </div>
+            
+            <div class="d-flex align-items-center pb-3">
+                <label style="margin-right: 12px;" for="">Asig. comp. terreno:</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>--</option>
+                    <option value="1">Taller de Actividades al Aire Libre II</option>
+                    <option value="2">Taller de Actividades al Aire Libre IV</option>
+                    <option value="3">Planificación y Logística de Programas Ecoturísticos</option>
+                    <option value="4">Taller de Gestión de Riesgos en Zonas Remotas / Taller de Integración de Ecoturismo en Áreas Silvestres</option>
+                    <option value="5">Administración Turística de Áreas Protegidas / Taller de Integración de Ecoturismo en Áreas Silvestres</option>
+                    <option value="6">Administración Turística de Áreas Protegidas / Taller de Gestión de Riesgos en Zonas Remotas</option>
+                    <option value="7">Taller Básico de Primeros Auxilios en Áreas Silvestres / Taller de Actividades al Aire Libre II</option>
+                    <option value="8">Técnicas de Guiado e interpretación del patrimonio natural / Taller Básico de Primeros Auxilios en Áreas Silvestres</option>
+                    <option value="9">Taller de Actividades al Aire Libre II / Técnicas de Guiado e interpretación del patrimonio natural</option>
+                    <option value="10">No Comparte</option>
+                </select>
+            </div>
+        
+        
+            <div class="form-floating pb-3">
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                <label for="floatingTextarea2">Observaciones...</label>
+            </div>
+
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <button class="btn btnagre" type="button">Listar Alumnos</button>
+                <button class="btn btnagre" type="submit">Generar salida a Terreno <i class="fa-regular fa-square-plus mas"></i></button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+{% endblock %}

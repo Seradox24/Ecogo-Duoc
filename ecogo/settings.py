@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'alumno',
     'acceso',
+    'coordinador'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
