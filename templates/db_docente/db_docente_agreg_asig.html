@@ -1,18 +1,26 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Crear Nueva Asignatura</title>
-</head>
-<body>
-    <h1>Agregar asignatura</h1>
-    <form method="post" action="{% url 'guardar_asignatura' %}">
+{% extends '../layout/dash_base_docente.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}  
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title text-bg-dark text-center">Gestión Asignatura</h5>
+    <!-- Agregar un div para mostrar el mensaje -->
+    <div id="mensaje">
+      {% if mensaje %}
+        <p>{{ mensaje }}</p>
+      {% endif %}
+    </div>
+
+    <h1>Agregar Asignatura</h1>
+    <form method="post" action="{% url 'agreg_asig' %}">
         {% csrf_token %}
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre"><br>
+        <input type="text" id="nombre" name="nombre" maxlength="10"><br>
     
         <label for="sigla">Sigla:</label>
-        <input type="text" id="sigla" name="sigla"><br>
+        <input type="text" id="sigla" name="sigla" maxlength="10"><br>
     
         <label for="docentes">Docentes:</label>
         <select id="docentes" name="docentes" multiple>
@@ -30,6 +38,19 @@
     
         <input type="submit" value="Guardar">
     </form>
-</body>
-</html>
+  </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
 
