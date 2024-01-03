@@ -7,27 +7,13 @@ from .forms import  CustomUserCreationForm
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import user_passes_test
-
+from core.models import UsersMetadata, Perfiles
+from alumno.views import home_alumno
+from docente.views import home_docente
 
 @user_passes_test(lambda user: not user.is_authenticated, login_url='accounts/profile/')
 def acceso_login(request):
     return render(request, 'acceso/login.html')
-
-def login_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-            return redirect('profile_view', parametro=user.id)
-        else:
-            
-            return redirect('acceso_login')
-
-    return render(request, 'acceso/login.html')
-
 
 def registro(request):
     if request.method == 'POST':
@@ -47,12 +33,27 @@ def registro(request):
 
 @login_required
 def profile_view(request):
-    # Aquí puedes agregar el código para obtener la información del perfil del usuario
-    # Por ejemplo, puedes obtener el usuario actual con request.user
+    # Obtener el usuario actual
     user = request.user
 
-    # Luego puedes renderizar una plantilla con la información del perfil
-    return render(request, 'db_alumno/db_home.html', {'user': user})
+    # Obtener el perfil del usuario desde UsersMetadata
+    try:
+        user_metadata = UsersMetadata.objects.get(user=user)
+
+        # Verificar la condición del perfil
+        if user_metadata.perfil.nombre == 'Alumno':
+            print('alumnito')
+            return redirect('home_alumno')
+        elif user_metadata.perfil.nombre == 'Docente':
+            print('profe')
+            return redirect('home_docente')
+        else:
+            # Puedes ajustar esta redirección según tus necesidades
+            return render(request, 'db_alumno/db_home.html', {'user': user})
+
+    except UsersMetadata.DoesNotExist:
+        # Manejar el caso en el que no se encuentra el metadata del usuario
+        return redirect('logout')
 
 
 def acceso_error(request):
@@ -64,3 +65,5 @@ def acceso_error(request):
     return render(request, 'acceso/login.html', {'user': user})
 
 
+def no_access(request):
+    return render(request, 'acceso/no_access.html')
