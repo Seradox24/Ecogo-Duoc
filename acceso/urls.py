@@ -16,6 +16,7 @@ urlpatterns = [
     path('accounts/profile/', profile_view, name='profile'),
     path('logout/', auth_views.LogoutView.as_view(next_page='acceso_login'), name='logout'),
     path('accountslogin/', acceso_error, name='acceso_error'),
+    path('no_access/', no_access, name='no_access'),
 
 
     
