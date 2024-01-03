@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Log, Perfiles, Genero, Pais, Region, Comuna, Seccion, Asignatura, UsersMetadata
+from coordinador.models import SalidaTerreno
 
 # Define el modelo del administrador para cada modelo
 class LogAdmin(admin.ModelAdmin):
@@ -38,6 +39,10 @@ class UsersMetadataAdmin(admin.ModelAdmin):
     list_display = ['id', 'user', 'estado', 'genero', 'perfil', 'pais', 'comuna']
     search_fields = ['user__first_name', 'user__last_name', 'perfil__nombre']
 
+class SalidaTerrenoAdmin(admin.ModelAdmin):
+    list_display = ['id']
+    
+
 # Registra los modelos con sus respectivos administradores
 admin.site.register(Log, LogAdmin)
 admin.site.register(Perfiles, PerfilesAdmin)
@@ -48,6 +53,7 @@ admin.site.register(Comuna, ComunaAdmin)
 admin.site.register(Seccion, SeccionAdmin)
 admin.site.register(Asignatura, AsignaturaAdmin)
 admin.site.register(UsersMetadata, UsersMetadataAdmin)
+admin.site.register(SalidaTerreno, SalidaTerrenoAdmin)
 
 admin.site.site_header = 'Administración Eco-Go'
 admin.site.index_title = 'Administración Eco-Go'

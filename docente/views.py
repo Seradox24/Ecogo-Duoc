@@ -26,8 +26,13 @@ def gest_users(request):
 def crear_salida(request):
     return render(request, 'db_docente/db_docente_crear_sl.html')
 
+
+def gest_asig(request):
+    return render(request, 'db_docente/db_docente_gest_asig.html')
+
 def gest_users(request):
     return render(request, 'db_docente/db_docente_gest_users.html')
+
 
 def agreg_asig(request):
     mensaje = None
