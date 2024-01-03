@@ -1,0 +1,16 @@
+.txt{
+    font-size: 12px !important;
+}
+
+.btnagre{
+    background-color: #CCCCCC !important;
+}
+
+.btnagre:hover{
+    background-color: transparent !important;
+    border-color: black !important;
+}
+
+.mas{
+    color: greenyellow !important;
+}

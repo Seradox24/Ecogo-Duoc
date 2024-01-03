@@ -25,30 +25,31 @@
             </button>
 
             <div class="collapse navbar-collapse " id="navbarNav">
-              <ul class="navbar-nav d-lg-none">
+              <ul class="nav nav-pills navbar-nav d-lg-none ">
+                
                 <li class="nav-item py-2 py-sm-0 mb-4">
-                  <a href="#" class="nav-link text-white text-center">
+                  <a href="{% url 'home_alumno' %}" class="nav-link text-white text-center {% if request.resolver_match.url_name == 'home_alumno' or request.resolver_match.url_name == 'home_alumno' or request.resolver_match.url_name == 'home_alumno' %}active{% endif %}">
                       <i class="fs-5 fa fa-house "></i><span class=" fs-4 ms-2 d-sm-inline">Home</span>
                   </a>
               </li>
               <li class="nav-item py-2 py-sm-0 mb-4">
-                  <a href="" class="nav-link text-white text-center">
+                  <a href="{% url 'ji_alumno' %}" class="nav-link text-white text-center {% if request.resolver_match.url_name == 'ji_alumno' or request.resolver_match.url_name == 'ji_alumno' or request.resolver_match.url_name == 'ji_alumno' %}active{% endif %}">
                       <i class="fs-5 fa fa-heart-circle-plus"></i><span class=" fs-4 ms-2 d-sm-inline">Justificación
                         de inasistencia</span>
                   </a>
               </li>
               <li class="nav-item py-2 py-sm-0 mb-4">
-                  <a href="#" class="nav-link text-white text-center">
+                  <a href="{% url 'msalida_alumno' %}" class="nav-link text-white text-center {% if request.resolver_match.url_name == 'msalida_alumno' or request.resolver_match.url_name == 'msalida_alumno' or request.resolver_match.url_name == 'msalida_alumno' %}active{% endif %}">
                       <i class="fs-5 fa fa-person-walking-luggage"></i><span class=" fs-4 ms-2 d-sm-inline">Salida a Terreno</span>
                   </a>
               </li>
               <li class="nav-item py-2 py-sm-0 mb-4">
-                  <a href="#" class="nav-link text-white text-center">
+                  <a href="#" class="nav-link text-white text-center {% if request.resolver_match.url_name == 'gest_users' or request.resolver_match.url_name == 'gest_users' or request.resolver_match.url_name == 'gest_users' %}active{% endif %}">
                       <i class="fs-5 fa fa-table-list"></i><span class=" fs-4 ms-2 d-sm-inline">Lista de Actividades</span>
                   </a>
               </li>
               <li class="nav-item py-2 py-sm-0 mb-4">
-                  <a href="#" class="nav-link text-white text-center">
+                  <a href="#" class="nav-link text-white text-center {% if request.resolver_match.url_name == 'gest_users' or request.resolver_match.url_name == 'gest_users' or request.resolver_match.url_name == 'gest_users' %}active{% endif %}">
                       <i class="fs-5 fa fa-book-bookmark"></i><span class=" fs-4 ms-2 d-sm-inline">Asignatura</span>
                   </a>
               </li>
