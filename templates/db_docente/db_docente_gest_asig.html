@@ -1,41 +1,27 @@
-{% extends '../layout/dash_base_docente.html' %} 
+{% extends '../layout/dash_base_docente.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
 
 {% block content %}  
-db_docente_gest-asig.html
 <div class="card">
   <div class="card-body">
-      <h5 class="card-title text-bg-dark text-center ">Gestión Asignatura</h5>
-   
-      <table class="table table-hover">
-          
-          <thead class="table-light">
-      
-              <tbody>
-                  <tr>
-                  
-                      <td>
-                        <h1>Lista de Asignaturas</h1>
-                        <div class="card-container">
-                          {% for asignatura in asignaturas %}
-                            <div class="card">
-                              <div class="objetos">
-                                <h2>Asignatura: {{ asignatura.nombre }}</h2>
-                                <p>Sigla: {{ asignatura.sigla }}</p>
-                              </div>
-                            </div>
-                          {% empty %}
-                            <p>No hay asignaturas disponibles.</p>
-                          {% endfor %}
-                        </div>
-                      </td>
-                  </tr>
-                
-              </tbody>
-          </table>  
-      
-      </table>
+    <h5 class="card-title text-bg-dark text-center">Gestión Asignatura</h5>
+    <h1>Lista de Asignaturas</h1>
+    <ul>
+      {% for asignatura in asignaturas %}
+        <li>
+          <strong>Nombre:</strong> {{ asignatura.nombre }}<br>
+          <strong>Sigla:</strong> {{ asignatura.sigla }}<br>
+          <strong>Docentes:</strong>
+          {{ asignatura.docentes|default:"No hay información disponible" }}<br>
+          <strong>Secciones:</strong>
+          {{ asignatura.secciones|default:"No hay información disponible" }}<br>
+          <!-- Agrega más información de la asignatura si es necesario -->
+        </li>
+      {% empty %}
+        <li>No hay asignaturas disponibles.</li>
+      {% endfor %}
+    </ul>
   </div>
 </div>
 {% endblock %}
