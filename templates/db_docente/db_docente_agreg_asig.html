@@ -5,7 +5,7 @@
 {% block content %}  
 <div class="card">
   <div class="card-body">
-    <h5 class="card-title text-bg-dark text-center">Gestión Asignatura</h5>
+    <h5 class="card-title text-center bg-dark text-light">Agregar Asignatura</h5>
     <!-- Agregar un div para mostrar el mensaje -->
     <div id="mensaje">
       {% if mensaje %}
@@ -16,38 +16,39 @@
     <h1>Agregar Asignatura</h1>
     <form method="post" action="{% url 'agreg_asig' %}">
         {% csrf_token %}
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" maxlength="10"><br>
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" maxlength="10">
+        </div>
     
-        <label for="sigla">Sigla:</label>
-        <input type="text" id="sigla" name="sigla" maxlength="10"><br>
+        <div class="form-group">
+            <label for="sigla">Sigla:</label>
+            <input type="text" class="form-control" id="sigla" name="sigla" maxlength="10">
+        </div>
     
-        <label for="docentes">Docentes:</label>
-        <select id="docentes" name="docentes" multiple>
-            {% for docente in docentes_disponibles %}
-                <option value="{{ docente.id }}">{{ docente }}</option>
-            {% endfor %}
-        </select><br>
+        <div class="form-group">
+            <label for="docentes">Docentes:</label>
+            <select class="form-control" id="docentes" name="docentes" multiple>
+                {% for docente in docentes_disponibles %}
+                    <option value="{{ docente.id }}">{{ docente }}</option>
+                {% endfor %}
+            </select>
+        </div>
     
-        <label for="secciones">Secciones:</label>
-        <select id="secciones" name="secciones" multiple>
-            {% for seccion in secciones_disponibles %}
-                <option value="{{ seccion.id }}">{{ seccion }}</option>
-            {% endfor %}
-        </select><br>
+        <div class="form-group">
+            <label for="secciones">Secciones:</label>
+            <select class="form-control" id="secciones" name="secciones" multiple>
+                {% for seccion in secciones_disponibles %}
+                    <option value="{{ seccion.id }}">{{ seccion }}</option>
+                {% endfor %}
+            </select>
+        </div>
     
-        <input type="submit" value="Guardar">
+        <button type="submit" class="btn btn-primary">Guardar</button>
     </form>
   </div>
 </div>
 {% endblock %}
-
-
-
-
-
-
-
 
 
 
