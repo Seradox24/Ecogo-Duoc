@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .forms import SalidaTerrenoForm
+from .models import SalidaTerreno
 
 
 # Create your views here.
@@ -23,5 +24,15 @@ def crear_salida(request):
     else:
         form = SalidaTerrenoForm()
     return render(request, 'db_coordinador/db_coordinador_crear_sl.html', {'form': form, 'mensaje': mensaje})
+
+
+def listar_salida(request):
+    salidas = SalidaTerreno.objects.all()
+
+    data = {
+        'salidas': salidas
+    }
+
+    return render(request, 'db_coordinador/db_listar_salida.html', data)
 
 
