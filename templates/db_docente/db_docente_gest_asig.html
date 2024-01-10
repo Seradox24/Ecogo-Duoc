@@ -6,6 +6,9 @@
 <div class="card">
   <div class="card-body">
     <h5 class="card-title text-center bg-dark text-light">Gestión Asignatura</h5>
+    <div class="mb-3">
+      <a href="{% url 'agreg_asig' %}" class="btn btn-success float-end">Agregar Asignatura</a>
+    </div>
     <h1>Lista de Asignaturas</h1>
     <ul class="list-group">
       {% for asignatura in asignaturas %}
@@ -41,7 +44,7 @@
             <form method="post" action="{% url 'eliminar_asignatura' asignatura.id %}">
               {% csrf_token %}
               <button type="submit" class="btn btn-danger">Eliminar</button>
-          </form>
+            </form>
           </div>
         </div>
       </li>
@@ -52,6 +55,3 @@
   </div>
 </div>
 {% endblock %}
-
-
-
