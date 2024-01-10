@@ -7,41 +7,34 @@
                 </a>
                 <ul
                     class="nav nav-pills flex-column mt-4">
+                    {% for url in urls %}
                     <li class="nav-item py-2 py-sm-0 mb-4">
-                        <a href="{% url 'home_alumno' %}" class="nav-link text-white {% if request.resolver_match.url_name == 'home_alumno' or request.resolver_match.url_name == 'home_alumno' or request.resolver_match.url_name == 'home_alumno' %}active{% endif %}">
-                            <i class="txt fa fa-house"></i><span class="txt ms-2 d-none d-sm-inline">Home</span>
+                        <a href="{% url url.url %}" class="nav-link text-white {% if request.resolver_match.url_name == url.url %}active{% endif %}">
+                            <i class='{{ url.icon }}'></i><span class="txt ms-2 d-none d-sm-inline">{{ url.nombre }}</span>
                         </a>
                     </li>
-                    <li class="nav-item py-2 py-sm-0 mb-4">
-                        <a href="{% url 'ji_alumno' %}" class="nav-link text-white {% if request.resolver_match.url_name == 'ji_alumno' or request.resolver_match.url_name == 'ji_alumno' or request.resolver_match.url_name == 'ji_alumno' %}active{% endif %}" >
-                            <i class="txt fa fa-heart-circle-plus"></i><span class="txt ms-2 d-none d-sm-inline">Justificación
-                                de inasistencia</span>
-                        </a>
-                    </li>
-                    <li class="nav-item py-2 py-sm-0 mb-4">
-                        <a href="{% url 'msalida_alumno' %}" class="nav-link text-white {% if request.resolver_match.url_name == 'msalida_alumno' or request.resolver_match.url_name == 'msalida_alumno' or request.resolver_match.url_name == 'msalida_alumno' %}active{% endif %}">
-                            <i class="txt fa fa-person-walking-luggage"></i><span class="txt ms-2 d-none d-sm-inline">Salida a Terreno</span>
-                        </a>
-                    </li>
-                    <li class="nav-item py-2 py-sm-0 mb-4">
-                        <a href="#" class="nav-link text-white {% if request.resolver_match.url_name == 'gest_users' or request.resolver_match.url_name == 'gest_users' or request.resolver_match.url_name == 'gest_users' %}active{% endif %}">
-                            <i class="txt fa fa-book-bookmark"></i><span class="txt ms-2 d-none d-sm-inline">Asignatura</span>
-                        </a>
-                    </li>
-                </ul>
+                {% endfor %}
+                
+                  
+
+
+
+
             </div>
+
             <div class="dropdown open p-2  ">
                 <a class="btn border-none dropdown-toggle text-white" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-user"></i><span class="ms-2">{{user.username}}</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="triggerId">
-                    <a class="dropdown-item" href="#">Setting</a>
-                    <a class="dropdown-item" href="#">Profile</a>
+                    <a class="dropdown-item" href="{% url 'aperfil' %}">Perfil</a>
                     <a class="dropdown-item" href="{% url 'logout' %}">Salir</a>
                 </div>
             </div>
             
 
         </div>
+
+        
 
         

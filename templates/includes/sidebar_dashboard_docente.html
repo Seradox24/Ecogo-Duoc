@@ -7,11 +7,13 @@
                 </a>
                 <ul
                     class="nav nav-pills flex-column mt-4">
+                    {% for url in urls %}
                     <li class="nav-item py-2 py-sm-0 mb-4">
                         <a href="{% url 'home_docente' %}" class="nav-link text-white {% if request.resolver_match.url_name == 'home_docente' or request.resolver_match.url_name == 'gest_asig' or request.resolver_match.url_name == 'agreg_asig' %}active{% endif %}">
                             <i class="txt fa fa-house"></i><span class="txt ms-2 d-none d-sm-inline">Home</span>
                         </a>
                     </li>
+                    
                     <li class="nav-item py-2 py-sm-0 mb-4">
                         <a href="#" class="nav-link text-white">
                             <i class="txt fa fa-heart-circle-plus"></i><span class="txt ms-2 d-none d-sm-inline">Justificación
