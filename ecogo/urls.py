@@ -26,6 +26,7 @@ urlpatterns = [
     path('alumno/', include('alumno.urls'),name="alumno_urls"),
     path('docente/', include('docente.urls'),name="docente_urls"),
     path('coordinador/', include('coordinador.urls'), name="coordinador_urls"),
+    path('pañol/', include('pañol.urls'), name="pañol_urls"),
     
     
 ]

@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'alumno',
     'acceso',
-    'coordinador'
+    'coordinador',
+    'pañol',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -166,6 +167,7 @@ STATIC_URL = '/assets/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'assets'),
 )
+
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
