@@ -5,7 +5,7 @@ from django.shortcuts import render
 from core.decorators import Docente_required
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
-
+from django import forms
 
 def home_docente(request):
     return render(request, 'db_docente/db_home_d.html')
@@ -36,37 +36,42 @@ def agreg_asig(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')[:100]
         sigla = request.POST.get('sigla')[:10]
-        # Crear una nueva instancia de Asignatura y guardarla en la base de datos
         nueva_asignatura = Asignatura(nombre=nombre, sigla=sigla)
         nueva_asignatura.save()
 
-        # Definir el mensaje de éxito
         mensaje = "La asignatura se guardó correctamente."
 
-    # Retornar solo el mensaje como respuesta
     return render(request, 'db_docente/db_docente_agreg_asig.html', {'mensaje': mensaje})
 
 def gest_asig(request):
-    asignaturas = Asignatura.objects.all()  # Obtener todas las asignaturas de la base de datos
+    asignaturas = Asignatura.objects.all() 
     print(asignaturas)
     return render(request, 'db_docente/db_docente_gest_asig.html', {'asignaturas': asignaturas})
     
 
+class AsignaturaForm(forms.ModelForm):
+    class Meta:
+        model = Asignatura
+        fields = ['nombre', 'sigla', 'docentes', 'secciones',]
+
+
 def editar_asignatura(request, asignatura_id):
     asignatura = get_object_or_404(Asignatura, id=asignatura_id)
+    
     if request.method == 'POST':
-        asignatura.nombre = request.POST.get('nombre')  # Ejemplo de actualización del nombre
-        asignatura.sigla = request.POST.get('sigla')  # Ejemplo de actualización de la sigla
-        asignatura.save()
-        return redirect('db_docente/db_docente_gest_asig.html')  # Reemplaza 'ruta_lista_asignaturas' por la ruta correcta
+        form = AsignaturaForm(request.POST, instance=asignatura)
+        if form.is_valid():
+            form.save()
+            return redirect('gest_asig')  
+    else:
+        form = AsignaturaForm(instance=asignatura)
+    
+    return render(request, 'db_docente/db_edit_asig.html', {'form': form, 'asignatura': asignatura})
 
-    return render(request, 'db_docente/db_docente_gest_asig.html', {'asignatura': asignatura})
 
 def eliminar_asignatura(request, asignatura_id):
     asignatura = get_object_or_404(Asignatura, id=asignatura_id)
     if request.method == 'POST':
-        # Eliminar la asignatura
         asignatura.delete()
-        return redirect('db_docente/db_docente_gest_asig.html')  # Reemplaza 'ruta_lista_asignaturas' por la ruta correcta
-
+        return redirect('gest_asig') 
     return render(request, 'db_docente/db_docente_gest_asig.html', {'asignatura': asignatura})
