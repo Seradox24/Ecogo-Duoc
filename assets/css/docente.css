@@ -18,3 +18,19 @@
 .mgr{
     margin-right: 15px;
 }
+
+.tabla{
+    font-size: 12px !important;
+}
+
+.tac{
+    text-align: center !important;
+}
+
+.tacs{
+    vertical-align: middle;
+}
+
+.btnsal{
+    margin-top: 10px;
+}

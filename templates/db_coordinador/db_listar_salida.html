@@ -13,14 +13,21 @@
     <h1>Lista de Salidas a Terreno</h1>
 </div>
 <br>
+
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a class="btn btnagre" href="{% url 'crear_salida' %}">Agregar nueva salida a Terreno <i class="fa-regular fa-square-plus mas"></i></a>
+</div>
+
+<br>
+
 <div class="card">
     <div class="card-body">
         <table class="table table-striped table-hover table-responsive-sm">
-            <tr>
+            <tr class="tabla tac">
                 <th>Situacion</th>
                 <th>Numero de cuenta</th>
                 <th>Semestre</th>
-                <th>Año<th>
+                <th>Año</th>
                 <th>Semana</th>
                 <th>Actividad</th>
                 <th>Fecha Ingreso</th>
@@ -38,11 +45,13 @@
                 <th>Numero de salida</th>
                 <th>Asig. comp. terreno</th>
                 <th>Observaciones</th>
+                <th>Opciones</th>
+              
             </tr>
         
             {% for s in salidas %}
         
-            <tr>
+            <tr class="tabla tacs">
                 <td>{{ s.situacion | title }}</td>
                 <td>{{ s.numero_cuenta | title }}</td>
                 <td>{{ s.semestre | title }}</td>
@@ -64,6 +73,12 @@
                 <td>{{ s.num_salida | title }}</td>
                 <td>{{ s.asig_comp_terreno | title }}</td>
                 <td>{{ s.observaciones | title }}</td>
+                <td class="d-flex btnsal">
+                    <a href="{% url 'editar_salida' s.id %}" class="btn btn-primary btn-sm">Editar</a>
+                    &numsp;
+                    <a href="{% url 'eliminar_salida' s.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+                
             </tr>
         
             {% endfor %}
