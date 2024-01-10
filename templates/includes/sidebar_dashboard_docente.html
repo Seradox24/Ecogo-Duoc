@@ -37,13 +37,8 @@
                     </li>
                     <li class="nav-item py-2 py-sm-0 mb-4">
 
-                        <a href="{% url 'crear_salida' %}" class="nav-link text-white">
+                        <a href="{% url 'listar_salida' %}" class="nav-link text-white">
                             <i class="txt fa fa-bus-simple"></i><span class="txt ms-2 d-none d-sm-inline">Agendar Salida a Terreno</span>
-
-                        <a href="{% url 'crear_salida' %}" class="nav-link text-white {% if request.resolver_match.url_name == 'crear_salida' or request.resolver_match.url_name == 'crear_salida' or request.resolver_match.url_name == 'crear_salida' %}active{% endif %}">
-                            <i class="txt fa fa-bus-simple"></i><span class="txt ms-2 d-none d-sm-inline">Crear Salida a Terreno</span>
-
-                        </a>
                     </li>
                 </ul>
                  

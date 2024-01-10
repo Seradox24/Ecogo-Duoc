@@ -1,0 +1,91 @@
+{% extends '../layout/dash_base_docente.html' %} 
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}  
+
+{% load humanize %}
+
+
+
+
+<div class="card text-bg-dark align-items-center">
+    <h1>Lista de Salidas a Terreno</h1>
+</div>
+<br>
+
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a class="btn btnagre" href="{% url 'crear_salida' %}">Agregar nueva salida a Terreno <i class="fa-regular fa-square-plus mas"></i></a>
+</div>
+
+<br>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-striped table-hover table-responsive-sm">
+            <tr class="tabla tac">
+                <th>Situacion</th>
+                <th>Numero de cuenta</th>
+                <th>Semestre</th>
+                <th>Año</th>
+                <th>Semana</th>
+                <th>Actividad</th>
+                <th>Fecha Ingreso</th>
+                <th>Fecha Termino</th>
+                <th>Dias</th>
+                <th>Noches</th>
+                <th>Dias de actividad</th>
+                <th>Lugar de Ejecucion</th>
+                <th>Asignatura</th>
+                <th>Exp. de aprendizaje</th>
+                <th>Numero de alumnos</th>
+                <th>Seccion por docente</th>
+                <th>Docente titular</th>
+                <th>Docentes de apoyo</th>
+                <th>Numero de salida</th>
+                <th>Asig. comp. terreno</th>
+                <th>Observaciones</th>
+                <th>Opciones</th>
+              
+            </tr>
+        
+            {% for s in salidas %}
+        
+            <tr class="tabla tacs">
+                <td>{{ s.situacion | title }}</td>
+                <td>{{ s.numero_cuenta | title }}</td>
+                <td>{{ s.semestre | title }}</td>
+                <td>{{ s.anio | title }}</td>
+                <td>{{ s.semana | title }}</td>
+                <td>{{ s.actividad | title }}</td>
+                <td>{{ s.fecha_ingreso | title }}</td>
+                <td>{{ s.fecha_termino | title }}</td>
+                <td>{{ s.dias | title }}</td>
+                <td>{{ s.noches | title }}</td>
+                <td>{{ s.dias_actividad | title }}</td>
+                <td>{{ s.lugar_ejecucion | title }}</td>
+                <td>{{ s.asignatura | title }}</td>
+                <td>{{ s.exp_aprendizaje | title }}</td>
+                <td>{{ s.num_alumnos | title }}</td>
+                <td>{{ s.seccion_docente | title }}</td>
+                <td>{{ s.docente_titular | title }}</td>
+                <td>{{ s.docentes_apoyo | title }}</td>
+                <td>{{ s.num_salida | title }}</td>
+                <td>{{ s.asig_comp_terreno | title }}</td>
+                <td>{{ s.observaciones | title }}</td>
+                <td class="d-flex btnsal">
+                    <a href="{% url 'editar_salida' s.id %}" class="btn btn-primary btn-sm">Editar</a>
+                    &numsp;
+                    <a href="{% url 'eliminar_salida' s.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+                
+            </tr>
+        
+            {% endfor %}
+        
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}
