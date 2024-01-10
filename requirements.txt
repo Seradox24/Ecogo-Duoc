@@ -9,3 +9,4 @@ django-allauth==0.57.0
 django-admin-interface==0.26.0
 django-jazzmin
 django-autoslug==1.9.9
+django-humanize
