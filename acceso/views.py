@@ -10,6 +10,8 @@ from django.contrib.auth.decorators import user_passes_test
 from core.models import UsersMetadata, Perfiles
 from alumno.views import home_alumno
 from docente.views import home_docente
+from coordinador.views import home_coordinador
+
 
 @user_passes_test(lambda user: not user.is_authenticated, login_url='accounts/profile/')
 def acceso_login(request):
@@ -47,6 +49,12 @@ def profile_view(request):
         elif user_metadata.perfil.nombre == 'Docente':
             print('profe')
             return redirect('home_docente')
+        elif user_metadata.perfil.nombre == 'Coordinador':
+            print('profe')
+            return redirect('home_coordinador')
+        elif user_metadata.perfil.nombre == 'Pañol':
+            print('profe')
+            return redirect('home_coordinador')        
         else:
             # Puedes ajustar esta redirección según tus necesidades
             return render(request, 'db_alumno/db_home.html', {'user': user})

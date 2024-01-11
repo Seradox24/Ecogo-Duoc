@@ -8,25 +8,39 @@ from django.shortcuts import render, get_object_or_404
 from django import forms
 from django.utils import timezone
 
+
+@login_required
+@Docente_required
 def home_docente(request):
     return render(request, 'db_docente/db_home_d.html')
 
+
+@login_required
+@Docente_required
 def ji_docente(request):
     return render(request, 'db_docente/db_docente_asis.html')
 
 
+@login_required
+@Docente_required
 def msalida_docente(request):
     return render(request, 'db_docente/db_docente_mysali.html')
 
 
+@login_required
+@Docente_required
 def crear_salida(request):
     return render(request, 'db_docente/db_docente_crear_sl.html')
 
 
+@login_required
+@Docente_required
 def gest_asig(request):
     return render(request, 'db_docente/db_docente_gest_asig.html')
 
 
+@login_required
+@Docente_required
 def agreg_asig(request):
     mensaje = None
 
@@ -39,6 +53,9 @@ def agreg_asig(request):
 
     return render(request, 'db_docente/db_docente_agreg_asig.html', {'mensaje': mensaje})
 
+
+@login_required
+@Docente_required
 def gest_asig(request):
     asignaturas = Asignatura.objects.all().order_by('-id')
     asignaturas = reversed(asignaturas) 
@@ -51,6 +68,8 @@ class AsignaturaForm(forms.ModelForm):
         fields = ['nombre', 'sigla', 'docentes', 'secciones',]
 
 
+@login_required
+@Docente_required
 def editar_asignatura(request, asignatura_id):
     asignatura = get_object_or_404(Asignatura, id=asignatura_id)
     
@@ -65,6 +84,8 @@ def editar_asignatura(request, asignatura_id):
     return render(request, 'db_docente/db_edit_asig.html', {'form': form, 'asignatura': asignatura})
 
 
+@login_required
+@Docente_required
 def eliminar_asignatura(request, asignatura_id):
     asignatura = get_object_or_404(Asignatura, id=asignatura_id)
     if request.method == 'POST':

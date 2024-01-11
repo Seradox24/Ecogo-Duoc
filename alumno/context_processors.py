@@ -25,12 +25,15 @@ def urls_processor(request):
             elif perfil_nombre == 'Docente':
                 urls = [
                     {'url': 'home_docente', 'nombre': 'Home', 'icon': 'fs-5 fa fa-house'},
-                    {'url': 'gest_users', 'nombre': 'Gestionar Usuarios', 'icon': 'txt fa fa-users-gear'},
+                    {'url': 'gest_asig', 'nombre': 'Gestionar Asignatura', 'icon': 'txt fa fa-book-bookmark'},
 
                     # Añade las URLs para el perfil de docente aquí
                 ]
             elif perfil_nombre == 'Coordinador':
                 urls = [
+                    {'url': 'home_coordinador', 'nombre': 'Home', 'icon': 'fs-5 fa fa-house'},
+                    {'url': 'listar_salida', 'nombre': 'Gestionar salida a terreno', 'icon': 'txt fa fa-book-bookmark'},
+
                     # Añade las URLs para el perfil de coordinador aquí
                 ]
             elif perfil_nombre == 'Pañol':

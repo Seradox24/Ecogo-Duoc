@@ -1,19 +1,25 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SalidaTerrenoForm
 from .models import SalidaTerreno
-
-
+from core.decorators import Coordinador_required
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
+@login_required
+@Coordinador_required
 def home_coordinador(request):
     return render(request, 'db_coordinador/db_home_c.html')
 
 
+@login_required
+@Coordinador_required
 def gest_users(request):
     return render(request, 'db_coordinador/db_coordinador_gest_users.html')
 
 
+@login_required
+@Coordinador_required
 def crear_salida(request):
     mensaje = ""  # Inicializa la variable con un valor predeterminado
     if request.method == 'POST':
@@ -26,6 +32,8 @@ def crear_salida(request):
     return render(request, 'db_coordinador/db_coordinador_crear_sl.html', {'form': form, 'mensaje': mensaje})
 
 
+@login_required
+@Coordinador_required
 def listar_salida(request):
     salidas = SalidaTerreno.objects.all()
 
@@ -36,12 +44,16 @@ def listar_salida(request):
     return render(request, 'db_coordinador/db_listar_salida.html', data)
 
 
+@login_required
+@Coordinador_required
 def editar_salida(request, id):
     salida = get_object_or_404(SalidaTerreno, id=id)
 
     data = {
         'form': SalidaTerrenoForm(instance=salida)
     }
+
+   
 
     if request.method == 'POST':
         formulario = SalidaTerrenoForm(data=request.POST, instance=salida, files=request.FILES)
@@ -53,6 +65,8 @@ def editar_salida(request, id):
     return render(request, 'db_coordinador/db_editar_salida.html', data)
 
 
+@login_required
+@Coordinador_required
 def eliminar_salida(request, id):
     salida = get_object_or_404(SalidaTerreno, id=id)
     salida.delete()

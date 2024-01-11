@@ -19,15 +19,15 @@
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Situacion: </label>
                 <select class="form-select" id="id_situacion" name="situacion">
-                    <option selected>--</option>
-                    <option value="Ejecutado">Ejecutado</option>
-                    <option value="Por Ejecutar">Por Ejecutar</option>
+                    <option value="" {% if form.situacion.value == "" %}selected{% endif %}>--</option>
+                    <option value="Ejecutado" {% if form.situacion.value == "Ejecutado" %}selected{% endif %}>Ejecutado</option>
+                    <option value="Por Ejecutar" {% if form.situacion.value == "Por Ejecutar" %}selected{% endif %}>Por Ejecutar</option>
                 </select>
             </div>
 
             <div class="pb-3">
                 <div class="form-floating">
-                    <input type="number" id="id_numero_cuenta" name="numero_cuenta" class="form-control" />
+                    <input type="number" id="id_numero_cuenta" name="numero_cuenta" value="{{ form.numero_cuenta.value }}" class="form-control" />
                     <label class="form-label" for="typeNumber">Numero de cuenta...</label>
                 </div>
             </div>
@@ -35,203 +35,211 @@
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Semestre:</label>
                 <select class="form-select" id="id_semestre" name="semestre">
-                    <option selected>--</option>
-                    <option value="I">I</option>
-                    <option value="II">II</option>
-                    <option value="III">III</option>
-                    <option value="IV">IV</option>
-                    <option value="V">V</option>
-                    <option value="VI">VI</option>
-                    <option value="VII">VII</option>
+                    <option value="" {% if form.semestre.value == "" %}selected{% endif %}>--</option>
+                    <option value="I" {% if form.semestre.value == "I" %}selected{% endif %}>I</option>
+                    <option value="II" {% if form.semestre.value == "II" %}selected{% endif %}>II</option>
+                    <option value="III" {% if form.semestre.value == "III" %}selected{% endif %}>III</option>
+                    <option value="IV" {% if form.semestre.value == "IV" %}selected{% endif %}>IV</option>
+                    <option value="V" {% if form.semestre.value == "V" %}selected{% endif %}>V</option>
+                    <option value="VI" {% if form.semestre.value == "VI" %}selected{% endif %}>VI</option>
+                    <option value="VII" {% if form.semestre.value == "VII" %}selected{% endif %}>VII</option>
                 </select>
             </div>
-
+            
             <div class="pb-3">
                 <div class="form-floating">
-                    <input type="number" id="id_anio" name="anio" class="form-control" />
+                    <input type="number" id="id_anio" name="anio" value="{{ form.anio.value }}" class="form-control" />
                     <label for="floatingTextarea">Año...</label>
                 </div>
             </div>
             
             <div class="pb-3">
                 <div class="form-floating">
-                    <input type="number" id="id_semana" name="semana" class="form-control" />
+                    <input type="number" id="id_semana" name="semana" value="{{ form.semana.value }}" class="form-control" />
                     <label for="floatingTextarea">Semana...</label>
                 </div>
             </div>
+            
 
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Actividad:</label>
                 <select class="form-select" id="id_actividad" name="actividad">
-                    <option selected>--</option>
-                    <option value="Interpretación de comunidades (TTO Experiencias)">Interpretación de comunidades (TTO Experiencias)</option>
-                    <option value="Técnicas Invernales">Técnicas Invernales</option>
-                    <option value="Cabalgata">Cabalgata</option>
-                    <option value="Caracterización de la unidad">Caracterización de la unidad</option>
-                    <option value="Análisis de riesgo">Análisis de riesgo</option>
-                    <option value="Valorización del entorno, servicios ecosistémicos y capital humano">Valorización del entorno, servicios ecosistémicos y capital humano</option>
-                    <option value="Interpretación">Interpretación</option>
-                    <option value="Buceo">Buceo</option>
-                    <option value="MTB y KAYAK">MTB y KAYAK</option>
-                    <option value="Escalada">Escalada</option>
-                    <option value="MTB">MTB</option>
-                    <option value="KAYAK">KAYAK</option>
-                    <option value="Terreno Fauna">Terreno Fauna</option>
-                    <option value="Normativas y procesos, programacion de actividades">Normativas y procesos, programacion de actividades</option>
-                    <option value="Trekking">Trekking</option>
-                    <option value="Examen Transversal">Examen Transversal</option>
-                    <option value="Por Definir">Por Definir</option>
+                    <option value="" {% if form.actividad.value == "" %}selected{% endif %}>--</option>
+                    <option value="Interpretación de comunidades (TTO Experiencias)" {% if form.actividad.value == "Interpretación de comunidades (TTO Experiencias)" %}selected{% endif %}>Interpretación de comunidades (TTO Experiencias)</option>
+                    <option value="Técnicas Invernales" {% if form.actividad.value == "Técnicas Invernales" %}selected{% endif %}>Técnicas Invernales</option>
+                    <option value="Cabalgata" {% if form.actividad.value == "Cabalgata" %}selected{% endif %}>Cabalgata</option>
+                    <option value="Caracterización de la unidad" {% if form.actividad.value == "Caracterización de la unidad" %}selected{% endif %}>Caracterización de la unidad</option>
+                    <option value="Análisis de riesgo" {% if form.actividad.value == "Análisis de riesgo" %}selected{% endif %}>Análisis de riesgo</option>
+                    <option value="Valorización del entorno, servicios ecosistémicos y capital humano" {% if form.actividad.value == "Valorización del entorno, servicios ecosistémicos y capital humano" %}selected{% endif %}>Valorización del entorno, servicios ecosistémicos y capital humano</option>
+                    <option value="Interpretación" {% if form.actividad.value == "Interpretación" %}selected{% endif %}>Interpretación</option>
+                    <option value="Buceo" {% if form.actividad.value == "Buceo" %}selected{% endif %}>Buceo</option>
+                    <option value="MTB y KAYAK" {% if form.actividad.value == "MTB y KAYAK" %}selected{% endif %}>MTB y KAYAK</option>
+                    <option value="Escalada" {% if form.actividad.value == "Escalada" %}selected{% endif %}>Escalada</option>
+                    <option value="MTB" {% if form.actividad.value == "MTB" %}selected{% endif %}>MTB</option>
+                    <option value="KAYAK" {% if form.actividad.value == "KAYAK" %}selected{% endif %}>KAYAK</option>
+                    <option value="Terreno Fauna" {% if form.actividad.value == "Terreno Fauna" %}selected{% endif %}>Terreno Fauna</option>
+                    <option value="Normativas y procesos, programacion de actividades" {% if form.actividad.value == "Normativas y procesos, programacion de actividades" %}selected{% endif %}>Normativas y procesos, programacion de actividades</option>
+                    <option value="Trekking" {% if form.actividad.value == "Trekking" %}selected{% endif %}>Trekking</option>
+                    <option value="Examen Transversal" {% if form.actividad.value == "Examen Transversal" %}selected{% endif %}>Examen Transversal</option>
+                    <option value="Por Definir" {% if form.actividad.value == "Por Definir" %}selected{% endif %}>Por Definir</option>
                 </select>
             </div>
             
             <div class="d-flex pb-3">
                 <label for="fecha">Fecha Ingreso:</label>
-                <input type="date" class="form-control" id="id_fecha_ingreso" name="fecha_ingreso">
+                <input type="date" class="form-control" id="id_fecha_ingreso" name="fecha_ingreso" value="{{ form.fecha_ingreso.value }}">
             </div>
-
+            
             <div class="d-flex pb-3">       
                 <label for="fecha">Fecha Termino:</label>
-                <input type="date" class="form-control" id="id_fecha_termino" name="fecha_termino">
+                <input type="date" class="form-control" id="id_fecha_termino" name="fecha_termino" value="{{ form.fecha_termino.value }}">
             </div>
             
             <div class="d-flex pb-3">
                 <div class="form-floating mgr">
-                    <input type="number" id="id_dias" name="dias" class="form-control"/>
+                    <input type="number" id="id_dias" name="dias" value="{{ form.dias.value }}" class="form-control"/>
                     <label for="floatingTextarea">Dias...</label>
                 </div>
             
                 <div class="form-floating">
-                    <input type="number" id="id_noches" name="noches" class="form-control"/>
+                    <input type="number" id="id_noches" name="noches" value="{{ form.noches.value }}" class="form-control"/>
                     <label for="floatingTextarea">Noches...</label>
                 </div>
             </div>
-
+            
             <div class="pb-3">
                 <div class="form-floating">
-                    <input type="number" id="id_dias_actividad" name="dias_actividad" class="form-control"/>
+                    <input type="number" id="id_dias_actividad" name="dias_actividad" value="{{ form.dias_actividad.value }}" class="form-control"/>
                     <label for="floatingTextarea">Dias de actividad...</label>
                 </div>
             </div>
             
             <div class="form-floating pb-3">
-                <textarea class="form-control" placeholder="Leave a comment here" id="id_lugar_ejecucion" name="lugar_ejecucion"></textarea>
+                <textarea class="form-control" placeholder="Leave a comment here" id="id_lugar_ejecucion" name="lugar_ejecucion">{{ form.lugar_ejecucion.value }}</textarea>
                 <label for="floatingTextarea">Lugar de Ejecucion...</label>
             </div>
-
+            
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Asignatura:</label>
                 <select class="form-select" id="id_asignatura" name="asignatura">
-                    <option selected>--</option>
-                    <option value="Taller de Integración de Comunidades en Ecoturismo">Taller de Integración de Comunidades en Ecoturismo</option>
-                    <option value="Taller de Actividades al Aire Libre II">Taller de Actividades al Aire Libre II</option>
-                    <option value="Taller de Actividades al Aire Libre IV">Taller de Actividades al Aire Libre IV</option>
-                    <option value="Planificación y Logística de Programas Ecoturísticos">Planificación y Logística de Programas Ecoturísticos</option>
-                    <option value="Administración Turística de Áreas Protegidas">Administración Turística de Áreas Protegidas</option>
-                    <option value="Taller de Gestión de Riesgos en Zonas Remotas">Taller de Gestión de Riesgos en Zonas Remotas</option>
-                    <option value="Taller de Integración de Ecoturismo en Áreas Silvestres">Taller de Integración de Ecoturismo en Áreas Silvestres</option>
-                    <option value="Técnicas de Guiado e interpretación del patrimonio natural">Técnicas de Guiado e interpretación del patrimonio natural</option>
-                    <option value="Taller Básico de Primeros Auxilios en Áreas Silvestres">Taller Básico de Primeros Auxilios en Áreas Silvestres</option>
-                    <option value="FAUNA DE CHILE">FAUNA DE CHILE</option>
-                    <option value="FLORA DE CHILE">FLORA DE CHILE</option>
-                    <option value="Taller de Operaciones de Programas de Ecoturismo">Taller de Operaciones de Programas de Ecoturismo</option>
+                    <option value="" {% if form.asignatura.value == "" %}selected{% endif %}>--</option>
+                    <option value="Taller de Integración de Comunidades en Ecoturismo" {% if form.asignatura.value == "Taller de Integración de Comunidades en Ecoturismo" %}selected{% endif %}>Taller de Integración de Comunidades en Ecoturismo</option>
+                    <option value="Taller de Actividades al Aire Libre II" {% if form.asignatura.value == "Taller de Actividades al Aire Libre II" %}selected{% endif %}>Taller de Actividades al Aire Libre II</option>
+                    <option value="Taller de Actividades al Aire Libre IV" {% if form.asignatura.value == "Taller de Actividades al Aire Libre IV" %}selected{% endif %}>Taller de Actividades al Aire Libre IV</option>
+                    <option value="Planificación y Logística de Programas Ecoturísticos" {% if form.asignatura.value == "Planificación y Logística de Programas Ecoturísticos" %}selected{% endif %}>Planificación y Logística de Programas Ecoturísticos</option>
+                    <option value="Administración Turística de Áreas Protegidas" {% if form.asignatura.value == "Administración Turística de Áreas Protegidas" %}selected{% endif %}>Administración Turística de Áreas Protegidas</option>
+                    <option value="Taller de Gestión de Riesgos en Zonas Remotas" {% if form.asignatura.value == "Taller de Gestión de Riesgos en Zonas Remotas" %}selected{% endif %}>Taller de Gestión de Riesgos en Zonas Remotas</option>
+                    <option value="Taller de Integración de Ecoturismo en Áreas Silvestres" {% if form.asignatura.value == "Taller de Integración de Ecoturismo en Áreas Silvestres" %}selected{% endif %}>Taller de Integración de Ecoturismo en Áreas Silvestres</option>
+                    <option value="Técnicas de Guiado e interpretación del patrimonio natural" {% if form.asignatura.value == "Técnicas de Guiado e interpretación del patrimonio natural" %}selected{% endif %}>Técnicas de Guiado e interpretación del patrimonio natural</option>
+                    <option value="Taller Básico de Primeros Auxilios en Áreas Silvestres" {% if form.asignatura.value == "Taller Básico de Primeros Auxilios en Áreas Silvestres" %}selected{% endif %}>Taller Básico de Primeros Auxilios en Áreas Silvestres</option>
+                    <option value="FAUNA DE CHILE" {% if form.asignatura.value == "FAUNA DE CHILE" %}selected{% endif %}>FAUNA DE CHILE</option>
+                    <option value="FLORA DE CHILE" {% if form.asignatura.value == "FLORA DE CHILE" %}selected{% endif %}>FLORA DE CHILE</option>
+                    <option value="Taller de Operaciones de Programas de Ecoturismo" {% if form.asignatura.value == "Taller de Operaciones de Programas de Ecoturismo" %}selected{% endif %}>Taller de Operaciones de Programas de Ecoturismo</option>
                 </select>
             </div>
+            
 
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Exp. de aprendizaje:</label>
                 <select class="form-select" id="id_exp_aprendizaje" name="exp_aprendizaje">
-                    <option selected>--</option>
-                    <option value="EA 1">EA 1</option>
-                    <option value="EA 2">EA 2</option>
-                    <option value="EA 3">EA 3</option>
-                    <option value="EA 4">EA 4</option>
-                    <option value="EA 5">EA 5</option>
-                    <option value="EA 6">EA 6</option>
-                    <option value="Examen Transversal">Examen Transversal</option>
-                    <option value="Por Definir">Por Definir</option>
+                    <option value="" {% if form.exp_aprendizaje.value == "" %}selected{% endif %}>--</option>
+                    <option value="EA 1" {% if form.exp_aprendizaje.value == "EA 1" %}selected{% endif %}>EA 1</option>
+                    <option value="EA 2" {% if form.exp_aprendizaje.value == "EA 2" %}selected{% endif %}>EA 2</option>
+                    <option value="EA 3" {% if form.exp_aprendizaje.value == "EA 3" %}selected{% endif %}>EA 3</option>
+                    <option value="EA 4" {% if form.exp_aprendizaje.value == "EA 4" %}selected{% endif %}>EA 4</option>
+                    <option value="EA 5" {% if form.exp_aprendizaje.value == "EA 5" %}selected{% endif %}>EA 5</option>
+                    <option value="EA 6" {% if form.exp_aprendizaje.value == "EA 6" %}selected{% endif %}>EA 6</option>
+                    <option value="Examen Transversal" {% if form.exp_aprendizaje.value == "Examen Transversal" %}selected{% endif %}>Examen Transversal</option>
+                    <option value="Por Definir" {% if form.exp_aprendizaje.value == "Por Definir" %}selected{% endif %}>Por Definir</option>
                 </select>
             </div>
+            
 
             <div class="form-floating pb-3">
-                <input type="number" id="typeNumber" name="num_alumnos" class="form-control" />
+                <input type="number" id="typeNumber" name="num_alumnos" value="{{ form.num_alumnos.value }}" class="form-control" />
                 <label class="form-label" for="typeNumber">Numero de alumnos</label>
             </div>
             
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Seccion por docente:</label>
                 <select class="form-select" id="id_seccion_docente" name="seccion_docente">
-                    <option selected>--</option>
-                    <option value="001-D">001-D</option>
-                    <option value="002-D">002-D</option>
-                    <option value="003-D">003-D</option>
-                    <option value="005-D">005-D</option>
-                    <option value="001-D / 003-D">001-D / 003-D</option>
-                    <option value="002-D / 004-D">002-D / 004-D</option>
-                    <option value="001-D / 002-D / 003-D">001-D / 002-D / 003-D</option>
-                    <option value="001-D / 003-D / 005-D">001-D / 003-D / 005-D</option>
-                    <option value="Por Definir">Por Definir</option>
+                    <option value="" {% if form.seccion_docente.value == "" %}selected{% endif %}>--</option>
+                    <option value="001-D" {% if form.seccion_docente.value == "001-D" %}selected{% endif %}>001-D</option>
+                    <option value="002-D" {% if form.seccion_docente.value == "002-D" %}selected{% endif %}>002-D</option>
+                    <option value="003-D" {% if form.seccion_docente.value == "003-D" %}selected{% endif %}>003-D</option>
+                    <option value="005-D" {% if form.seccion_docente.value == "005-D" %}selected{% endif %}>005-D</option>
+                    <option value="001-D / 003-D" {% if form.seccion_docente.value == "001-D / 003-D" %}selected{% endif %}>001-D / 003-D</option>
+                    <option value="002-D / 004-D" {% if form.seccion_docente.value == "002-D / 004-D" %}selected{% endif %}>002-D / 004-D</option>
+                    <option value="001-D / 002-D / 003-D" {% if form.seccion_docente.value == "001-D / 002-D / 003-D" %}selected{% endif %}>001-D / 002-D / 003-D</option>
+                    <option value="001-D / 003-D / 005-D" {% if form.seccion_docente.value == "001-D / 003-D / 005-D" %}selected{% endif %}>001-D / 003-D / 005-D</option>
+                    <option value="Por Definir" {% if form.seccion_docente.value == "Por Definir" %}selected{% endif %}>Por Definir</option>
                 </select>
             </div>
+            
 
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Docente titular:</label>
                 <select class="form-select" id="id_docente_titular" name="docente_titular">
-                    <option selected>--</option>
-                    <option value="Cristián Thorsoe">Cristián Thorsoe</option>
-                    <option value="Matías Sierra">Matías Sierra</option>
-                    <option value="Valentina Vergara">Valentina Vergara</option>
-                    <option value="Hernán Castillo">Hernán Castillo</option>
-                    <option value="Ramón Andrade">Ramón Andrade</option>
-                    <option value="Fernando Retamal">Fernando Retamal</option>
-                    <option value="Marcela Cerda">Marcela Cerda</option>
-                    <option value="Christian Guntert">Christian Guntert</option>
-                    <option value="Victoria Leiva">Victoria Leiva</option>
-                    <option value="No se requiere">No se requiere</option>
+                    <option value="" {% if form.docente_titular.value == "" %}selected{% endif %}>--</option>
+                    <option value="Cristián Thorsoe" {% if form.docente_titular.value == "Cristián Thorsoe" %}selected{% endif %}>Cristián Thorsoe</option>
+                    <option value="Matías Sierra" {% if form.docente_titular.value == "Matías Sierra" %}selected{% endif %}>Matías Sierra</option>
+                    <option value="Valentina Vergara" {% if form.docente_titular.value == "Valentina Vergara" %}selected{% endif %}>Valentina Vergara</option>
+                    <option value="Hernán Castillo" {% if form.docente_titular.value == "Hernán Castillo" %}selected{% endif %}>Hernán Castillo</option>
+                    <option value="Ramón Andrade" {% if form.docente_titular.value == "Ramón Andrade" %}selected{% endif %}>Ramón Andrade</option>
+                    <option value="Fernando Retamal" {% if form.docente_titular.value == "Fernando Retamal" %}selected{% endif %}>Fernando Retamal</option>
+                    <option value="Marcela Cerda" {% if form.docente_titular.value == "Marcela Cerda" %}selected{% endif %}>Marcela Cerda</option>
+                    <option value="Christian Guntert" {% if form.docente_titular.value == "Christian Guntert" %}selected{% endif %}>Christian Guntert</option>
+                    <option value="Victoria Leiva" {% if form.docente_titular.value == "Victoria Leiva" %}selected{% endif %}>Victoria Leiva</option>
+                    <option value="No se requiere" {% if form.docente_titular.value == "No se requiere" %}selected{% endif %}>No se requiere</option>
                 </select>
             </div>
             
+            
             <div class="pb-3">
                 <div class="form-floating">
-                    <textarea class="form-control" placeholder="Leave a comment here" id="id_docentes_apoyo" name="docentes_apoyo"></textarea>
+                    <textarea class="form-control" placeholder="Leave a comment here" id="id_docentes_apoyo" name="docentes_apoyo">{{ form.docentes_apoyo.value }}</textarea>
                     <label for="floatingTextarea">Docentes de apoyo...</label>
                 </div>
             </div>
-
+            
             <div class="form-floating pb-3">
-                <input type="number" id="typeNumber" name="num_salida" class="form-control" />
+                <input type="number" id="typeNumber" name="num_salida" value="{{ form.num_salida.value }}" class="form-control" />
                 <label class="form-label" for="typeNumber">Numero de salida</label>
             </div>
+            
             
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Asig. comp. terreno:</label>
                 <select class="form-select" id="id_asig_comp_terreno" name="asig_comp_terreno">
-                    <option selected>--</option>
-                    <option value="Taller de Actividades al Aire Libre II">Taller de Actividades al Aire Libre II</option>
-                    <option value="Taller de Actividades al Aire Libre IV">Taller de Actividades al Aire Libre IV</option>
-                    <option value="Planificación y Logística de Programas Ecoturísticos">Planificación y Logística de Programas Ecoturísticos</option>
-                    <option value="Taller de Gestión de Riesgos en Zonas Remotas / Taller de Integración de Ecoturismo en Áreas Silvestres">Taller de Gestión de Riesgos en Zonas Remotas / Taller de Integración de Ecoturismo en Áreas Silvestres</option>
-                    <option value="Administración Turística de Áreas Protegidas / Taller de Integración de Ecoturismo en Áreas Silvestres">Administración Turística de Áreas Protegidas / Taller de Integración de Ecoturismo en Áreas Silvestres</option>
-                    <option value="Administración Turística de Áreas Protegidas / Taller de Gestión de Riesgos en Zonas Remotas">Administración Turística de Áreas Protegidas / Taller de Gestión de Riesgos en Zonas Remotas</option>
-                    <option value="Taller Básico de Primeros Auxilios en Áreas Silvestres / Taller de Actividades al Aire Libre II">Taller Básico de Primeros Auxilios en Áreas Silvestres / Taller de Actividades al Aire Libre II</option>
-                    <option value="Técnicas de Guiado e interpretación del patrimonio natural / Taller Básico de Primeros Auxilios en Áreas Silvestres">Técnicas de Guiado e interpretación del patrimonio natural / Taller Básico de Primeros Auxilios en Áreas Silvestres</option>
-                    <option value="Taller de Actividades al Aire Libre II / Técnicas de Guiado e interpretación del patrimonio natural">Taller de Actividades al Aire Libre II / Técnicas de Guiado e interpretación del patrimonio natural</option>
-                    <option value="No Comparte">No Comparte</option>
+                    <option value="" {% if form.asig_comp_terreno.value == "" %}selected{% endif %}>--</option>
+                    <option value="Taller de Actividades al Aire Libre II" {% if form.asig_comp_terreno.value == "Taller de Actividades al Aire Libre II" %}selected{% endif %}>Taller de Actividades al Aire Libre II</option>
+                    <option value="Taller de Actividades al Aire Libre IV" {% if form.asig_comp_terreno.value == "Taller de Actividades al Aire Libre IV" %}selected{% endif %}>Taller de Actividades al Aire Libre IV</option>
+                    <option value="Planificación y Logística de Programas Ecoturísticos" {% if form.asig_comp_terreno.value == "Planificación y Logística de Programas Ecoturísticos" %}selected{% endif %}>Planificación y Logística de Programas Ecoturísticos</option>
+                    <option value="Taller de Gestión de Riesgos en Zonas Remotas / Taller de Integración de Ecoturismo en Áreas Silvestres" {% if form.asig_comp_terreno.value == "Taller de Gestión de Riesgos en Zonas Remotas / Taller de Integración de Ecoturismo en Áreas Silvestres" %}selected{% endif %}>Taller de Gestión de Riesgos en Zonas Remotas / Taller de Integración de Ecoturismo en Áreas Silvestres</option>
+                    <option value="Administración Turística de Áreas Protegidas / Taller de Integración de Ecoturismo en Áreas Silvestres" {% if form.asig_comp_terreno.value == "Administración Turística de Áreas Protegidas / Taller de Integración de Ecoturismo en Áreas Silvestres" %}selected{% endif %}>Administración Turística de Áreas Protegidas / Taller de Integración de Ecoturismo en Áreas Silvestres</option>
+                    <option value="Administración Turística de Áreas Protegidas / Taller de Gestión de Riesgos en Zonas Remotas" {% if form.asig_comp_terreno.value == "Administración Turística de Áreas Protegidas / Taller de Gestión de Riesgos en Zonas Remotas" %}selected{% endif %}>Administración Turística de Áreas Protegidas / Taller de Gestión de Riesgos en Zonas Remotas</option>
+                    <option value="Taller Básico de Primeros Auxilios en Áreas Silvestres / Taller de Actividades al Aire Libre II" {% if form.asig_comp_terreno.value == "Taller Básico de Primeros Auxilios en Áreas Silvestres / Taller de Actividades al Aire Libre II" %}selected{% endif %}>Taller Básico de Primeros Auxilios en Áreas Silvestres / Taller de Actividades al Aire Libre II</option>
+                    <option value="Técnicas de Guiado e interpretación del patrimonio natural / Taller Básico de Primeros Auxilios en Áreas Silvestres" {% if form.asig_comp_terreno.value == "Técnicas de Guiado e interpretación del patrimonio natural / Taller Básico de Primeros Auxilios en Áreas Silvestres" %}selected{% endif %}>Técnicas de Guiado e interpretación del patrimonio natural / Taller Básico de Primeros Auxilios en Áreas Silvestres</option>
+                    <option value="Taller de Actividades al Aire Libre II / Técnicas de Guiado e interpretación del patrimonio natural" {% if form.asig_comp_terreno.value == "Taller de Actividades al Aire Libre II / Técnicas de Guiado e interpretación del patrimonio natural" %}selected{% endif %}>Taller de Actividades al Aire Libre II / Técnicas de Guiado e interpretación del patrimonio natural</option>
+                    <option value="No Comparte" {% if form.asig_comp_terreno.value == "No Comparte" %}selected{% endif %}>No Comparte</option>
                 </select>
             </div>
+            
         
         
             <div class="form-floating pb-3">
-                <textarea class="form-control" placeholder="Leave a comment here" id="id_observaciones" name="observaciones" style="height: 100px"></textarea>
+                <textarea class="form-control" placeholder="Leave a comment here" id="id_observaciones" name="observaciones" style="height: 100px">{{ form.observaciones.value }}</textarea>
                 <label for="floatingTextarea2">Observaciones...</label>
             </div>
-
+            
             <div class="d-grid gap-2 col-6 mx-auto">
-                <button class="btn btnagre" type="button">Listar Alumnos</button>
+                <button class="btn btnagre" type="button" onclick="{{ form.listar_alumnos.action }}">Listar Alumnos</button>
                 <button class="btn btnagre" type="submit">Modificar salida a Terreno <i class="fa-regular fa-square-plus mas"></i></button>
             </div>
-        </form>
-    </div>
-</div>
+            </form>
+            </div>
+            </div>
+            
 
     {% if success %}
         <script>
