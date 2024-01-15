@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SalidaTerrenoForm
+from .forms import SalidaTerrenoForm, UsersMetadataForm
 from .models import SalidaTerreno
 from core.decorators import Coordinador_required
 from django.contrib.auth.decorators import login_required
-# Create your views here.
+from core.models import UsersMetadata
+from django.contrib.auth.decorators import login_required
+from .forms import UserCreationWithMetadataForm, UsersMetadataForm
 
 
 @login_required
@@ -52,9 +54,6 @@ def editar_salida(request, id):
     data = {
         'form': SalidaTerrenoForm(instance=salida)
     }
-
-   
-
     if request.method == 'POST':
         formulario = SalidaTerrenoForm(data=request.POST, instance=salida, files=request.FILES)
         if formulario.is_valid():
@@ -71,3 +70,39 @@ def eliminar_salida(request, id):
     salida = get_object_or_404(SalidaTerreno, id=id)
     salida.delete()
     return redirect(to="listar_salida")
+
+
+
+
+
+@login_required
+@Coordinador_required
+def gest_usuarios(request):
+    if request.method == 'POST':
+        form = UsersMetadataForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('nombre_de_tu_vista')
+    else:
+        form = UsersMetadataForm()
+
+    return render(request, 'db_coordinador/db_gest_usuarios.html', {'form': form})
+
+
+def agreg_usuarios(request):
+    if request.method == 'POST':
+        user_form = UserCreationWithMetadataForm(request.POST)
+        metadata_form = UsersMetadataForm(request.POST)
+
+        if user_form.is_valid() and metadata_form.is_valid():
+            user = user_form.save()
+            metadata = metadata_form.save(commit=False)
+            metadata.user = user
+            metadata.username_field = user.username
+            metadata.save()
+            return redirect('ruta_dondevasdespuesdecrearusuario')
+    else:
+        user_form = UserCreationWithMetadataForm()
+        metadata_form = UsersMetadataForm()
+
+    return render(request, 'db_coordinador/db_agreg_usuarios.html', {'user_form': user_form, 'metadata_form': metadata_form})
