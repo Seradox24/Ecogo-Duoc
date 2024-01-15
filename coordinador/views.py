@@ -4,12 +4,21 @@ from .models import SalidaTerreno
 from core.decorators import Coordinador_required
 from django.contrib.auth.decorators import login_required
 # Create your views here.
+from .forms import AsignaturaForm
+
 
 
 @login_required
 @Coordinador_required
 def home_coordinador(request):
-    return render(request, 'db_coordinador/db_home_c.html')
+    form = AsignaturaForm()
+
+    if request.method == 'POST':
+        form = AsignaturaForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+    return render(request, 'db_coordinador/db_home_c.html', {'form': form})
 
 
 @login_required
@@ -71,3 +80,4 @@ def eliminar_salida(request, id):
     salida = get_object_or_404(SalidaTerreno, id=id)
     salida.delete()
     return redirect(to="listar_salida")
+
