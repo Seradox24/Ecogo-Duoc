@@ -3,6 +3,7 @@ from .forms import SalidaTerrenoForm
 from .models import SalidaTerreno
 from core.decorators import Coordinador_required
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 # Create your views here.
 
 
@@ -26,7 +27,8 @@ def crear_salida(request):
         form = SalidaTerrenoForm(request.POST)
         if form.is_valid():
             form.save()
-            return render(request, 'db_coordinador/db_coordinador_crear_sl.html', {'form': form, 'success': True})
+            messages.success(request, "Salida creada correctamente!")
+            return redirect(to="listar_salida")
     else:
         form = SalidaTerrenoForm()
     return render(request, 'db_coordinador/db_coordinador_crear_sl.html', {'form': form, 'mensaje': mensaje})
@@ -59,6 +61,7 @@ def editar_salida(request, id):
         formulario = SalidaTerrenoForm(data=request.POST, instance=salida, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
+            messages.success(request, "Modificado Correctamente!")
             return redirect(to="listar_salida")
         data["form"] = formulario
 
@@ -70,4 +73,5 @@ def editar_salida(request, id):
 def eliminar_salida(request, id):
     salida = get_object_or_404(SalidaTerreno, id=id)
     salida.delete()
+    messages.success(request, "Eliminado correctamente!")
     return redirect(to="listar_salida")
