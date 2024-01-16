@@ -1,0 +1,65 @@
+{% extends '../layout/dash_base_docente.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title text-center bg-dark text-light">Editar Usuario</h5>
+    <div id="mensaje">
+      {% if mensaje %}
+        <div class="alert alert-success" role="alert">
+          {{ mensaje }}
+        </div>
+      {% endif %}
+    </div>
+
+    <h1>Editar Usuario</h1>
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label for="{{ user_form.username.id_for_label }}">Nombre de usuario:</label>
+        {{ user_form.username }}
+      </div>
+      <div class="mb-3">
+        <label for="{{ user_form.email.id_for_label }}">Correo electrónico:</label>
+        {{ user_form.email }}
+      </div>
+      <div class="mb-3">
+        <label for="{{ metadata_form.estado.id_for_label }}">Estado:</label>
+        {{ metadata_form.estado }}
+      </div>
+      <div class="mb-3">
+        <label for="{{ metadata_form.genero.id_for_label }}">Género:</label>
+        {{ metadata_form.genero }}
+      </div>
+      <div class="mb-3">
+        <label for="{{ metadata_form.perfil.id_for_label }}">Perfil:</label>
+        {{ metadata_form.perfil }}
+      </div>
+      <div class="mb-3">
+        <label for="{{ metadata_form.pais.id_for_label }}">País:</label>
+        {{ metadata_form.pais }}
+      </div>
+      <div class="mb-3">
+        <label for="{{ metadata_form.comuna.id_for_label }}">Comuna:</label>
+        {{ metadata_form.comuna }}
+      </div>
+      <div class="mb-3">
+        <label for="{{ metadata_form.telefono.id_for_label }}">Teléfono:</label>
+        {{ metadata_form.telefono }}
+      </div>
+      <div class="mb-3">
+        <label for="{{ metadata_form.direccion.id_for_label }}">Dirección:</label>
+        {{ metadata_form.direccion }}
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+
+

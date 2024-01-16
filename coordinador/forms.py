@@ -1,4 +1,6 @@
 from django import forms
+from django.db import models
+from core import models
 from .models import SalidaTerreno
 from core.models import UsersMetadata
 from django.contrib.auth.forms import UserCreationForm

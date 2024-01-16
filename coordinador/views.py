@@ -1,3 +1,4 @@
+from pyexpat.errors import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SalidaTerrenoForm, UsersMetadataForm
 from .models import SalidaTerreno
@@ -100,9 +101,44 @@ def agreg_usuarios(request):
             metadata.user = user
             metadata.username_field = user.username
             metadata.save()
-            return redirect('ruta_dondevasdespuesdecrearusuario')
+            return redirect('gest_usuarios')  # Redirige a la URL en lugar de la plantilla
     else:
         user_form = UserCreationWithMetadataForm()
         metadata_form = UsersMetadataForm()
 
     return render(request, 'db_coordinador/db_agreg_usuarios.html', {'user_form': user_form, 'metadata_form': metadata_form})
+
+
+def gest_usuarios(request):
+    usuarios = UsersMetadata.objects.all()
+    return render(request, 'db_coordinador/db_gest_usuarios.html', {'usuarios': usuarios})
+
+
+def edit_usuarios(request, id):
+    usuario = get_object_or_404(UsersMetadata, id=id)
+
+    if request.method == 'POST':
+        user_form = UserCreationWithMetadataForm(request.POST, instance=usuario.user)
+        metadata_form = UsersMetadataForm(request.POST, instance=usuario)
+
+        if user_form.is_valid() and metadata_form.is_valid():
+            # Verificar si se ha cambiado el nombre de usuario o el correo electrónico
+            if user_form.cleaned_data['username'] != usuario.user.username or user_form.cleaned_data['email'] != usuario.user.email:
+                user_form.save()
+
+            # Guardar los cambios en el modelo de metadatos
+            metadata_form.save()
+
+            messages.success(request, 'Usuario actualizado exitosamente.')
+            return redirect('lista_usuarios')
+
+    else:
+        user_form = UserCreationWithMetadataForm(instance=usuario.user)
+        metadata_form = UsersMetadataForm(instance=usuario)
+
+    return render(request, 'db_coordinador/db_edit_usuarios.html', {'user_form': user_form, 'metadata_form': metadata_form, 'usuario': usuario})
+
+
+def eliminar_usuarios(request):
+    return render(request, 'db_coordinador/db_gest_usuarios.html')
+

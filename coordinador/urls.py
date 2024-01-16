@@ -12,4 +12,7 @@ urlpatterns = [
 	path('eliminar-salida/<id>/', eliminar_salida, name="eliminar_salida"),
     path('gest-usuarios/', gest_usuarios, name='gest-usuarios'),
     path('agreg-usuarios/', agreg_usuarios, name='agreg-usuarios'),
+    path('edit-usuarios/<int:id>/', edit_usuarios, name='edit-usuarios'),
+    path('eliminar-usuarios/<int:id>/', eliminar_usuarios, name='eliminar-usuarios'),
+
 ]
