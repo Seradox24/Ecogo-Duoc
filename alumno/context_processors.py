@@ -33,6 +33,8 @@ def urls_processor(request):
                 urls = [
                     {'url': 'home_coordinador', 'nombre': 'Home', 'icon': 'fs-5 fa fa-house'},
                     {'url': 'listar_salida', 'nombre': 'Gestionar salida a terreno', 'icon': 'txt fa fa-book-bookmark'},
+                    {'url': 'carga_masiva_alumno', 'nombre': 'Carga Masiva Estudiantes', 'icon': 'txt fa fa-book-bookmark'},
+                    
 
                     # Añade las URLs para el perfil de coordinador aquí
                 ]

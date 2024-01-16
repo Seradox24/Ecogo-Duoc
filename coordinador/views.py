@@ -5,12 +5,24 @@ from core.decorators import Coordinador_required
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 # Create your views here.
+from .forms import AsignaturaForm
+import pandas as pd
+from django.http import HttpResponseBadRequest
+from .utils import store_data_frame_in_session, retrieve_data_frame_from_session, clear_data_frame_from_session
+from django.http import HttpResponse
 
 
 @login_required
 @Coordinador_required
 def home_coordinador(request):
-    return render(request, 'db_coordinador/db_home_c.html')
+    form = AsignaturaForm()
+
+    if request.method == 'POST':
+        form = AsignaturaForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+    return render(request, 'db_coordinador/db_home_c.html', {'form': form})
 
 
 @login_required
@@ -77,7 +89,53 @@ def eliminar_salida(request, id):
     return redirect(to="listar_salida")
 
 
+
 @login_required
 @Coordinador_required
 def listar_alumnos_sl(request):
     return render(request, 'db_coordinador/db_coordinador_listar_alumnos_sl.html')
+
+
+@login_required
+@Coordinador_required
+def carga_masiva_alumno(request):
+    if request.method == 'POST':
+        file = request.FILES.get('archivo')
+        if file is None:
+            # Devuelve un mensaje de error si no se ha cargado ningún archivo
+            return HttpResponse('<h1>Por favor, cargue un archivo.</h1>')
+        
+        try:
+            df = pd.read_excel(file)
+            
+            # Almacena el DataFrame en la sesión del usuario
+            request.session['data_frame'] = df.to_dict()
+
+            return render(request, 'db_coordinador/vista_previa_carga.html', {'data_frame': df})
+        except Exception as e:
+            # Devuelve una respuesta HTTP con el mensaje de error
+            return HttpResponse('<h1>' + str(e) + '</h1>')
+            
+    return render(request, 'db_coordinador/db_carga_masiva_alumno.html')
+
+
+# ...
+
+@login_required
+@Coordinador_required
+def cargar_datos(request):
+    if request.method == 'POST':
+        # Recupera el DataFrame de la sesión del usuario
+        data_frame_dict = request.session.get('data_frame')
+        if data_frame_dict is not None:
+            df = pd.DataFrame.from_dict(data_frame_dict)
+            
+            # Aquí puedes procesar el DataFrame y cargar los datos en tu modelo
+            print(df)
+
+            # Elimina el DataFrame de la sesión del usuario
+            del request.session['data_frame']
+
+        return redirect('home_coordinador')
+
+    return HttpResponseBadRequest("Bad Request: Se esperaba una solicitud POST.")
