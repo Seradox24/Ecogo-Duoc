@@ -9,4 +9,9 @@ urlpatterns = [
 	path('listar-salida/', listar_salida, name="listar_salida"),
 	path('editar-salida/<id>/', editar_salida, name="editar_salida"),
 	path('eliminar-salida/<id>/', eliminar_salida, name="eliminar_salida"),
+    
+	
+	path('carga-masiva-alumno/', carga_masiva_alumno, name="carga_masiva_alumno"),
+    path('cargar-datos/', cargar_datos, name="cargar_datos"),
+    
 ]
