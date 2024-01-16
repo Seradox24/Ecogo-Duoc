@@ -32,6 +32,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*','http://ecogo.brazilsouth.cloudapp.azure.com','ecogo.cloud','http://ecogo.cloud','https://ecogo.cloud']
 
+MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
+
 
 # Application definition
 

@@ -14,7 +14,7 @@
 
 <div class="container justify-content-center py-4">
     <div class="card p-4">
-        <form method="post" action="{% url 'crear_salida' %}">
+        <form method="post" action="{% url 'crear_salida' %}" id="myForm">
             {% csrf_token %}
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Situacion: </label>
@@ -227,16 +227,32 @@
 
             <div class="d-grid gap-2 col-6 mx-auto">
                 <button class="btn btnagre" type="button">Listar Alumnos</button>
-                <button class="btn btnagre" type="submit">Generar salida a Terreno <i class="fa-regular fa-square-plus mas"></i></button>
+                <button class="btn btnagre" type="button" onclick="submitForm()">Generar salida a Terreno <i class="fa-regular fa-square-plus mas"></i></button>
+
             </div>
+            
+            <script>
+                function submitForm() {
+                    // Obtener todos los campos de entrada del formulario
+                    var formElements = document.getElementById("myForm").elements;
+            
+                    // Verificar si algún campo está vacío
+                    for (var i = 0; i < formElements.length; i++) {
+                        if (formElements[i].type !== "button" && formElements[i].value === "") {
+                            alert("Por favor, complete todos los campos antes de enviar el formulario.");
+                            return false; // Evita que el formulario se envíe si hay campos vacíos
+                        }
+                    }
+            
+                    // Enviar el formulario si todos los campos están completos
+                    document.getElementById("myForm").submit();
+                }
+            </script>
+            
         </form>
     </div>
 </div>
 
-    {% if success %}
-        <script>
-        alert("La Salida a terreno se guardó correctamente!");
-        </script>
-    {% endif %}
+   
 
 {% endblock %}

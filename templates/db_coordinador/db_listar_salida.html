@@ -7,7 +7,28 @@
 {% load humanize %}
 
 
-
+{% block js %}
+    <script>
+        function confirmarEliminacion(enlace) {
+            Swal.fire({
+                title: "¿Estás seguro?",
+                text: "Esta acción no se puede deshacer",
+                icon: "warning",
+                showCancelButton: true,
+                cancelButtonText: "No, Cancelar",
+                confirmButtonText: "Sí, Eliminar",
+                reverseButtons: true,
+                confirmButtonColor: "darkred"
+            }).then((result) => {
+                // result.value será true si se hizo clic en "Sí, Eliminar"
+                if (result.value) {
+                    // Redirigir solo si se confirma la eliminación
+                    window.location.href = enlace.href;
+                }
+            });
+        }
+    </script>
+{% endblock %}
 
 <div class="card text-bg-dark align-items-center">
     <h1>Lista de Salidas a Terreno</h1>
@@ -45,7 +66,7 @@
                 <th>Numero de salida</th>
                 <th>Asig. comp. terreno</th>
                 <th>Observaciones</th>
-                <th>Opciones</th>
+                <th colspan="2">Opciones</th>
               
             </tr>
         
@@ -73,10 +94,13 @@
                 <td>{{ s.num_salida | title }}</td>
                 <td>{{ s.asig_comp_terreno | title }}</td>
                 <td>{{ s.observaciones | title }}</td>
-                <td class="d-flex btnsal">
+                <td class="">
                     <a href="{% url 'editar_salida' s.id %}" class="btn btn-primary btn-sm">Editar</a>
-                    &numsp;
-                    <a href="{% url 'eliminar_salida' s.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                    
+                    
+                </td>
+                <td>
+                    <a href="{% url 'eliminar_salida' s.id %}" onclick="confirmarEliminacion(this); return false;" class="btn btn-danger btn-sm">Eliminar</a>
                 </td>
                 
             </tr>
@@ -84,6 +108,7 @@
             {% endfor %}
         
         </table>
+        
     </div>
 </div>
 

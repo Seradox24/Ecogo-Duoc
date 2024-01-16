@@ -87,12 +87,12 @@
             
             <div class="d-flex pb-3">
                 <label for="fecha">Fecha Ingreso:</label>
-                <input type="date" class="form-control" id="id_fecha_ingreso" name="fecha_ingreso" value="{{ form.fecha_ingreso.value }}">
+                <input type="date" class="form-control" id="id_fecha_ingreso" name="fecha_ingreso" value="{{ form.fecha_ingreso.value|date:'Y-m-d' }}">
             </div>
             
-            <div class="d-flex pb-3">       
+            <div class="d-flex pb-3">
                 <label for="fecha">Fecha Termino:</label>
-                <input type="date" class="form-control" id="id_fecha_termino" name="fecha_termino" value="{{ form.fecha_termino.value }}">
+                <input type="date" class="form-control" id="id_fecha_termino" name="fecha_termino" value="{{ form.fecha_termino.value|date:'Y-m-d' }}">
             </div>
             
             <div class="d-flex pb-3">
