@@ -75,3 +75,9 @@ def eliminar_salida(request, id):
     salida.delete()
     messages.success(request, "Eliminado correctamente!")
     return redirect(to="listar_salida")
+
+
+@login_required
+@Coordinador_required
+def listar_alumnos_sl(request):
+    return render(request, 'db_coordinador/db_coordinador_listar_alumnos_sl.html')

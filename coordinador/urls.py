@@ -9,4 +9,5 @@ urlpatterns = [
 	path('listar-salida/', listar_salida, name="listar_salida"),
 	path('editar-salida/<id>/', editar_salida, name="editar_salida"),
 	path('eliminar-salida/<id>/', eliminar_salida, name="eliminar_salida"),
+	path('listar-alumnos-sl/', listar_alumnos_sl, name="listar_alumnos_sl"),
 ]
