@@ -29,7 +29,7 @@ class Perfiles(models.Model):
         verbose_name_plural = 'Perfiles'
 
 
-class Genero(models.Model):
+class Sexo(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100, null=True)
 
@@ -110,32 +110,50 @@ class Asignatura(models.Model):
         verbose_name = 'Asignatura'
         verbose_name_plural = 'Asignaturas'
 
+class ContactoEmergencia(models.Model):
+    nombre1 = models.CharField(max_length=100, blank=True, null=True)
+    relacion1 = models.CharField(max_length=100, blank=True, null=True)
+    telefono1 = models.CharField(max_length=100, blank=True, null=True)
+    nombre2 = models.CharField(max_length=100, blank=True, null=True)
+    relacion2 = models.CharField(max_length=100, blank=True, null=True)
+    telefono2 = models.CharField(max_length=100, blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.nombre1} {self.relacion1} {self.telefono1}'
+
 class UsersMetadata(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='usersmetadata')
     estado = models.BooleanField(default=True)
-    genero = models.ForeignKey(Genero, models.DO_NOTHING)
+    sexo = models.ForeignKey(Sexo, models.DO_NOTHING)
     perfil = models.ForeignKey(Perfiles, models.DO_NOTHING)
-    pais = models.ForeignKey(Pais, models.DO_NOTHING)
+    nacionalidad= models.ForeignKey(Pais, models.DO_NOTHING)
     comuna = models.ForeignKey(Comuna, models.DO_NOTHING, default=1)
-    slug = models.CharField(max_length=100, null=True)
-    correo = models.CharField(max_length=100, blank=True, null=True)
-    telefono = models.CharField(max_length=100, blank=True, null=True)
-    direccion = models.CharField(max_length=100, blank=True, null=True)
+    correoduoc = models.CharField(max_length=100, blank=True, null=True)
     foto = models.ImageField(upload_to='usuarios', blank=True, null=True)
-    
-
+    semestre = models.CharField(max_length=100, blank=True, null=True)
+    sede = models.CharField(max_length=100, blank=True, null=True)
+    nom_carrera = models.CharField(max_length=100, blank=True, null=True)
+    modalidad = models.CharField(max_length=100, blank=True, null=True)
+    jornada = models.CharField(max_length=100, blank=True, null=True)
+    rut = models.CharField(max_length=100, blank=True, null=True, unique=True)
+    nombres = models.CharField(max_length=100, blank=True, null=True)
+    ap_paterno = models.CharField(max_length=100, blank=True, null=True)
+    ap_materno = models.CharField(max_length=100, blank=True, null=True)
+    fnacimiento = models.DateField(blank=True, null=True)
+    estado_civil = models.CharField(max_length=100, blank=True, null=True)
+    direccion = models.CharField(max_length=100, blank=True, null=True)
+    numero = models.CharField(max_length=100, blank=True, null=True)
+    region = models.CharField(max_length=100, blank=True, null=True)
+    celular = models.CharField(max_length=100, blank=True, null=True)
+    contacto_emergencia = models.ForeignKey(ContactoEmergencia, models.DO_NOTHING, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.user.first_name} {self.user.last_name}"
+        return f'{self.nombres} {self.ap_paterno} {self.ap_materno}'
 
     class Meta:
-        db_table = 'users_metadata'
-        verbose_name = 'User metadata'
-        verbose_name_plural = 'User metadata'
-
-
-
+        verbose_name = 'User Metadata'
+        verbose_name_plural = 'Users Metadata'
 
 
 
