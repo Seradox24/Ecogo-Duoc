@@ -24,7 +24,7 @@ def gest_users(request):
 @login_required
 @Coordinador_required
 def crear_salida(request):
-    mensaje = ""  # Inicializa la variable con un valor predeterminado
+    mensaje = ""
     if request.method == 'POST':
         form = SalidaTerrenoForm(request.POST)
         if form.is_valid():
@@ -101,7 +101,7 @@ def agreg_usuarios(request):
             metadata.user = user
             metadata.username_field = user.username
             metadata.save()
-            return redirect('gest_usuarios')  # Redirige a la URL en lugar de la plantilla
+            return redirect('gest_usuarios') 
     else:
         user_form = UserCreationWithMetadataForm()
         metadata_form = UsersMetadataForm()
@@ -122,11 +122,10 @@ def edit_usuarios(request, id):
         metadata_form = UsersMetadataForm(request.POST, instance=usuario)
 
         if user_form.is_valid() and metadata_form.is_valid():
-            # Verificar si se ha cambiado el nombre de usuario o el correo electrónico
+            
             if user_form.cleaned_data['username'] != usuario.user.username or user_form.cleaned_data['email'] != usuario.user.email:
                 user_form.save()
 
-            # Guardar los cambios en el modelo de metadatos
             metadata_form.save()
 
             messages.success(request, 'Usuario actualizado exitosamente.')
