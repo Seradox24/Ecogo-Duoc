@@ -39,7 +39,7 @@ class Situacion(models.Model):
     estado = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.nombre
+        return self.estado
 
 class DiaSemana(models.Model):
     nombre = models.CharField(max_length=100)

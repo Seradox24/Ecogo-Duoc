@@ -40,11 +40,7 @@ class UsersMetadataAdmin(admin.ModelAdmin):
     search_fields = ['user__first_name', 'user__last_name', 'perfil__nombre']
 
 
-class SalidaTerrenoAdmin(admin.ModelAdmin):
-    list_display = ['actividad', 'numero_cuenta', 'fecha_ingreso', 'fecha_termino', 'asignatura', 'docente_titular']
 
-    # Puedes personalizar el formulario del admin agregando fields específicos
-    fields = ['actividad', 'numero_cuenta', 'fecha_ingreso', 'fecha_termino', 'asignatura', 'docente_titular', 'docentes_apoyo']
     
 
 # Registra los modelos con sus respectivos administradores
@@ -57,7 +53,7 @@ admin.site.register(Comuna, ComunaAdmin)
 admin.site.register(Seccion, SeccionAdmin)
 admin.site.register(Asignatura, AsignaturaAdmin)
 admin.site.register(UsersMetadata, UsersMetadataAdmin)
-admin.site.register(SalidaTerreno, SalidaTerrenoAdmin)
+
 
 admin.site.site_header = 'Administración Eco-Go'
 admin.site.index_title = 'Administración Eco-Go'
