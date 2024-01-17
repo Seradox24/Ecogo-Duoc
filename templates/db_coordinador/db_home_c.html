@@ -5,6 +5,13 @@
 {% block content %}  
 
 
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Guardar</button>
+</form>
+
+
 <!-- Banner actividad -->
 <div class="card text-bg-dark ">
     <img src="{% static 'images/caminante-mochila-pie-cima-montana.jpg' %}" class="card-img .d-block" alt="..." style="width: 100%; height: 30vh; object-fit: cover;">

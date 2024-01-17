@@ -32,6 +32,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*','http://ecogo.brazilsouth.cloudapp.azure.com','ecogo.cloud','http://ecogo.cloud','https://ecogo.cloud']
 
+MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
+
 
 # Application definition
 
@@ -114,11 +116,11 @@ DATABASES = {
 }
 
 '''
-
+#"NAME": "postgres",
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres",
+        "NAME": "ecogov1",
         "USER": "admin_ecogo",
         "PASSWORD": "pass_ecogo2023",
         "HOST": "ecogo-db.postgres.database.azure.com",

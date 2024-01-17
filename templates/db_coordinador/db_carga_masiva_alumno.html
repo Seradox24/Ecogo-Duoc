@@ -1,0 +1,52 @@
+{% extends '../layout/dash_base_docente.html' %} 
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}  
+
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title text-bg-dark text-center">Usuario ejecutante: {{user.username}}</h5>
+     
+        <form id="cargaForm" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="input-group">
+                <input type="file" name="archivo" class="form-control" accept=".xls,.xlsx">
+                <button class="btn btn-outline-danger" type="button" onclick="limpiarFormulario()">Limpiar</button>
+                <button class="btn btn-outline-primary" type="button" onclick="vistaPrevia()">Vista Previa</button>
+            </div>
+        </form>
+
+        <div id="vistaPreviaContainer" class="mt-4">
+            <!-- Aquí se mostrará la información de vista previa -->
+        </div>
+    </div>
+</div>
+
+<script>
+    function limpiarFormulario() {
+        document.getElementById('cargaForm').reset();
+        document.getElementById('vistaPreviaContainer').innerHTML = ''; // Limpia el contenedor de vista previa
+    }
+
+    function vistaPrevia() {
+        var form = document.getElementById('cargaForm');
+        var formData = new FormData(form);
+
+        // Realiza una solicitud AJAX para obtener la vista previa
+        fetch("{% url 'carga_masiva_alumno' %}", {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.text())
+        .then(data => {
+            // Muestra la vista previa en el contenedor
+            document.getElementById('vistaPreviaContainer').innerHTML = data;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
+
+
+{% endblock %}
