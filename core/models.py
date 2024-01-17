@@ -42,7 +42,7 @@ class Sexo(models.Model):
         verbose_name_plural = 'Géneros'
 
 
-class Pais(models.Model):
+class Nacionalidad(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100, blank=True, null=True)
 
@@ -127,8 +127,8 @@ class UsersMetadata(models.Model):
     estado = models.BooleanField(default=True)
     sexo = models.ForeignKey(Sexo, models.DO_NOTHING)
     perfil = models.ForeignKey(Perfiles, models.DO_NOTHING)
-    nacionalidad= models.ForeignKey(Pais, models.DO_NOTHING)
-    comuna = models.ForeignKey(Comuna, models.DO_NOTHING, default=1)
+    nacionalidad= models.ForeignKey(Nacionalidad, models.DO_NOTHING, blank=True, null=True)
+    comuna = models.ForeignKey(Comuna, models.DO_NOTHING, default=1, blank=True, null=True)
     correoduoc = models.CharField(max_length=100, blank=True, null=True)
     foto = models.ImageField(upload_to='usuarios', blank=True, null=True)
     semestre = models.CharField(max_length=100, blank=True, null=True)
@@ -144,7 +144,6 @@ class UsersMetadata(models.Model):
     estado_civil = models.CharField(max_length=100, blank=True, null=True)
     direccion = models.CharField(max_length=100, blank=True, null=True)
     numero = models.CharField(max_length=100, blank=True, null=True)
-    region = models.CharField(max_length=100, blank=True, null=True)
     celular = models.CharField(max_length=100, blank=True, null=True)
     contacto_emergencia = models.ForeignKey(ContactoEmergencia, models.DO_NOTHING, blank=True, null=True)
 
