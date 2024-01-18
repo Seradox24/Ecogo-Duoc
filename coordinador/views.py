@@ -198,17 +198,133 @@ def carga_masiva_alumno(request):
 
 # ...
 
+# @login_required
+# @Coordinador_required
+# def cargar_datos(request):
+#     if request.method == 'POST':
+#         # Recupera el DataFrame de la sesión del usuario
+#         data_frame_dict = request.session.get('data_frame')
+#         if data_frame_dict is not None:
+#             df = pd.DataFrame.from_dict(data_frame_dict)
+            
+#             # Aquí puedes procesar el DataFrame y cargar los datos en tu modelo
+#             print(df)
+
+
+
+#             # Elimina el DataFrame de la sesión del usuario
+#             del request.session['data_frame']
+
+#         return redirect('home_coordinador')
+
+#     return HttpResponseBadRequest("Bad Request: Se esperaba una solicitud POST.")
+
+
+from django.contrib.auth.models import User
+from core.models import UsersMetadata, Perfiles  # Asegúrate de ajustar esto con la ruta correcta de tu modelo
+
+
+
+
+# @login_required
+# @Coordinador_required
+# def cargar_datos(request):
+#     if request.method == 'POST':
+       
+#         data_frame_dict = request.session.get('data_frame')
+#         if data_frame_dict is not None:
+#             df = pd.DataFrame.from_dict(data_frame_dict)
+
+           
+#             for index, row in df.iterrows():
+                
+#                 rut = row['RUT']
+#                 userito=row['CORREO DUOC']
+#                 jornada = row['JORNADA']
+#                 nombre = row['NOMBRES'].replace(" ", "")  # Elimina espacios del nombre
+#                 apellido_paterno = row['AP.PATERNO'].replace(" ", "")  # Elimina espacios del apellido
+#                 print(f"-{rut}- {userito} - - {jornada} - - {nombre} - - {apellido_paterno}  - {userito}")
+#                 print(f"contraseña = {rut}{jornada}{nombre[:3]}{apellido_paterno[-2:]}")
+               
+#                 user = User.objects.filter(username=userito).first()
+
+#                 if user:
+                    
+#                     user.set_password(f"{rut}{jornada}{nombre[:3]}{apellido_paterno[-2:]}")
+                    
+#                     print(user)
+#                     print(user.username)
+#                     print(user.password)
+#                     user.save()
+                    
+#                 else:
+                    
+#                     user = User.objects.create_user(username=userito, password=f"{rut}{jornada}{nombre[:3]}{apellido_paterno[-2:]}")
+                    
+#                     print(user)
+#                     print(user.username)
+#                     print(user.password)
+
+               
+
+#             # Elimina el DataFrame de la sesión del usuario
+#             del request.session['data_frame']
+
+#         return redirect('home_coordinador')
+
+#     return HttpResponseBadRequest("Bad Request: Se esperaba una solicitud POST.")
+
+
+
+
 @login_required
 @Coordinador_required
 def cargar_datos(request):
     if request.method == 'POST':
-        # Recupera el DataFrame de la sesión del usuario
         data_frame_dict = request.session.get('data_frame')
         if data_frame_dict is not None:
             df = pd.DataFrame.from_dict(data_frame_dict)
-            
-            # Aquí puedes procesar el DataFrame y cargar los datos en tu modelo
-            print(df)
+            # Intenta obtener el objeto Perfil para 'Alumno', o crea uno si no existe
+            perfil_alumno, created = Perfiles.objects.get_or_create(id=1, nombre="Alumno")
+
+            for index, row in df.iterrows():
+                rut = str(row['RUT']).replace(" ", "") if isinstance(row['RUT'], str) else str(row['RUT'])
+                userito = row['CORREO DUOC'].replace(" ", "") 
+                jornada = row['JORNADA'].replace(" ", "") 
+                nombre = row['NOMBRES'].replace(" ", "")  # Elimina espacios del nombre
+                apellido_paterno = row['AP.PATERNO'].replace(" ", "")  # Elimina espacios del apellido
+                print(f"-{rut}- {userito} - - {jornada} - - {nombre} - - {apellido_paterno}  - {userito}")
+                print(f"contraseña = {rut}{jornada}{nombre[:3]}{apellido_paterno[-2:]}")
+               
+                user = User.objects.filter(username=userito).first()
+                
+
+                if user:
+                    print(user)
+                    print(user.username)
+                    print(user.password)
+                    print(perfil_alumno)
+                    user.save()
+                    UsersMetadata.objects.update(sexo_id=1, perfil_id=1, user_id=user.id,)
+
+                    # Obtiene o crea el objeto UsersMetadata asociado al usuario
+                    
+                    # ... y otros campos ...
+
+                    
+                    
+                else:
+                    user = User.objects.create_user(username=userito, password=f"{rut}{jornada}{nombre[:3]}{apellido_paterno[-2:]}")
+                    print(user)
+                    print(user.username)
+                    print(user.password)
+                    
+                    print(perfil_alumno.id)
+                   
+
+
+                    # Crea el objeto UsersMetadata asociado al nuevo usuario
+                    UsersMetadata.objects.create(sexo_id=1, perfil_id=1, user_id=user.id,)
 
             # Elimina el DataFrame de la sesión del usuario
             del request.session['data_frame']
