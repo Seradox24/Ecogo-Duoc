@@ -21,12 +21,11 @@ class ExpAprendizajeAdmin(admin.ModelAdmin):
 
 
 
-
 class SalidaTerrenoAdmin(admin.ModelAdmin):
-    list_display = ['id', 'situacion', 'numero_cuenta', 'semestre', 'anio', 'diasemana', 'actividad',
-                    'fecha_ingreso', 'fecha_termino', 'dias', 'noches', 'dias_actividad', 'lugar_ejecucion',
+    list_display = ['id', 'situacion', 'numero_cuenta', 'semestre', 'anio', 'actividad',
+                    'fecha_ingreso', 'fecha_termino', 'dias', 'noches', 'lugar_ejecucion',
                     'asignatura', 'exp_aprendizaje', 'num_alumnos', 'docente_titular', 'get_docentes_apoyo',
-                    'num_salida', 'asig_comp_terreno', 'observaciones']
+                    'num_salida', 'asig_comp_terreno_display', 'observaciones']
     search_fields = ['id', 'actividad__nombre', 'asignatura__nombre', 'docente_titular__user__first_name',
                      'docente_titular__user__last_name']
 
@@ -34,6 +33,12 @@ class SalidaTerrenoAdmin(admin.ModelAdmin):
         return ', '.join([docente.user.get_full_name() for docente in obj.docentes_apoyo.all()])
 
     get_docentes_apoyo.short_description = 'Docentes de Apoyo'
+
+    def asig_comp_terreno_display(self, obj):
+        return ', '.join([asignatura.nombre for asignatura in obj.asig_comp_terreno.all()])
+
+    asig_comp_terreno_display.short_description = 'Asignaturas Comp. Terreno'
+
 
 # Registra el modelo con su respectivo administrador
 admin.site.register(SalidaTerreno, SalidaTerrenoAdmin)

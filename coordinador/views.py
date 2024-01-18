@@ -58,26 +58,30 @@ def listar_salida(request):
     return render(request, 'db_coordinador/db_listar_salida.html', data)
 
 
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from .forms import SalidaTerrenoForm
+from .models import SalidaTerreno
+
 @login_required
 @Coordinador_required
 def editar_salida(request, id):
+    print(id)
     salida = get_object_or_404(SalidaTerreno, id=id)
 
-    data = {
-        'form': SalidaTerrenoForm(instance=salida)
-    }
-
-   
-
     if request.method == 'POST':
-        formulario = SalidaTerrenoForm(data=request.POST, instance=salida, files=request.FILES)
-        if formulario.is_valid():
-            formulario.save()
+        form = SalidaTerrenoForm(request.POST, instance=salida, files=request.FILES)
+        if form.is_valid():
+            form.save()
             messages.success(request, "Modificado Correctamente!")
-            return redirect(to="listar_salida")
-        data["form"] = formulario
+            return redirect('listar_salida')
+        else:
+            print(form.errors)
+    else:
+        form = SalidaTerrenoForm(instance=salida)
 
-    return render(request, 'db_coordinador/db_editar_salida.html', data)
+    return render(request, 'db_coordinador/db_editar_salida.html', {'form': form, 'instance': salida})
+
 
 
 @login_required

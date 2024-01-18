@@ -4,6 +4,12 @@
 
 {% block content %}  
 
+<style>
+    hr {
+        border: 1px solid #ccc; /* Estilo del borde */
+        margin: 20px 0;        /* Márgenes superior e inferior */
+    }
+</style>
 
 
 
@@ -18,219 +24,206 @@
             {% csrf_token %}
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Situacion: </label>
-                <select class="form-select" id="id_situacion" name="situacion">
-                    <option selected>--</option>
-                    <option value="Ejecutado">Ejecutado</option>
-                    <option value="Por Ejecutar">Por Ejecutar</option>
-                </select>
+                {{ form.situacion }}
             </div>
+
+            <hr>
 
             <div class="pb-3">
                 <div class="form-floating">
-                    <input type="number" id="id_numero_cuenta" name="numero_cuenta" class="form-control" />
+                    {{ form.numero_cuenta }}
                     <label class="form-label" for="typeNumber">Numero de cuenta...</label>
                 </div>
             </div>
-            
+
+            <hr>
+
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Semestre:</label>
-                <select class="form-select" id="id_semestre" name="semestre">
-                    <option selected>--</option>
-                    <option value="I">I</option>
-                    <option value="II">II</option>
-                    <option value="III">III</option>
-                    <option value="IV">IV</option>
-                    <option value="V">V</option>
-                    <option value="VI">VI</option>
-                    <option value="VII">VII</option>
-                </select>
+                {{ form.semestre }}
             </div>
+
+            <hr>
+
 
             <div class="pb-3">
                 <div class="form-floating">
-                    <input type="number" id="id_anio" name="anio" class="form-control" />
+                    {{ form.anio }}
                     <label for="floatingTextarea">Año...</label>
                 </div>
             </div>
+
+            <hr>
             
             <div class="pb-3">
                 <div class="form-floating">
-                    <input type="number" id="id_semana" name="semana" class="form-control" />
+                    {{ form.semana }}
                     <label for="floatingTextarea">Semana...</label>
                 </div>
             </div>
 
+            <hr>
+
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Actividad:</label>
-                <select class="form-select" id="id_actividad" name="actividad">
-                    <option selected>--</option>
-                    <option value="Interpretación de comunidades (TTO Experiencias)">Interpretación de comunidades (TTO Experiencias)</option>
-                    <option value="Técnicas Invernales">Técnicas Invernales</option>
-                    <option value="Cabalgata">Cabalgata</option>
-                    <option value="Caracterización de la unidad">Caracterización de la unidad</option>
-                    <option value="Análisis de riesgo">Análisis de riesgo</option>
-                    <option value="Valorización del entorno, servicios ecosistémicos y capital humano">Valorización del entorno, servicios ecosistémicos y capital humano</option>
-                    <option value="Interpretación">Interpretación</option>
-                    <option value="Buceo">Buceo</option>
-                    <option value="MTB y KAYAK">MTB y KAYAK</option>
-                    <option value="Escalada">Escalada</option>
-                    <option value="MTB">MTB</option>
-                    <option value="KAYAK">KAYAK</option>
-                    <option value="Terreno Fauna">Terreno Fauna</option>
-                    <option value="Normativas y procesos, programacion de actividades">Normativas y procesos, programacion de actividades</option>
-                    <option value="Trekking">Trekking</option>
-                    <option value="Examen Transversal">Examen Transversal</option>
-                    <option value="Por Definir">Por Definir</option>
-                </select>
+                {{ form.actividad }}
             </div>
+
+            <hr>
             
             <div class="d-flex pb-3">
                 <label for="fecha">Fecha Ingreso:</label>
-                <input type="date" class="form-control" id="id_fecha_ingreso" name="fecha_ingreso">
+                {{ form.fecha_ingreso }}
             </div>
+
+            <hr>
 
             <div class="d-flex pb-3">       
                 <label for="fecha">Fecha Termino:</label>
-                <input type="date" class="form-control" id="id_fecha_termino" name="fecha_termino">
+                {{ form.fecha_termino }}
             </div>
+
+            <hr>
             
             <div class="d-flex pb-3">
                 <div class="form-floating mgr">
-                    <input type="number" id="id_dias" name="dias" class="form-control"/>
+                    {{ form.dias }}
                     <label for="floatingTextarea">Dias...</label>
                 </div>
+
+                <hr>
             
                 <div class="form-floating">
-                    <input type="number" id="id_noches" name="noches" class="form-control"/>
+                    {{ form.noches }}
                     <label for="floatingTextarea">Noches...</label>
                 </div>
+
+                
             </div>
 
-            <div class="pb-3">
-                <div class="form-floating">
-                    <input type="number" id="id_dias_actividad" name="dias_actividad" class="form-control"/>
-                    <label for="floatingTextarea">Dias de actividad...</label>
-                </div>
-            </div>
+            <hr>
+            <p class='h5'>DÍAS  SEMANA:</p>
+
+        {% for checkbox in form.diasemana %}
+        <div class="form-check form-check-inline">
+        {{ checkbox.tag }}
+        <label class="form-check-label" for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
+        </div>
+        {% endfor %}
+
+        <hr>
+
+
             
+        
             <div class="form-floating pb-3">
-                <textarea class="form-control" placeholder="Leave a comment here" id="id_lugar_ejecucion" name="lugar_ejecucion"></textarea>
+                {{ form.lugar_ejecucion }}
                 <label for="floatingTextarea">Lugar de Ejecucion...</label>
             </div>
 
+            <hr>
+
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Asignatura:</label>
-                <select class="form-select" id="id_asignatura" name="asignatura">
-                    <option selected>--</option>
-                    <option value="Taller de Integración de Comunidades en Ecoturismo">Taller de Integración de Comunidades en Ecoturismo</option>
-                    <option value="Taller de Actividades al Aire Libre II">Taller de Actividades al Aire Libre II</option>
-                    <option value="Taller de Actividades al Aire Libre IV">Taller de Actividades al Aire Libre IV</option>
-                    <option value="Planificación y Logística de Programas Ecoturísticos">Planificación y Logística de Programas Ecoturísticos</option>
-                    <option value="Administración Turística de Áreas Protegidas">Administración Turística de Áreas Protegidas</option>
-                    <option value="Taller de Gestión de Riesgos en Zonas Remotas">Taller de Gestión de Riesgos en Zonas Remotas</option>
-                    <option value="Taller de Integración de Ecoturismo en Áreas Silvestres">Taller de Integración de Ecoturismo en Áreas Silvestres</option>
-                    <option value="Técnicas de Guiado e interpretación del patrimonio natural">Técnicas de Guiado e interpretación del patrimonio natural</option>
-                    <option value="Taller Básico de Primeros Auxilios en Áreas Silvestres">Taller Básico de Primeros Auxilios en Áreas Silvestres</option>
-                    <option value="FAUNA DE CHILE">FAUNA DE CHILE</option>
-                    <option value="FLORA DE CHILE">FLORA DE CHILE</option>
-                    <option value="Taller de Operaciones de Programas de Ecoturismo">Taller de Operaciones de Programas de Ecoturismo</option>
-                </select>
+                {{ form.asignatura }}
             </div>
+
+            <hr>
 
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Exp. de aprendizaje:</label>
-                <select class="form-select" id="id_exp_aprendizaje" name="exp_aprendizaje">
-                    <option selected>--</option>
-                    <option value="EA 1">EA 1</option>
-                    <option value="EA 2">EA 2</option>
-                    <option value="EA 3">EA 3</option>
-                    <option value="EA 4">EA 4</option>
-                    <option value="EA 5">EA 5</option>
-                    <option value="EA 6">EA 6</option>
-                    <option value="Examen Transversal">Examen Transversal</option>
-                    <option value="Por Definir">Por Definir</option>
-                </select>
+                {{ form.exp_aprendizaje }}
             </div>
 
+            <hr>
+
             <div class="form-floating pb-3">
-                <input type="number" id="typeNumber" name="num_alumnos" class="form-control" />
+                {{ form.num_alumnos }}
                 <label class="form-label" for="typeNumber">Numero de alumnos</label>
             </div>
-            
-            <div class="d-flex align-items-center pb-3">
-                <label style="margin-right: 12px;" for="">Seccion por docente:</label>
-                <select class="form-select" id="id_seccion_docente" name="seccion_docente">
-                    <option selected>--</option>
-                    <option value="001-D">001-D</option>
-                    <option value="002-D">002-D</option>
-                    <option value="003-D">003-D</option>
-                    <option value="005-D">005-D</option>
-                    <option value="001-D / 003-D">001-D / 003-D</option>
-                    <option value="002-D / 004-D">002-D / 004-D</option>
-                    <option value="001-D / 002-D / 003-D">001-D / 002-D / 003-D</option>
-                    <option value="001-D / 003-D / 005-D">001-D / 003-D / 005-D</option>
-                    <option value="Por Definir">Por Definir</option>
-                </select>
-            </div>
+
+            <hr>
+
+
+            <p class='h4'>Seccion por docente:</p>
+
+                {% for checkbox in form.seccion %}
+                <div class="form-check">
+                    {{ checkbox.tag }}
+                    <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                        {{ checkbox.choice_label }}
+                    </label>
+                </div>
+                {% endfor %}
+
+                <hr>
 
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Docente titular:</label>
-                <select class="form-select" id="id_docente_titular" name="docente_titular">
-                    <option selected>--</option>
-                    <option value="Cristián Thorsoe">Cristián Thorsoe</option>
-                    <option value="Matías Sierra">Matías Sierra</option>
-                    <option value="Valentina Vergara">Valentina Vergara</option>
-                    <option value="Hernán Castillo">Hernán Castillo</option>
-                    <option value="Ramón Andrade">Ramón Andrade</option>
-                    <option value="Fernando Retamal">Fernando Retamal</option>
-                    <option value="Marcela Cerda">Marcela Cerda</option>
-                    <option value="Christian Guntert">Christian Guntert</option>
-                    <option value="Victoria Leiva">Victoria Leiva</option>
-                    <option value="No se requiere">No se requiere</option>
-                </select>
+                {{ form.docente_titular }}
             </div>
             
-            <div class="pb-3">
-                <div class="form-floating">
-                    <textarea class="form-control" placeholder="Leave a comment here" id="id_docentes_apoyo" name="docentes_apoyo"></textarea>
-                    <label for="floatingTextarea">Docentes de apoyo...</label>
-                </div>
+            <hr>
+
+            <p class='h5'>Docentes de apoyo...:</p>
+
+            {% for checkbox in form.docentes_apoyo %}
+            <div class="form-check">
+                {{ checkbox.tag }}
+                <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                    {{ checkbox.choice_label }}
+                </label>
             </div>
+            {% endfor %}
+
+
+            <hr>
+
+
+
+
+            
 
             <div class="form-floating pb-3">
-                <input type="number" id="typeNumber" name="num_salida" class="form-control" />
+                {{ form.num_salida }}
                 <label class="form-label" for="typeNumber">Numero de salida</label>
             </div>
-            
-            <div class="d-flex align-items-center pb-3">
-                <label style="margin-right: 12px;" for="">Asig. comp. terreno:</label>
-                <select class="form-select" id="id_asig_comp_terreno" name="asig_comp_terreno">
-                    <option selected>--</option>
-                    <option value="Taller de Actividades al Aire Libre II">Taller de Actividades al Aire Libre II</option>
-                    <option value="Taller de Actividades al Aire Libre IV">Taller de Actividades al Aire Libre IV</option>
-                    <option value="Planificación y Logística de Programas Ecoturísticos">Planificación y Logística de Programas Ecoturísticos</option>
-                    <option value="Taller de Gestión de Riesgos en Zonas Remotas / Taller de Integración de Ecoturismo en Áreas Silvestres">Taller de Gestión de Riesgos en Zonas Remotas / Taller de Integración de Ecoturismo en Áreas Silvestres</option>
-                    <option value="Administración Turística de Áreas Protegidas / Taller de Integración de Ecoturismo en Áreas Silvestres">Administración Turística de Áreas Protegidas / Taller de Integración de Ecoturismo en Áreas Silvestres</option>
-                    <option value="Administración Turística de Áreas Protegidas / Taller de Gestión de Riesgos en Zonas Remotas">Administración Turística de Áreas Protegidas / Taller de Gestión de Riesgos en Zonas Remotas</option>
-                    <option value="Taller Básico de Primeros Auxilios en Áreas Silvestres / Taller de Actividades al Aire Libre II">Taller Básico de Primeros Auxilios en Áreas Silvestres / Taller de Actividades al Aire Libre II</option>
-                    <option value="Técnicas de Guiado e interpretación del patrimonio natural / Taller Básico de Primeros Auxilios en Áreas Silvestres">Técnicas de Guiado e interpretación del patrimonio natural / Taller Básico de Primeros Auxilios en Áreas Silvestres</option>
-                    <option value="Taller de Actividades al Aire Libre II / Técnicas de Guiado e interpretación del patrimonio natural">Taller de Actividades al Aire Libre II / Técnicas de Guiado e interpretación del patrimonio natural</option>
-                    <option value="No Comparte">No Comparte</option>
-                </select>
+
+
+            <hr>
+
+
+            <p class='h5'>Asig. comp. terreno:</p>
+
+            {% for checkbox in form.asig_comp_terreno %}
+            <div class="form-check">
+                {{ checkbox.tag }}
+                <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                    {{ checkbox.choice_label }}
+                </label>
             </div>
-        
-        
+            {% endfor %}
+
+
+            <hr>
+            
             <div class="form-floating pb-3">
-                <textarea class="form-control" placeholder="Leave a comment here" id="id_observaciones" name="observaciones" style="height: 100px"></textarea>
+                {{ form.observaciones }}
                 <label for="floatingTextarea2">Observaciones...</label>
             </div>
+
+
+            <hr>
 
             <div class="d-grid gap-2 col-6 mx-auto">
                 <button class="btn btnagre" type="button">Listar Alumnos</button>
                 <button class="btn btnagre" type="button" onclick="submitForm()">Generar salida a Terreno <i class="fa-regular fa-square-plus mas"></i></button>
 
             </div>
-            
+
+
+   
+
             <script>
                 function submitForm() {
                     // Obtener todos los campos de entrada del formulario
@@ -252,6 +245,10 @@
         </form>
     </div>
 </div>
+
+
+
+
 
    
 

@@ -75,7 +75,7 @@
             <tr class="tabla text-center tacs">
                 <td>{{ s.situacion | title }}</td>
                 <td>{{ s.numero_cuenta | title }}</td>
-                <td>{{ s.semestre | title }}</td>
+                <td>{{ s.semestre  }}</td>
                 <td>{{ s.anio | title }}</td>
                 <td>{{ s.semana | title }}</td>
                 <td>{{ s.actividad | title }}</td>
@@ -83,16 +83,40 @@
                 <td>{{ s.fecha_termino | title }}</td>
                 <td>{{ s.dias | title }}</td>
                 <td>{{ s.noches | title }}</td>
-                <td>{{ s.dias_actividad | title }}</td>
+                <td>
+                    {% for dia in s.diasemana.all %}
+                        {{ dia.nombre }}
+                        {% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                
                 <td>{{ s.lugar_ejecucion | title }}</td>
                 <td>{{ s.asignatura | title }}</td>
                 <td>{{ s.exp_aprendizaje | title }}</td>
                 <td>{{ s.num_alumnos | title }}</td>
-                <td>{{ s.seccion_docente | title }}</td>
+                <td>
+                    {% for sec in s.seccion.all %}
+                        {{ sec.nombre }}
+                        {% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                
                 <td>{{ s.docente_titular | title }}</td>
-                <td>{{ s.docentes_apoyo | title }}</td>
+                <td>
+                    {% for docente_apoyo in s.docentes_apoyo.all %}
+                        {{ docente_apoyo.user.get_full_name }}
+                        {% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                
                 <td>{{ s.num_salida | title }}</td>
-                <td>{{ s.asig_comp_terreno | title }}</td>
+                <td>
+                    {% for asignatura in s.asig_comp_terreno.all %}
+                        {{ asignatura.nombre }}
+                        {% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                
                 <td>{{ s.observaciones | title }}</td>
                 <td class="">
                     <a href="{% url 'editar_salida' s.id %}" class="btn btn-primary btn-sm">Editar</a>
