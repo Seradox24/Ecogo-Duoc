@@ -1,15 +1,19 @@
+from pyexpat.errors import messages
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SalidaTerrenoForm
+from .forms import SalidaTerrenoForm, UsersMetadataForm
 from .models import SalidaTerreno
 from core.decorators import Coordinador_required
 from django.contrib.auth.decorators import login_required
+from core.models import UsersMetadata
+from django.contrib.auth.decorators import login_required
+from .forms import UserCreationWithMetadataForm, UsersMetadataForm
 from django.contrib import messages
-# Create your views here.
 from .forms import AsignaturaForm
 import pandas as pd
 from django.http import HttpResponseBadRequest
 from .utils import store_data_frame_in_session, retrieve_data_frame_from_session, clear_data_frame_from_session
 from django.http import HttpResponse
+
 
 
 @login_required
@@ -34,7 +38,7 @@ def gest_users(request):
 @login_required
 @Coordinador_required
 def crear_salida(request):
-    mensaje = ""  # Inicializa la variable con un valor predeterminado
+    mensaje = ""
     if request.method == 'POST':
         form = SalidaTerrenoForm(request.POST)
         if form.is_valid():
@@ -92,6 +96,75 @@ def eliminar_salida(request, id):
     messages.success(request, "Eliminado correctamente!")
     return redirect(to="listar_salida")
 
+
+
+
+
+
+@login_required
+@Coordinador_required
+def gest_usuarios(request):
+    if request.method == 'POST':
+        form = UsersMetadataForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('nombre_de_tu_vista')
+    else:
+        form = UsersMetadataForm()
+
+    return render(request, 'db_coordinador/db_gest_usuarios.html', {'form': form})
+
+
+def agreg_usuarios(request):
+    if request.method == 'POST':
+        user_form = UserCreationWithMetadataForm(request.POST)
+        metadata_form = UsersMetadataForm(request.POST)
+
+        if user_form.is_valid() and metadata_form.is_valid():
+            user = user_form.save()
+            metadata = metadata_form.save(commit=False)
+            metadata.user = user
+            metadata.username_field = user.username
+            metadata.save()
+            return redirect('gest_usuarios') 
+    else:
+        user_form = UserCreationWithMetadataForm()
+        metadata_form = UsersMetadataForm()
+
+    return render(request, 'db_coordinador/db_agreg_usuarios.html', {'user_form': user_form, 'metadata_form': metadata_form})
+
+
+def gest_usuarios(request):
+    usuarios = UsersMetadata.objects.all()
+    return render(request, 'db_coordinador/db_gest_usuarios.html', {'usuarios': usuarios})
+
+
+def edit_usuarios(request, id):
+    usuario = get_object_or_404(UsersMetadata, id=id)
+
+    if request.method == 'POST':
+        user_form = UserCreationWithMetadataForm(request.POST, instance=usuario.user)
+        metadata_form = UsersMetadataForm(request.POST, instance=usuario)
+
+        if user_form.is_valid() and metadata_form.is_valid():
+            
+            if user_form.cleaned_data['username'] != usuario.user.username or user_form.cleaned_data['email'] != usuario.user.email:
+                user_form.save()
+
+            metadata_form.save()
+
+            messages.success(request, 'Usuario actualizado exitosamente.')
+            return redirect('lista_usuarios')
+
+    else:
+        user_form = UserCreationWithMetadataForm(instance=usuario.user)
+        metadata_form = UsersMetadataForm(instance=usuario)
+
+    return render(request, 'db_coordinador/db_edit_usuarios.html', {'user_form': user_form, 'metadata_form': metadata_form, 'usuario': usuario})
+
+
+def eliminar_usuarios(request):
+    return render(request, 'db_coordinador/db_gest_usuarios.html')
 
 
 @login_required

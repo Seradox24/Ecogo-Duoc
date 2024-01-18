@@ -7,7 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django import forms
 from django.utils import timezone
-
+from docente.forms import AsignaturaForm
+from core.models import Asignatura
 
 @login_required
 @Docente_required
@@ -62,10 +63,6 @@ def gest_asig(request):
     return render(request, 'db_docente/db_docente_gest_asig.html', {'asignaturas': asignaturas})
     
 
-class AsignaturaForm(forms.ModelForm):
-    class Meta:
-        model = Asignatura
-        fields = ['nombre', 'sigla', 'docentes', 'secciones',]
 
 
 @login_required
@@ -92,3 +89,5 @@ def eliminar_asignatura(request, asignatura_id):
         asignatura.delete()
         return redirect('gest_asig') 
     return render(request, 'db_docente/db_docente_gest_asig.html', {'asignatura': asignatura})
+
+
