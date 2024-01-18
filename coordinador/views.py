@@ -292,7 +292,8 @@ def cargar_datos(request):
                 userito = row['CORREO DUOC'].replace(" ", "") 
                 jornada = row['JORNADA'].replace(" ", "") 
                 nombre = row['NOMBRES'].replace(" ", "")  # Elimina espacios del nombre
-                apellido_paterno = row['AP.PATERNO'].replace(" ", "")  # Elimina espacios del apellido
+                apellido_paterno = row['AP.PATERNO'].replace(" ", "")
+                apellido_materno = row['AP.MATERNO'].replace(" ", "")  # Elimina espacios del apellido
                 print(f"-{rut}- {userito} - - {jornada} - - {nombre} - - {apellido_paterno}  - {userito}")
                 print(f"contraseña = {rut}{jornada}{nombre[:3]}{apellido_paterno[-2:]}")
                
@@ -305,7 +306,7 @@ def cargar_datos(request):
                     print(user.password)
                     print(perfil_alumno)
                     user.save()
-                    UsersMetadata.objects.update(sexo_id=1, perfil_id=1, user_id=user.id,)
+                    UsersMetadata.objects.update(sexo_id=1,nombres=nombre,ap_paterno=apellido_paterno,ap_materno =apellido_materno, perfil_id=1, user_id=user.id,)
 
                     # Obtiene o crea el objeto UsersMetadata asociado al usuario
                     
@@ -324,7 +325,7 @@ def cargar_datos(request):
 
 
                     # Crea el objeto UsersMetadata asociado al nuevo usuario
-                    UsersMetadata.objects.create(sexo_id=1, perfil_id=1, user_id=user.id,)
+                    UsersMetadata.objects.create(sexo_id=1,nombres=nombre,ap_paterno=apellido_paterno,ap_materno =apellido_materno, perfil_id=1, user_id=user.id,)
 
             # Elimina el DataFrame de la sesión del usuario
             del request.session['data_frame']
