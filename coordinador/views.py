@@ -306,7 +306,7 @@ def cargar_datos(request):
                     print(user.password)
                     print(perfil_alumno)
                     user.save()
-                    UsersMetadata.objects.update(sexo_id=1,nombres=nombre,ap_paterno=apellido_paterno,ap_materno =apellido_materno, perfil_id=1, user_id=user.id,)
+                    UsersMetadata.objects.update(sexo_id=1,nombres=nombre,ap_paterno=apellido_paterno,ap_materno =apellido_materno, perfil_id=1,)
 
                     # Obtiene o crea el objeto UsersMetadata asociado al usuario
                     
