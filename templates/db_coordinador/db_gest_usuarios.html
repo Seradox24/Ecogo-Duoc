@@ -18,11 +18,7 @@
             <strong>Nombre de usuario:</strong> {{ usuario.user.username }}<br>
             <strong>Correo:</strong> {{ usuario.user.email }}<br>
             <strong>Perfil:</strong> {{ usuario.perfil.nombre }}<br>
-            <strong>Género:</strong> {{ usuario.genero.nombre }}<br>
-            <strong>País:</strong> {{ usuario.pais.nombre }}<br>
-            <strong>Comuna:</strong> {{ usuario.comuna.nombre }}<br>
-            <strong>Teléfono:</strong> {{ usuario.telefono }}<br>
-            <strong>Dirección:</strong> {{ usuario.direccion }}<br>
+            <strong>Sexo:</strong> {{ usuario.sexo.nombre }}<br>
             <strong>Estado:</strong> {{ usuario.estado }}<br>
           </div>
           <div class="d-flex align-items-center">
@@ -33,7 +29,7 @@
             </form>
           </div>
         </div>
-      </li>
+      </li> 
       {% empty %}
       <li class="list-group-item">No hay usuarios disponibles.</li>
       {% endfor %}
