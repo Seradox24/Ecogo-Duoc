@@ -1,6 +1,6 @@
 from pyexpat.errors import messages
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SalidaTerrenoForm, UsersMetadataForm
+from .forms import SalidaTerrenoForm, UserCreationWithMetadataForm, UserEditForm, UsersMetadataForm
 from .models import SalidaTerreno
 from core.decorators import Coordinador_required
 from django.contrib.auth.decorators import login_required
@@ -137,7 +137,7 @@ def agreg_usuarios(request):
             metadata.user = user
             metadata.username_field = user.username
             metadata.save()
-            return redirect('gest_usuarios') 
+            return redirect('gest-usuarios') 
     else:
         user_form = UserCreationWithMetadataForm()
         metadata_form = UsersMetadataForm()
@@ -154,25 +154,21 @@ def edit_usuarios(request, id):
     usuario = get_object_or_404(UsersMetadata, id=id)
 
     if request.method == 'POST':
-        user_form = UserCreationWithMetadataForm(request.POST, instance=usuario.user)
+        user_form = UserEditForm(request.POST, instance=usuario.user)
         metadata_form = UsersMetadataForm(request.POST, instance=usuario)
 
         if user_form.is_valid() and metadata_form.is_valid():
-            
-            if user_form.cleaned_data['username'] != usuario.user.username or user_form.cleaned_data['email'] != usuario.user.email:
-                user_form.save()
-
+            user_form.save()
             metadata_form.save()
 
             messages.success(request, 'Usuario actualizado exitosamente.')
-            return redirect('lista_usuarios')
+            return redirect('gest-usuarios')
 
     else:
-        user_form = UserCreationWithMetadataForm(instance=usuario.user)
+        user_form = UserEditForm(instance=usuario.user)
         metadata_form = UsersMetadataForm(instance=usuario)
 
     return render(request, 'db_coordinador/db_edit_usuarios.html', {'user_form': user_form, 'metadata_form': metadata_form, 'usuario': usuario})
-
 
 def eliminar_usuarios(request):
     return render(request, 'db_coordinador/db_gest_usuarios.html')

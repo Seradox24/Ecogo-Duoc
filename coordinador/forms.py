@@ -1,6 +1,7 @@
 from django import forms
 from .models import SalidaTerreno, DiaSemana
 from core.models import Asignatura, UsersMetadata, Perfiles
+from django.contrib.auth.forms import UserChangeForm
 
 SEMESTRE_CHOICES = [
     ('I', 'I'),
@@ -89,7 +90,7 @@ class UsersMetadataForm(forms.ModelForm):
             'slug': forms.TextInput(attrs={'placeholder': 'Ingrese el slug'}),
         }
 
-        
+    
 class UserCreationWithMetadataForm(UserCreationForm):
     email = forms.EmailField(required=True, help_text='Requerido. Ingresa una dirección de correo electrónico válida.')
 
@@ -97,18 +98,32 @@ class UserCreationWithMetadataForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
+class UserEditForm(UserChangeForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+
+class UsersMetadataForm(forms.ModelForm):
+    class Meta:
+        model = UsersMetadata
+        exclude = ['user']  # Puedes excluir campos adicionales si es necesario
 
 class UsersMetadataForm(forms.ModelForm):
     username_field = forms.CharField(required=False, widget=forms.HiddenInput())  # Campo adicional para capturar el nombre de usuario
-
+    fields = ['sexo','sexo', 'perfil', 'nacionalidad', 'semestre', 'sede', 'nom_carrera', 'modalidad', 'jornada', 'rut', 'nombres', 'ap_paterno', 'ap_materno', 'fnacimiento', 'estado_civil', 'direccion', 'numero', 'celular', 'contacto_emergencia', 'estado', 'foto', ]
     class Meta:
         model = UsersMetadata
-        exclude = ['user', 'slug', 'correo']  
+        exclude = ['user', 'slug', 'correoduoc']  
         widgets = {
             'comuna': forms.Select(attrs={'class': 'select2'}),
             'slug': forms.TextInput(attrs={'placeholder': 'Ingrese el slug', 'readonly': 'readonly'}),
         }
-
+        labels = {
+            'nom_carrera': 'Carrera',
+            'ap_paterno': 'Apellido paterno',
+            'fnacimiento': 'Financimiento',
+            # Agrega más campos y etiquetas según sea necesario
+        }
 
 from core.models import Asignatura, UsersMetadata, Perfiles
 
