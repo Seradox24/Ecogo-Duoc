@@ -7,37 +7,11 @@
 {% load humanize %}
 
 
-{% block js %}
-    <script>
-        function confirmarEliminacion(enlace) {
-            Swal.fire({
-                title: "¿Estás seguro?",
-                text: "Esta acción no se puede deshacer",
-                icon: "warning",
-                showCancelButton: true,
-                cancelButtonText: "No, Cancelar",
-                confirmButtonText: "Sí, Eliminar",
-                reverseButtons: true,
-                confirmButtonColor: "darkred"
-            }).then((result) => {
-                // result.value será true si se hizo clic en "Sí, Eliminar"
-                if (result.value) {
-                    // Redirigir solo si se confirma la eliminación
-                    window.location.href = enlace.href;
-                }
-            });
-        }
-    </script>
-{% endblock %}
 
 <div class="card text-bg-dark align-items-center">
     <h1>Lista de Salidas a Terreno</h1>
 </div>
 <br>
-
-<div class="d-grid gap-2 col-6 mx-auto">
-    <a class="btn btnagre" href="{% url 'crear_salida' %}">Agregar nueva salida a Terreno <i class="fa-regular fa-square-plus mas"></i></a>
-</div>
 
 <br>
 
@@ -66,8 +40,6 @@
                 <th>Numero de salida</th>
                 <th>Asig. comp. terreno</th>
                 <th>Observaciones</th>
-                <th colspan="2">Opciones</th>
-              
             </tr>
         
             {% for s in salidas %}
@@ -118,21 +90,13 @@
                 </td>
                 
                 <td>{{ s.observaciones | title }}</td>
-                <td class="">
-                    <a href="{% url 'editar_salida' s.id %}" class="btn btn-primary btn-sm">Editar</a>
-                    
-                    
-                </td>
-                <td>
-                    <a href="{% url 'eliminar_salida' s.id %}" onclick="confirmarEliminacion(this); return false;" class="btn btn-danger btn-sm">Eliminar</a>
-                </td>
                 
             </tr>
         
             {% endfor %}
         
         </table>
-        
+                
         <div>
             {% include 'layout/paginator.html' %}
         </div>
