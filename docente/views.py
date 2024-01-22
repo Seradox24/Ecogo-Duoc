@@ -9,6 +9,9 @@ from django import forms
 from django.utils import timezone
 from docente.forms import AsignaturaForm
 from core.models import Asignatura
+from coordinador.models import SalidaTerreno
+from django.core.paginator import Paginator
+from django.http import Http404
 
 @login_required
 @Docente_required
@@ -26,12 +29,6 @@ def ji_docente(request):
 @Docente_required
 def msalida_docente(request):
     return render(request, 'db_docente/db_docente_mysali.html')
-
-
-@login_required
-@Docente_required
-def crear_salida(request):
-    return render(request, 'db_docente/db_docente_crear_sl.html')
 
 
 @login_required
@@ -91,3 +88,23 @@ def eliminar_asignatura(request, asignatura_id):
     return render(request, 'db_docente/db_docente_gest_asig.html', {'asignatura': asignatura})
 
 
+@login_required
+@Docente_required
+def docente_listar_salida(request):
+
+    salidas = SalidaTerreno.objects.all()
+    page = request.GET.get('page', 1)
+
+    try:
+        paginator = Paginator(salidas, 5)
+        salidas = paginator.page(page)
+    except:
+        raise Http404
+
+
+    data = {
+        'salidas': salidas,
+        'paginator': paginator
+    }
+
+    return render(request, 'db_docente/db_docente_listar_salida.html',data)
