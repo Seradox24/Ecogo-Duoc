@@ -18,50 +18,14 @@
 
 <!-- luego hay que hacer que sea dinamico con un arrary y un if para el permiso de usuario -->
 
-      <nav class="navbar colormn navbar-expand-lg ">
-          <div class="container-fluid ">
-
-            <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon text-danger"></span>
-            </button>
-
-            <div class="collapse navbar-collapse " id="navbarNav">
-              <ul class="navbar-nav d-lg-none">
-                {% for url in urls %}
-
-                <li class="nav-item py-2 py-sm-0 mb-4">
-                  <a href="{% url url.url %}" class="nav-link text-white text-center {% if request.resolver_match.url_name == url.url or request.resolver_match.url_name == url.url or request.resolver_match.url_name == url.url %}active{% endif %}">
-                      <i class="fs-5 fa fa-house "></i><span class=" fs-4 ms-2 d-sm-inline">{{ url.nombre }}</span>
-                  </a>
-              </li>
-              {% endfor %}
-              <div class="dropdown open  text-center">
-                <a class="btn dropdown-toggle text-white p-3 bg-info bg-opacity-10 border border-info border-start-0 rounded-end" type="button" id="triggerId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-user"></i><span class="ms-2">{{user.username}}</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="triggerId">
-                    
-                    <a class="dropdown-item p-3 bg-info bg-opacity-10 border border-info border-start-0 rounded-end" href="{% url 'aperfil' %}">Perfil</a>
-                    <a class="dropdown-item p-3 bg-danger bg-opacity-10 border border-info border-start-0 rounded-end" href="{% url 'logout' %}">Salir</a>
-                </div>
-            </div>
-              </ul>
-            </div>
-
-              <a class="navbar-brand d-flex align-items-center" href="#">
-                  <img src="{% static 'images/ecogo.png' %}" alt="Logo" class="d-inline-block align-text-top logo-img ">
-                  <strong class="text-white ms-2 fs-3 position-relative py-2 px-4  ">EcoGo</strong>
-              </a>
-          </div>
-      </nav>
+     {% include 'includes/sidebar_dashboard.html' %}
 
   </header>
 
 <!-- aca hay un break point para que el menu side no apareza cuando es pantalla pequeña hay que probar si cual es limite y modificarlo  -->
-  
 
 <!-- contenido -->
-{% include 'includes/sidebar_dashboard.html' %}
+
 
 <div class="p-2 text-black flex-fill">
   {% block content %}  
