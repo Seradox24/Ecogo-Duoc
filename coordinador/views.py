@@ -159,9 +159,19 @@ def edit_usuarios(request, id):
 
     return render(request, 'db_coordinador/db_edit_usuarios.html', {'user_form': user_form, 'metadata_form': metadata_form, 'usuario': usuario})
 
-def eliminar_usuarios(request):
-    return render(request, 'db_coordinador/db_gest_usuarios.html')
+def eliminar_usuarios(request, id):
+    # Obtén la instancia del usuario que deseas eliminar
+    usuario = get_object_or_404(UsersMetadata, id=id)
 
+    if request.method == 'POST':
+        # Elimina el usuario
+        usuario.user.delete()
+        usuario.delete()
+        
+        # Redirige a la página de lista de usuarios u otra página según tus necesidades
+        return redirect('gest-usuarios')
+
+    return render(request, 'ruta_de_la_plantilla_para_confirmar_eliminar.html', {'usuario': usuario})
 
 @login_required
 @Coordinador_required
