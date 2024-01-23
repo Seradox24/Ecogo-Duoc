@@ -2,25 +2,30 @@
     {% csrf_token %}
     <button type="submit" class="btn btn-outline-primary">Cargar Datos</button>
 </form>
+
+<form method="post" action="{% url 'eliminar_usuarios' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-outline-danger">Eliminar Usuarios</button>
+</form>
+
 <div class="table-responsive">
-  <table class="table">
-    <thead>
-        <tr>
-            {% for column in data_frame.columns %}
-                <th>{{ column }}</th>
-            {% endfor %}
-        </tr>
-    </thead>
-    <tbody>
-        {% for index, row in data_frame.iterrows %}
+    <table class="table">
+        <thead>
             <tr>
-                {% for value in row %}
-                    <td>{{ value }}</td>
+                {% for column in data_frame.columns %}
+                    <th>{{ column }}</th>
                 {% endfor %}
             </tr>
-        {% endfor %}
-    </tbody>
-  </table>
-
- 
+        </thead>
+        <tbody>
+            {% for index, row in data_frame.iterrows %}
+                <tr>
+                    {% for value in row %}
+                        <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
+

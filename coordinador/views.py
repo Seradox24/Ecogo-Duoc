@@ -299,6 +299,7 @@ def cargar_datos(request):
                 userito = row['CORREO DUOC'].replace(" ", "") 
                 jornada = row['JORNADA'].replace(" ", "") 
                 nombre = row['NOMBRES'].replace(" ", "")  # Elimina espacios del nombre
+                nombrecarga = row['NOMBRES']
                 apellido_paterno = row['AP.PATERNO'].replace(" ", "")
                 apellido_materno = row['AP.MATERNO'].replace(" ", "")  # Elimina espacios del apellido
                 print(f"-{rut}- {userito} - - {jornada} - - {nombre} - - {apellido_paterno}  - {userito}")
@@ -316,7 +317,7 @@ def cargar_datos(request):
                     users_metadata, created = UsersMetadata.objects.get_or_create(user=user)
                     if not created:
                         users_metadata.sexo_id = 1
-                        users_metadata.nombres = nombre
+                        users_metadata.nombres = nombrecarga
                         users_metadata.ap_paterno = apellido_paterno
                         users_metadata.ap_materno = apellido_materno
                         users_metadata.perfil_id = 1
@@ -343,7 +344,7 @@ def cargar_datos(request):
 
 
                     # Crea el objeto UsersMetadata asociado al nuevo usuario
-                    UsersMetadata.objects.create(sexo_id=1,nombres=nombre,ap_paterno=apellido_paterno,ap_materno =apellido_materno, perfil_id=1, user_id=user.id,)
+                    UsersMetadata.objects.create(sexo_id=1,nombres=nombrecarga,ap_paterno=apellido_paterno,ap_materno =apellido_materno, perfil_id=1, user_id=user.id,)
 
             # Elimina el DataFrame de la sesión del usuario
             del request.session['data_frame']
@@ -351,3 +352,36 @@ def cargar_datos(request):
         return redirect('home_coordinador')
 
     return HttpResponseBadRequest("Bad Request: Se esperaba una solicitud POST.")
+
+
+
+def eliminar_usuarios(request):
+    # Intenta obtener el DataFrame de la sesión
+    data_frame_dict = request.session.get('data_frame')
+    
+    # Verifica si el DataFrame existe y tiene la columna 'CORREO DUOC'
+    if data_frame_dict is not None and 'CORREO DUOC' in data_frame_dict:
+        # Crea el DataFrame
+        df = pd.DataFrame.from_dict(data_frame_dict)
+
+        # Itera sobre el DataFrame y obtén la lista de correos
+        lista_correos = df['CORREO DUOC'].str.replace(" ", "").tolist()
+
+        # Filtra los usuarios que tienen correos en la lista
+        users_to_delete = User.objects.filter(username__in=lista_correos)
+
+        # Itera sobre los usuarios y elimínalos junto con sus UsersMetadata asociados
+        for user in users_to_delete:
+            try:
+                user_metadata = UsersMetadata.objects.get(user=user)
+                user_metadata.delete()
+            except UsersMetadata.DoesNotExist:
+                # Maneja la excepción si no se encuentra UsersMetadata para el usuario
+                pass
+            user.delete()
+
+        # Puedes redirigir a alguna página después de eliminar los usuarios si es necesario
+        return redirect('home_coordinador')  # Reemplaza 'nombre_de_tu_vista' con el nombre de tu vista correspondiente
+
+    # Lógica para el caso en que no se encuentre el DataFrame o la columna 'CORREO DUOC'
+    return render(request, 'error.html', {'mensaje': 'Error en la sesión de datos o estructura incorrecta del DataFrame'})

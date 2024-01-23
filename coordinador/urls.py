@@ -19,4 +19,5 @@ urlpatterns = [
 	path('listar-alumnos-sl/', listar_alumnos_sl, name="listar_alumnos_sl"),
 	path('carga-masiva-alumno/', carga_masiva_alumno, name="carga_masiva_alumno"),
     path('cargar-datos/', cargar_datos, name="cargar_datos"),
+    path('eliminar-usuarios/', eliminar_usuarios, name="eliminar_usuarios"),
 ] 

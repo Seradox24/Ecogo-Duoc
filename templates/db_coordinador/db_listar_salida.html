@@ -104,7 +104,7 @@
                 <td>{{ s.docente_titular | title }}</td>
                 <td>
                     {% for docente_apoyo in s.docentes_apoyo.all %}
-                        {{ docente_apoyo.user.get_full_name }}
+                        {{ docente_apoyo }}
                         {% if not forloop.last %}, {% endif %}
                     {% endfor %}
                 </td>
