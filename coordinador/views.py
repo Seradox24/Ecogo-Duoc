@@ -380,7 +380,7 @@ def cargar_datos(request):
 
 
 
-def eliminar_usuarios(request):
+def eliminar_usuarios_mv(request):
     # Intenta obtener el DataFrame de la sesión
     data_frame_dict = request.session.get('data_frame')
     
