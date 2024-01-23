@@ -14,6 +14,7 @@ from django.http import Http404, HttpResponseBadRequest
 from .utils import store_data_frame_in_session, retrieve_data_frame_from_session, clear_data_frame_from_session
 from django.http import HttpResponse
 from django.core.paginator import Paginator
+from django.http import Http404
 
 
 @login_required
@@ -54,9 +55,18 @@ def crear_salida(request):
 @Coordinador_required
 def listar_salida(request):
     salidas = SalidaTerreno.objects.all()
+    page = request.GET.get('page', 1)
+
+    try:
+        paginator = Paginator(salidas, 5)
+        salidas = paginator.page(page)
+    except:
+        raise Http404
+
 
     data = {
-        'salidas': salidas
+        'salidas': salidas,
+        'paginator': paginator
     }
 
     return render(request, 'db_coordinador/db_listar_salida.html', data)

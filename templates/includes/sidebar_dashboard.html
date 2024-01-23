@@ -1,4 +1,4 @@
-<div class="container-fluid   ">
+{% comment %} <div class="container-fluid   ">
     <div class="row flex-nowrap ">
         <div class="colormn col-auto col-md-3 col-lg-1 min-vh-100 d-flex flex-column justify-content-between d-none d-lg-block">
             <div class="colormn p-2   ">
@@ -33,8 +33,94 @@
             </div>
             
 
-        </div>
+        </div> {% endcomment %}
 
+        {% load static %}
         
+        <nav class="navbar  navbar-dark colormn ">
+            <div class="container-fluid">
 
+              
+              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+
+              <a class="navbar-brand d-flex align-items-center" href="#">
+                  <img src="{% static 'images/ecogo.png' %}" alt="Logo" class="d-inline-block align-text-top logo-img ">
+                  <strong class="text-white ms-2 fs-3 position-relative py-2 px-4  ">EcoGo</strong>
+              </a>
+
+              <div class="offcanvas offcanvas-start text-bg-dark " tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header colormn ">
+                  <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Bienvenido : <br> {{user.usersmetadata.nombres}} {{user.usersmetadata.ap_paterno}} {{user.usersmetadata.ap_materno}}</h5>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+
+                
+               
+                
+                <div class="offcanvas-body colormn ">
+                    <hr>
+                  <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+
+
+                     {% for url in urls %}
+
+                     <li class="nav-item">
+
+                        
+                        <a class="nav-link {% if request.resolver_match.url_name == url.url %}active{% endif %}" aria-current="page" href="{% url url.url %}">
+                            <i class="{{ url.icon }} "></i><span class=" fs-4 ms-2 d-sm-inline">{{ url.nombre }}</span>
+                            
+                            
+
+                        </a>
+                      </li>
+
+                
+                    {% endfor %}
+
+                    
+
+
+
+
+
+                    <hr>
+                    {% comment %} <li class="nav-item">
+                      <a class="nav-link" href="#">Link</a>
+                    </li> {% endcomment %}
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class=" fs-4 ms-2 d-sm-inline">Configuraciones</span>
+                            
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-dark">
+                        <li><a class="dropdown-item" href="#">Solicitudes</a></li>
+                        <li><a class="dropdown-item" href="#">Perfil</a></li>
+                        <li>
+                          <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Cambio de Contraseña</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+
+
+                <div class=" d-grid gap-2 pb-3 colormn ">
+                    <a href="{% url 'logout' %}" class="btn btn-danger btn-block">
+                      <i class="fa fa-sign-out me-2"></i> Cerrar Sesión
+                    </a>
+                  </div>
+
+                  
+                  
+
+
+
+                
+              </div>
+            </div>
+          </nav>
         
