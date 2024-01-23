@@ -10,10 +10,10 @@ from .forms import UserCreationWithMetadataForm, UsersMetadataForm
 from django.contrib import messages
 from .forms import AsignaturaForm
 import pandas as pd
-from django.http import HttpResponseBadRequest
+from django.http import Http404, HttpResponseBadRequest
 from .utils import store_data_frame_in_session, retrieve_data_frame_from_session, clear_data_frame_from_session
 from django.http import HttpResponse
-
+from django.core.paginator import Paginator
 
 
 @login_required
@@ -135,8 +135,24 @@ def agreg_usuarios(request):
 
 
 def gest_usuarios(request):
-    usuarios = UsersMetadata.objects.all()
-    return render(request, 'db_coordinador/db_gest_usuarios.html', {'usuarios': usuarios})
+    usuarios = UsersMetadata.objects.all().order_by('nombres')
+    page = request.GET.get('page', 1)
+
+
+
+    try:
+        paginator = Paginator(usuarios, 1)
+        usuarios = paginator.page(page)
+    except:
+        raise Http404
+
+
+    data = {
+        'usuarios': usuarios,
+        'paginator': paginator
+    }
+
+    return render(request, 'db_coordinador/db_gest_usuarios.html', data)
 
 
 def edit_usuarios(request, id):
