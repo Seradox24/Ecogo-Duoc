@@ -17,21 +17,21 @@ def urls_processor(request):
 
             if perfil_nombre == 'Alumno':
                 urls = [
-                    {'url': 'home_alumno', 'nombre': 'Home', 'icon': 'fs-5 fa fa-house'},
+                    {'url': 'home_alumno', 'nombre': 'Home', 'icon': ' txt fa fa-house'},
                     {'url': 'ji_alumno', 'nombre': 'Justificación de Inasistencia', 'icon': 'txt fa fa-heart-circle-plus'},
                     {'url': 'msalida_alumno', 'nombre': 'Mis Salidas', 'icon': 'txt fa fa-person-walking-luggage'},
                     # Añade más URLs para el perfil de alumno aquí
                 ]
             elif perfil_nombre == 'Docente':
                 urls = [
-                    {'url': 'home_docente', 'nombre': 'Home', 'icon': 'fs-5 fa fa-house'},
+                    {'url': 'home_docente', 'nombre': 'Home', 'icon': ' fa fa-house'},
                     {'url': 'gest_asig', 'nombre': 'Gestionar Asignatura', 'icon': 'txt fa fa-book-bookmark'},
 
                     # Añade las URLs para el perfil de docente aquí
                 ]
             elif perfil_nombre == 'Coordinador':
                 urls = [
-                    {'url': 'home_coordinador', 'nombre': 'Home', 'icon': 'fs-5 fa fa-house'},
+                    {'url': 'home_coordinador', 'nombre': 'Home', 'icon': ' txt fa fa fa-house'},
                     {'url': 'listar_salida', 'nombre': 'Gestionar salida a terreno', 'icon': 'txt fa fa-book-bookmark'},
                     
                     {'url': 'gest-usuarios', 'nombre': 'Gestión Usuarios', 'icon': 'txt fa fa-solid fa-users'},
