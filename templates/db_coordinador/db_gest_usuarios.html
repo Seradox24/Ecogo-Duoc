@@ -3,12 +3,39 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+
+{% block js %}
+    <script>
+        function confirmarEliminacion(boton) {
+            Swal.fire({
+                title: "¿Estás seguro?",
+                text: "Esta acción no se puede deshacer",
+                icon: "warning",
+                showCancelButton: true,
+                cancelButtonText: "No, Cancelar",
+                confirmButtonText: "Sí, Eliminar",
+                reverseButtons: true,
+                confirmButtonColor: "darkred"
+            }).then((result) => {
+                // result.value será true si se hizo clic en "Sí, Eliminar"
+                if (result.value) {
+                    // Enviar el formulario si se confirma la eliminación
+                    boton.closest("form").submit();
+                }
+            });
+        }
+    </script>
+{% endblock %}
+
+<div class="card text-bg-dark align-items-center">
+  <h1>Gestión de Usuarios</h1>
+</div>
+
+<br>
+
 <div class="card">
   <div class="card-body">
-    <h5 class="card-title text-center bg-dark text-light">Gestión Usuarios</h5>
-    <div class="mb-3">
-      <a href="{% url 'agreg-usuarios' %}" class="btn btn-success float-end">Agregar Usuario</a>
-    </div>
+      <a href="{% url 'agreg-usuarios' %}" class="btn btn-success float-end">Agregar Usuario <i class="fa-regular fa-square-plus mas"></i></a>
     <h1>Lista de Usuarios</h1>
     <ul class="list-group">
       {% for usuario in usuarios %}
@@ -25,11 +52,11 @@
             <a href="{% url 'edit-usuarios' usuario.id %}" class="btn btn-primary me-2">Editar</a>
             <form method="post" action="{% url 'eliminar-usuarios' usuario.id %}">
               {% csrf_token %}
-              <button type="submit" class="btn btn-danger">Eliminar</button>
+              <button type="button" class="btn btn-danger" onclick="confirmarEliminacion(this)">Eliminar</button>
             </form>
           </div>
         </div>
-      </li> 
+      </li>
       {% empty %}
       <li class="list-group-item">No hay usuarios disponibles.</li>
       {% endfor %}
@@ -40,7 +67,3 @@
   {% include 'layout/paginatorusers.html' %}
 </div>
 {% endblock %}
-
-
-
-
