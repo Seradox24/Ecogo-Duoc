@@ -25,7 +25,8 @@ def urls_processor(request):
             elif perfil_nombre == 'Docente':
                 urls = [
                     {'url': 'home_docente', 'nombre': 'Home', 'icon': ' fa fa-house'},
-                    {'url': 'gest_asig', 'nombre': 'Gestionar Asignatura', 'icon': 'txt fa fa-book-bookmark'},
+                    {'url': 'gest_asig_docente', 'nombre': 'Lista de asignaturas', 'icon': 'txt fa fa-book-bookmark'},
+                    {'url': 'docente_listar_salida', 'nombre': 'Lista de salidas', 'icon': 'txt fa fa-book-bookmark'},
 
                     # Añade las URLs para el perfil de docente aquí
                 ]
@@ -33,7 +34,7 @@ def urls_processor(request):
                 urls = [
                     {'url': 'home_coordinador', 'nombre': 'Home', 'icon': ' txt fa fa fa-house'},
                     {'url': 'listar_salida', 'nombre': 'Gestionar salida a terreno', 'icon': 'txt fa fa-book-bookmark'},
-                    
+                    {'url': 'gest_asig','nombre': 'Gestionar asignaturas', 'icon': 'txt fa fa-book-bookmark'},
                     {'url': 'gest-usuarios', 'nombre': 'Gestión Usuarios', 'icon': 'txt fa fa-solid fa-users'},
                     {'url': 'carga_masiva_alumno', 'nombre': 'Carga Masiva Estudiantes', 'icon': 'txt fa fa-book-bookmark'},
 

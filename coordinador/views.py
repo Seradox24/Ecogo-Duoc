@@ -15,6 +15,8 @@ from .utils import store_data_frame_in_session, retrieve_data_frame_from_session
 from django.http import HttpResponse
 from django.core.paginator import Paginator
 from django.http import Http404
+from coordinador.forms import AsignaturaForm
+from core.models import Asignatura
 
 
 @login_required
@@ -380,7 +382,7 @@ def cargar_datos(request):
 
 
 
-def eliminar_usuarios(request):
+def eliminar_usuarios_mv(request):
     # Intenta obtener el DataFrame de la sesión
     data_frame_dict = request.session.get('data_frame')
     
@@ -410,3 +412,54 @@ def eliminar_usuarios(request):
 
     # Lógica para el caso en que no se encuentre el DataFrame o la columna 'CORREO DUOC'
     return render(request, 'error.html', {'mensaje': 'Error en la sesión de datos o estructura incorrecta del DataFrame'})
+
+
+@login_required
+@Coordinador_required
+def agreg_asig(request):
+    mensaje = None
+
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')[:100]
+        sigla = request.POST.get('sigla')[:10]
+        nueva_asignatura = Asignatura(nombre=nombre, sigla=sigla)
+        nueva_asignatura.save()
+        return redirect('gest_asig')
+
+    return render(request, 'db_coordinador/db_coordinador_agreg_asig.html', {'mensaje': mensaje})
+
+
+@login_required
+@Coordinador_required
+def gest_asig(request):
+    asignaturas = Asignatura.objects.all().order_by('-id')
+    asignaturas = reversed(asignaturas) 
+    return render(request, 'db_coordinador/db_coordinador_gest_asig.html', {'asignaturas': asignaturas})
+    
+
+
+
+@login_required
+@Coordinador_required
+def editar_asignatura(request, asignatura_id):
+    asignatura = get_object_or_404(Asignatura, id=asignatura_id)
+    
+    if request.method == 'POST':
+        form = AsignaturaForm(request.POST, instance=asignatura)
+        if form.is_valid():
+            form.save()
+            return redirect('gest_asig')  
+    else:
+        form = AsignaturaForm(instance=asignatura)
+    
+    return render(request, 'db_coordinador/db_edit_asig.html', {'form': form, 'asignatura': asignatura})
+
+
+@login_required
+@Coordinador_required
+def eliminar_asignatura(request, asignatura_id):
+    asignatura = get_object_or_404(Asignatura, id=asignatura_id)
+    if request.method == 'POST':
+        asignatura.delete()
+        return redirect('gest_asig') 
+    return render(request, 'db_coordinador/db_coordinador_gest_asig.html', {'asignatura': asignatura})
