@@ -2,6 +2,7 @@ from django import forms
 from .models import SalidaTerreno, DiaSemana
 from core.models import Asignatura, UsersMetadata, Perfiles
 from django.contrib.auth.forms import UserChangeForm
+from core.models import Asignatura
 
 SEMESTRE_CHOICES = [
     ('I', 'I'),
@@ -97,31 +98,56 @@ class UserCreationWithMetadataForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
+        
 
 class UserEditForm(UserChangeForm):
     class Meta:
         model = User
         fields = ['username', 'email']
+        widgets = {
+            'username': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
+            'email': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
+        }
+        
 
-class UsersMetadataForm(forms.ModelForm):
-    class Meta:
-        model = UsersMetadata
-        exclude = ['user']  # Puedes excluir campos adicionales si es necesario
+#class UsersMetadataForm(forms.ModelForm):
+ #   class Meta:
+  #      model = UsersMetadata
+   #     exclude = ['user']  # Puedes excluir campos adicionales si es necesario
 
 class UsersMetadataForm(forms.ModelForm):
     username_field = forms.CharField(required=False, widget=forms.HiddenInput())  # Campo adicional para capturar el nombre de usuario
-    fields = ['sexo','sexo', 'perfil', 'nacionalidad', 'semestre', 'sede', 'nom_carrera', 'modalidad', 'jornada', 'rut', 'nombres', 'ap_paterno', 'ap_materno', 'fnacimiento', 'estado_civil', 'direccion', 'numero', 'celular', 'contacto_emergencia', 'estado', 'foto', ]
+    fields = ['sexo', 'perfil', 'nacionalidad', 'semestre', 'sede', 'nom_carrera', 'jornada', 'rut', 'nombres', 'ap_paterno', 'ap_materno', 'fnacimiento', 'estado_civil', 'direccion', 'numero', 'celular', 'contacto_emergencia', 'estado', 'foto', ]
     class Meta:
         model = UsersMetadata
         exclude = ['user', 'slug', 'correoduoc']  
         widgets = {
             'comuna': forms.Select(attrs={'class': 'select2'}),
             'slug': forms.TextInput(attrs={'placeholder': 'Ingrese el slug', 'readonly': 'readonly'}),
+            'sexo': forms.Select(attrs={'class': 'form-select'}),
+            'perfil': forms.Select(attrs={'class': 'form-select'}),
+            'nacionalidad': forms.Select(attrs={'class': 'form-select'}),
+            'semestre': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
+            'sede': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
+            'nom_carrera': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
+            'jornada': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
+            'rut': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
+            'nombres': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
+            'ap_paterno': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
+            'ap_materno': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
+            'fnacimiento': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
+            'estado_civil': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
+            'direccion': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
+            'numero': forms.NumberInput(attrs={'class': 'form-control','type':'number' }),
+            'celular': forms.NumberInput(attrs={'class': 'form-control','type':'number' }),
+            'contacto_emergencia': forms.Select(attrs={'class': 'form-select'}),
+            'foto': forms.NumberInput(attrs={'class': 'form-control','type': 'file'}),
+
         }
         labels = {
             'nom_carrera': 'Carrera',
             'ap_paterno': 'Apellido paterno',
-            'fnacimiento': 'Financimiento',
+            'fnacimiento': 'Fecha de nacimiento',
             # Agrega más campos y etiquetas según sea necesario
         }
 
@@ -147,4 +173,6 @@ class AsignaturaForm(forms.ModelForm):
     class Meta:
         model = Asignatura
         fields = ['nombre', 'sigla', 'docentes', 'secciones']
+
+
 

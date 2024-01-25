@@ -1,5 +1,7 @@
 from django.urls import path, include
 from core import views
+from core import views
+from coordinador import views
 from .views import *
 
 
@@ -20,4 +22,8 @@ urlpatterns = [
 	path('carga-masiva-alumno/', carga_masiva_alumno, name="carga_masiva_alumno"),
     path('cargar-datos/', cargar_datos, name="cargar_datos"),
     path('eliminar-usuarios-mv/', eliminar_usuarios_mv, name="eliminar_usuarios_mv"),
+	path('agreg-asig/', agreg_asig, name="agreg_asig"),
+    path('gest-asig/', gest_asig, name='gest_asig'),
+    path('editar_asignatura/<int:asignatura_id>/', views.editar_asignatura, name='editar_asignatura'),
+    path('eliminar_asignatura/<int:asignatura_id>/', views.eliminar_asignatura, name='eliminar_asignatura'),
 ] 
