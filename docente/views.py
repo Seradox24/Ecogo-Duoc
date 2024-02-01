@@ -12,6 +12,7 @@ from core.models import Asignatura
 from coordinador.models import SalidaTerreno
 from django.core.paginator import Paginator
 from django.http import Http404
+from alumno.models import *
 
 @login_required
 @Docente_required
@@ -22,7 +23,10 @@ def home_docente(request):
 @login_required
 @Docente_required
 def ji_docente(request):
-    return render(request, 'db_docente/db_docente_asis.html')
+    salidas = SalidaTerreno.objects.all()
+    documentos_por_salida = {salida: Documento_inasis.objects.filter(salida_terreno=salida) for salida in salidas}
+
+    return render(request, 'db_docente/db_docente_asis.html', {'documentos_por_salida': documentos_por_salida})
 
 
 @login_required

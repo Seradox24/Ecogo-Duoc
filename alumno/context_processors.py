@@ -27,6 +27,7 @@ def urls_processor(request):
                     {'url': 'home_docente', 'nombre': 'Home', 'icon': ' fa fa-house'},
                     {'url': 'gest_asig_docente', 'nombre': 'Lista de asignaturas', 'icon': 'txt fa fa-book-bookmark'},
                     {'url': 'docente_listar_salida', 'nombre': 'Lista de salidas', 'icon': 'txt fa fa-book-bookmark'},
+                    {'url': 'ji_docente', 'nombre': 'Justificación alumnos', 'icon': 'txt fa fa-book-bookmark'},
 
                     # Añade las URLs para el perfil de docente aquí
                 ]

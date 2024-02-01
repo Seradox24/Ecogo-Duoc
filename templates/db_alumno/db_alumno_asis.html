@@ -33,8 +33,9 @@
                   <td>
                     {% if item.documentos.exists %}
                     {% for documento in item.documentos %}
+                    <p>Ya has subido un documento para esta salida de terreno.</p>
                 <!-- Muestra el enlace del archivo aquí -->
-                 <a href="{{ documento.archivo.url }}">Ver documento</a>
+                 <a href=" {{ documento.archivo.url }}">Ver documento</a> 
             {% endfor %}
             <!-- Muestra el archivo aquí -->
         {% else %}

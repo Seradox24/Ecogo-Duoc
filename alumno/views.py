@@ -115,7 +115,7 @@ def subir_documento(request, salida_terreno_id):
 
     if documento_existente:
         print('Ya has subido un documento para esta salida de terreno.')
-        return redirect('nombre_de_la_vista_donde_redirigir')
+        return redirect('ji_alumno')
 
     if request.method == 'POST':
         # Procesar el formulario para subir documentos
@@ -132,7 +132,7 @@ def subir_documento(request, salida_terreno_id):
         documento.save()
 
         print('Documento subido exitosamente.')
-        return redirect('nombre_de_la_vista_donde_redirigir')
+        return redirect('ji_alumno')
 
     return render(request, 'nombre_de_la_plantilla_para_subir_documento.html', {'salida_terreno': salida_terreno})
    
