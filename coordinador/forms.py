@@ -3,6 +3,12 @@ from .models import SalidaTerreno, DiaSemana
 from core.models import Asignatura, UsersMetadata, Perfiles
 from django.contrib.auth.forms import UserChangeForm
 from core.models import Asignatura
+from django.db import models
+from core import models
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
+
 
 SEMESTRE_CHOICES = [
     ('I', 'I'),
@@ -14,42 +20,41 @@ SEMESTRE_CHOICES = [
     ('VII', 'VII'),
     ('VIII', 'VIII'),
 ]
-from django.db import models
-from core import models
-from .models import SalidaTerreno
-from core.models import UsersMetadata
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from django import forms
-from core.models import UsersMetadata
+
 
 
 class SalidaTerrenoForm(forms.ModelForm):
+
+    
+    
     try:
         # Intenta obtener el perfil de profesor
         perfil_profesor = Perfiles.objects.get(nombre='Docente')
 
         # Filtra los usuarios que tienen el perfil de profesor
         docente_titular = forms.ModelChoiceField(
-            queryset=UsersMetadata.objects.filter(perfil=perfil_profesor),
+            queryset=UsersMetadata.objects.filter(perfil=perfil_profesor),blank=True,
             widget=forms.Select(attrs={'class': 'form-select'}),
         )
         docentes_apoyo = forms.ModelMultipleChoiceField(
             queryset=UsersMetadata.objects.filter(perfil=perfil_profesor),
-            widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox'}),
+            widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox'}),blank=True,
         )
     except Perfiles.DoesNotExist:
         # Si el perfil de profesor no existe, deja el queryset vacío
         docente_titular = forms.ModelChoiceField(
             queryset=UsersMetadata.objects.none(),
-            widget=forms.Select(attrs={'class': 'form-select'}),
+            widget=forms.Select(attrs={'class': 'form-select'}),blank=True,
         )
         docentes_apoyo = forms.ModelMultipleChoiceField(
             queryset=UsersMetadata.objects.none(),
-            widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox'}),
+            widget=forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox'}),blank=True,
         )
-    
-    
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['docentes_apoyo'].required = False
+
 
     class Meta:
         model = SalidaTerreno

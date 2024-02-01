@@ -92,7 +92,12 @@ def editar_salida(request, id):
             messages.success(request, "Modificado Correctamente!")
             return redirect('listar_salida')
         else:
-            print(form.errors)
+             print('editar salida-')
+             print(form.errors)
+             print('Errores específicos de docentes_apoyo:')
+             print(form.errors.get('docentes_apoyo'))
+             print(request.POST)
+
     else:
         form = SalidaTerrenoForm(instance=salida)
 

@@ -78,7 +78,7 @@ class SalidaTerreno(models.Model):
     num_alumnos = models.PositiveIntegerField(validators=[MaxValueValidator(150)], blank=True, null=True)
     seccion =  models.ManyToManyField(Seccion, related_name='salidas_terreno',blank=True,)
     docente_titular = models.ForeignKey(UsersMetadata, on_delete=models.CASCADE, related_name='salidas_terreno_titular',  blank=True, null=True)
-    docentes_apoyo = models.ManyToManyField(UsersMetadata, related_name='salidas_terreno_apoyo',  blank=True,)
+    docentes_apoyo = models.ManyToManyField(UsersMetadata, related_name='salidas_terreno_apoyo',  blank=True)
     num_salida = models.IntegerField(validators=[MaxValueValidator(999)])
     asig_comp_terreno = models.ManyToManyField(Asignatura, related_name='salidas_terreno_asig_comp_terreno', blank=True)
     observaciones = models.TextField()

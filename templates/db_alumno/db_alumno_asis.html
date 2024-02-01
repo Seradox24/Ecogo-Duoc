@@ -9,40 +9,51 @@
 
 
 <div class="card">
-    <div class="card-body">
-        <h5 class="card-title text-bg-dark text-center ">Justificación de inasistencia:</h5>
-     
-        <table class="table table-hover">
-            
-            <thead class="table-light">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Salida a terreno</th>
-                    <th scope="col">Tipo</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Documento</th>
-                  </tr>
-              </thead>
-              <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>- Trekking/Los molles</td>
-                    <td>- Obligatoria</td>
-                    <td>-----</td>
-                    <td>
-                        <div class="input-group">
-                            <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-                            <button class="btn btn-outline-danger" type="button" id="inputGroupFileAddon04" 
-                            onclick="document.getElementById('inputGroupFile04').value = '';">Limpiar</button><button class="btn btn-outline-primary" type="button" id="inputGroupFileAddon05" onclick="alert('Archivo enviado')">Enviar</button>
-                          </div>
-                    
-                    </td>
-                  </tr>
-                  
-              </tbody>
-          </table>
-    </div>
+  <div class="card-body">
+      <h5 class="card-title text-bg-dark text-center">Justificación de inasistencia:</h5>
+
+      <table class="table table-hover">
+
+          <thead class="table-light">
+              <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Salida a terreno</th>
+                  <th scope="col">Tipo</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Documento</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for item in data %}
+              <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <td>- {{ item.actividad }}/{{ item.lugar_ejecucion}}</td>
+                  <td>- {{ item.tipo }}</td>
+                  <td>{{ item.estado }}</td>
+                  <td>
+                    {% if item.documentos.exists %}
+                    {% for documento in item.documentos %}
+                <!-- Muestra el enlace del archivo aquí -->
+                 <a href="{{ documento.archivo.url }}">Ver documento</a>
+            {% endfor %}
+            <!-- Muestra el archivo aquí -->
+        {% else %}
+                    <div class="input-group">
+                      <form action="{% url 'subir_documento' item.id %}" method="post" enctype="multipart/form-data">
+                         {% csrf_token %}
+                         <input type="file" class="form-control" name="archivo" accept=".pdf" id="inputGroupFile{{ forloop.counter }}" aria-describedby="inputGroupFileAddon{{ forloop.counter }}" aria-label="Upload">
+                         <button class="btn btn-outline-danger" type="button" id="inputGroupFileAddon{{ forloop.counter }}" onclick="document.getElementById('inputGroupFile{{ forloop.counter }}').value = '';">Limpiar</button>
+                         <button class="btn btn-outline-primary" type="submit" id="inputGroupFileAddon{{ forloop.counter }}">Enviar</button>
+                      </form>
+                   </div>
+                   {% endif %}
+                  </td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
   </div>
+</div>
 
 
 
