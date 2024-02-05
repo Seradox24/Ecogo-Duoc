@@ -30,3 +30,12 @@
 .tacs{
     vertical-align: middle;
 }
+
+.btnclima{
+    background-color: #c1c700 !important;
+}
+
+.btnclima:hover{
+    background-color: transparent !important;
+    border-color: black !important;
+}

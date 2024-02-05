@@ -35,8 +35,14 @@
 </div>
 <br>
 
-<div class="d-grid gap-2 col-6 mx-auto">
-    <a class="btn btnagre" href="{% url 'crear_salida' %}">Agregar nueva salida a Terreno <i class="fa-regular fa-square-plus mas"></i></a>
+<div class="d-flex">
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <a class="btn btnagre" href="{% url 'crear_salida' %}">Agregar nueva salida a Terreno <i class="fa-regular fa-square-plus mas"></i></a>
+    </div>
+    
+    <div class="d-flex justify-content-end">
+        <a class="btn btnclima" href="https://www.meteored.cl" target="_blank">Clima en Chile <i class="fa-solid fa-cloud-sun"></i></a>
+    </div>
 </div>
 
 <br>
@@ -45,6 +51,7 @@
     <div class="card-body">
         <table class="table table-striped table-hover table-responsive-sm">
             <tr class="tabla text-center tac">
+                <th>Semaforo</th>
                 <th>Situacion</th>
                 <th>Numero de cuenta</th>
                 <th>Semestre</th>
@@ -73,6 +80,7 @@
             {% for s in salidas %}
         
             <tr class="tabla text-center tacs">
+                <td><a href="{% url 'semaforo_salida' s.id %}"  class="btn btn-danger btn-sm">Editar semaforo</a></td>
                 <td>{{ s.situacion | title }}</td>
                 <td>{{ s.numero_cuenta | title }}</td>
                 <td>{{ s.semestre  }}</td>

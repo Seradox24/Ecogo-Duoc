@@ -60,6 +60,12 @@ class ExpAprendizaje(models.Model):
     def __str__(self):
         return self.descripcion
 
+class Semaforo(models.Model):
+    estado = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.estado
+
 class SalidaTerreno(models.Model):
     situacion = models.ForeignKey(Situacion, on_delete=models.CASCADE)
     numero_cuenta = models.IntegerField()
@@ -82,6 +88,7 @@ class SalidaTerreno(models.Model):
     num_salida = models.IntegerField(validators=[MaxValueValidator(999)])
     asig_comp_terreno = models.ManyToManyField(Asignatura, related_name='salidas_terreno_asig_comp_terreno', blank=True)
     observaciones = models.TextField()
+    semaforo = models.ForeignKey(Semaforo, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"Salida Terreno - {self.actividad} - {self.id}"

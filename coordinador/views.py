@@ -60,7 +60,7 @@ def listar_salida(request):
     page = request.GET.get('page', 1)
 
     try:
-        paginator = Paginator(salidas, 5)
+        paginator = Paginator(salidas, 1)
         salidas = paginator.page(page)
     except:
         raise Http404
@@ -468,3 +468,9 @@ def eliminar_asignatura(request, asignatura_id):
         asignatura.delete()
         return redirect('gest_asig') 
     return render(request, 'db_coordinador/db_coordinador_gest_asig.html', {'asignatura': asignatura})
+
+
+@login_required
+@Coordinador_required
+def semaforo_salida(request, id):
+    return render(request, 'db_coordinador/db_semaforo.html')
