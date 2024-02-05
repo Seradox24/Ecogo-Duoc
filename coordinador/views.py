@@ -17,7 +17,7 @@ from django.core.paginator import Paginator
 from django.http import Http404
 from coordinador.forms import AsignaturaForm
 from core.models import Asignatura
-
+from django.db.models import Q
 
 @login_required
 @Coordinador_required
@@ -474,3 +474,34 @@ def eliminar_asignatura(request, asignatura_id):
 @Coordinador_required
 def semaforo_salida(request, id):
     return render(request, 'db_coordinador/db_semaforo.html')
+
+def lista_usuarios(request):
+    print("xd")
+    # Obtener el valor de búsqueda del parámetro GET
+    search_query = request.GET.get('search', '')
+
+    # Filtrar los usuarios según el valor de búsqueda
+    usuarios = UsersMetadata.objects.filter(
+        Q(user__username__icontains=search_query) |
+        Q(user__email__icontains=search_query) |
+        Q(perfil__nombre__icontains=search_query) |
+        Q(sexo__nombre__icontains=search_query) |
+        Q(estado__icontains=search_query)
+    ).distinct()
+
+    perfil_seleccionado = request.GET.get('perfil', '')
+    sexo_seleccionado = request.GET.get('sexo', '')
+    print("Usuarios después de la búsqueda: ", usuarios)
+
+    # Aplicar filtros adicionales
+    if perfil_seleccionado:
+        usuarios_filtrados = usuarios.filter(perfil__nombre=perfil_seleccionado)
+        print("Usuarios después del filtro de perfil: ", usuarios_filtrados)
+        usuarios = usuarios_filtrados
+
+    if sexo_seleccionado:
+        usuarios_filtrados = usuarios.filter(sexo__nombre=sexo_seleccionado)
+        print("Usuarios después del filtro de sexo: ", usuarios_filtrados)
+        usuarios = usuarios_filtrados
+
+    return render(request, 'db_coordinador/db_gest_usuarios.html', {'usuarios': usuarios})
