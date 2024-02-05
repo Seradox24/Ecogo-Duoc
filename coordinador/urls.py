@@ -26,4 +26,5 @@ urlpatterns = [
     path('gest-asig/', gest_asig, name='gest_asig'),
     path('editar_asignatura/<int:asignatura_id>/', views.editar_asignatura, name='editar_asignatura'),
     path('eliminar_asignatura/<int:asignatura_id>/', views.eliminar_asignatura, name='eliminar_asignatura'),
+    path('lista-usuarios/', views.lista_usuarios, name='lista_usuarios'),
 ] 
