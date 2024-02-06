@@ -81,8 +81,14 @@ class SalidaTerrenoForm(forms.ModelForm):
             'num_salida': forms.NumberInput(attrs={'class': 'form-control','type':'number'}),
             'asig_comp_terreno': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox'}),
             'observaciones': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'semaforo': forms.Select(attrs={'class': 'form-select'}),
         }
-        
+
+    def init(self, args, **kwargs):
+        super().init(args, **kwargs)
+        self.fields['data1'].widget.attrs.update({
+            'class': 'miSelect',
+        })  
         
 
 

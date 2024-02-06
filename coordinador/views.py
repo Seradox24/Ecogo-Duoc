@@ -473,7 +473,21 @@ def eliminar_asignatura(request, asignatura_id):
 @login_required
 @Coordinador_required
 def semaforo_salida(request, id):
-    return render(request, 'db_coordinador/db_semaforo.html')
+    salida = get_object_or_404(SalidaTerreno, id=id)
+
+    if request.method == 'POST':
+        form = SalidaTerrenoForm(request.POST, instance=salida, files=request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Guardado Correctamente!")
+            return redirect('listar_salida')
+
+    else:
+        form = SalidaTerrenoForm(instance=salida)
+
+    return render(request, 'db_coordinador/db_semaforo.html', {'form': form, 'instance': salida})
+
+
 
 def lista_usuarios(request):
     print("xd")
