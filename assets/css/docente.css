@@ -33,9 +33,26 @@
 
 .btnclima{
     background-color: #c1c700 !important;
+    align-items: center;
+    justify-content: center;
 }
 
 .btnclima:hover{
     background-color: transparent !important;
     border-color: black !important;
+}
+
+.miSelect option[value="1"] {
+    background-color: #77dd77;
+    text-align: center;
+}
+
+.miSelect option[value="2"] {
+    background-color: #fdfd96;
+    text-align: center;
+}
+
+.miSelect option[value="3"] {
+    background-color: #ff6961;
+    text-align: center;
 }
