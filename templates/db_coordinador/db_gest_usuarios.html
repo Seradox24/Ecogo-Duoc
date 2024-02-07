@@ -3,98 +3,119 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+  <head>
+    <!-- Otros elementos del head -->
+    <!-- Agrega las siguientes líneas para cargar Bootstrap y jQuery -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </head>
 
-{% block js %}
-    <script>
-        function confirmarEliminacion(boton) {
-            Swal.fire({
-                title: "¿Estás seguro?",
-                text: "Esta acción no se puede deshacer",
-                icon: "warning",
-                showCancelButton: true,
-                cancelButtonText: "No, Cancelar",
-                confirmButtonText: "Sí, Eliminar",
-                reverseButtons: true,
-                confirmButtonColor: "darkred"
-            }).then((result) => {
-                // result.value será true si se hizo clic en "Sí, Eliminar"
-                if (result.value) {
-                    // Enviar el formulario si se confirma la eliminación
-                    boton.closest("form").submit();
-                }
-            });
+  <script>
+    function confirmarEliminacion(boton) {
+      Swal.fire({
+        title: "¿Estás seguro?",
+        text: "Esta acción no se puede deshacer",
+        icon: "warning",
+        showCancelButton: true,
+        cancelButtonText: "No, Cancelar",
+        confirmButtonText: "Sí, Eliminar",
+        reverseButtons: true,
+        confirmButtonColor: "darkred"
+      }).then((result) => {
+        // result.value será true si se hizo clic en "Sí, Eliminar"
+        if (result.value) {
+          // Enviar el formulario si se confirma la eliminación
+          boton.closest("form").submit();
         }
-    </script>
-{% endblock %}
+      });
+    }
+  </script>
 
-<div class="card text-dark bg-light align-items-center">
-  <h1 class="card-title">Gestión de Usuarios</h1>
-</div>
+  <div class="card text-dark bg-light align-items-center">
+    <h1 class="card-title">Gestión de Usuarios</h1>
+  </div>
 
-<br>
+  <br>
 
-<div class="card">
-  <div class="card-body">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <a href="{% url 'agreg-usuarios' %}" class="btn btn-success">Agregar Usuario <i class="fa-regular fa-square-plus mas"></i></a>
-    </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <a href="{% url 'agreg-usuarios' %}" class="btn btn-success">Agregar Usuario <i class="fa-regular fa-square-plus mas"></i></a>
+      </div>
 
-    <form method="get" action="{% url 'lista_usuarios' %}">
-      <br>
-      
-      <label for="perfil">Perfil:</label>
-      <select name="perfil" class="form-control">
+      <form method="get" action="{% url 'lista_usuarios' %}">
+        <br>
+        
+        <label for="perfil">Perfil:</label>
+        <select name="perfil" class="form-control">
           <option value="">Todos</option>
           <option value="Docente">Docente</option>
           <option value="Alumno">Alumno</option>
           <option value="Coordinador">Coordinador</option>
-      </select>
-      <br>
-      
-      <label for="sexo">Sexo:</label>
-      <select name="sexo" class="form-control">
+        </select>
+        <br>
+        
+        <label for="sexo">Sexo:</label>
+        <select name="sexo" class="form-control">
           <option value="">Todos</option>
           <option value="MASCULINO">Masculino</option>
           <option value="FEMENINO">Femenino</option>
-      </select>
-      <br>
-      
-      <div class="input-group">
+        </select>
+        <br>
+        
+        <div class="input-group">
           <input type="text" name="search" class="form-control" placeholder="Buscar por nombre de usuario" value="{{ request.GET.search }}">
           <div class="input-group-append">
-              <button type="submit" class="btn btn-primary">Buscar</button>
-          </div>
-      </div>
-  </form>
-  
-  <h1 class="mt-4">Lista de Usuarios</h1>
-  <ul class="list-group">
-    {% for usuario in usuarios %}
-      <li class="list-group-item">
-        <div class="d-flex justify-content-between">
-          <div>
-            <strong>Nombre de usuario:</strong> {{ usuario.user.username }}<br>
-            <strong>Correo:</strong> {{ usuario.user.email }}<br>
-            <strong>Perfil:</strong> {{ usuario.perfil.nombre }}<br>
-            <strong>Sexo:</strong> {{ usuario.sexo.nombre }}<br>
-            <strong>Estado:</strong> {{ usuario.estado }}<br>
-          </div>
-          <div class="d-flex align-items-center">
-            <a href="{% url 'edit-usuarios' usuario.id %}" class="btn btn-primary me-2">Editar</a>
-            <form method="post" action="{% url 'eliminar-usuarios' usuario.id %}" class="ml-2">
-              {% csrf_token %}
-              <button type="button" class="btn btn-danger" onclick="confirmarEliminacion(this)">Eliminar</button>
-            </form>
+            <button type="submit" class="btn btn-primary">Buscar</button>
           </div>
         </div>
-      </li>
-    {% empty %}
-      <li class="list-group-item">No hay usuarios disponibles.</li>
-    {% endfor %}
-  </ul>
+      </form>
+      
+      <h1 class="mt-4">Lista de Usuarios</h1>
+      <ul class="list-group">
+        {% for usuario in usuarios %}
+          <li class="list-group-item">
+            <div class="d-flex justify-content-between">
+              <div>
+                <strong>Nombre de usuario:</strong> {{ usuario.user.username }}<br>
+                <strong>Correo:</strong> {{ usuario.user.email }}<br>
+                <strong>Perfil:</strong> {{ usuario.perfil.nombre }}<br>
+                <strong>Sexo:</strong> {{ usuario.sexo.nombre }}<br>
+                <strong>Estado:</strong> {{ usuario.estado }}<br>
+              </div>
+              <div class="d-flex align-items-center">
+                <button class="btn btn-info me-2" type="button" data-toggle="collapse" data-target="#collapseUsuario{{ usuario.id }}" aria-expanded="false" aria-controls="collapseUsuario{{ usuario.id }}">
+                  Ver Perfil
+                </button>
+                <a href="{% url 'edit-usuarios' usuario.id %}" class="btn btn-primary me-2">Editar</a>
+                <form method="post" action="{% url 'eliminar-usuarios' usuario.id %}" class="ml-2">
+                  {% csrf_token %}
+                  <button type="button" class="btn btn-danger" onclick="confirmarEliminacion(this)">Eliminar</button>
+                </form>
+              </div>
+            </div>
+            <hr>
+            <div class="collapse" id="collapseUsuario{{ usuario.id }}">
+              <!-- Contenido del perfil -->
+              <h5>INFORMACIÓN ADICIONAL DE: {{ usuario.user.username }}</h5>
+              
+              <!-- Enlace de descarga de la ficha médica -->
+              {% for documento in usuario.documentos.all %}
+                <a href="{{ documento.archivo.url }}" download="{{ documento.nombre }}">
+                  Descargar Ficha Médica {{ documento.archivo.size|filesizeformat }}
+                </a>
+              {% endfor %}
+            </div>
+          </li>
+        {% empty %}
+          <li class="list-group-item">No hay usuarios disponibles.</li>
+        {% endfor %}
+      </ul>
+    </div>
   </div>
-</div>
-<div class="mt-3">
-  {% include 'layout/paginatorusers.html' %}
-</div>
+  <div class="mt-3">
+    {% include 'layout/paginatorusers.html' %}
+  </div>
 {% endblock %}
