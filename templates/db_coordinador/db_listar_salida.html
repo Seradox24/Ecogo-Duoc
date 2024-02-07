@@ -80,7 +80,18 @@
             {% for s in salidas %}
         
             <tr class="tabla text-center tacs">
-                <td><a href="{% url 'semaforo_salida' s.id %}"  class="btn btn-danger btn-sm">Editar semaforo</a></td>
+                <td>
+                    {% if s.semaforo.id == 1 %}
+                        <a href="{% url 'semaforo_salida' s.id %}"  class="btn btn-success btn-sm">Editar semaforo</a>
+                    {% elif s.semaforo.id == 2 %}
+                        <a href="{% url 'semaforo_salida' s.id %}"  class="btn btn-warning btn-sm">Editar semaforo</a>
+                    {% elif s.semaforo.id == 3 %}
+                        <a href="{% url 'semaforo_salida' s.id %}"  class="btn btn-danger btn-sm">Editar semaforo</a>
+                    {% else %}
+                        <a href="{% url 'semaforo_salida' s.id %}"  class="btn btn-secondary btn-sm">Editar semaforo</a>
+                    {% endif %}
+                    
+                </td>
                 <td>{{ s.situacion | title }}</td>
                 <td>{{ s.numero_cuenta | title }}</td>
                 <td>{{ s.semestre  }}</td>

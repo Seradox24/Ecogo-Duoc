@@ -33,6 +33,8 @@
 
 .btnclima{
     background-color: #c1c700 !important;
+    align-items: center;
+    justify-content: center;
 }
 
 .btnclima:hover{

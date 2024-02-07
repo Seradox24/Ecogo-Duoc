@@ -187,3 +187,17 @@ class AsignaturaForm(forms.ModelForm):
 
 
 
+class SalidaTerrenoFormSemaforo(forms.ModelForm):
+
+    class Meta:
+        model = SalidaTerreno
+        fields = ['semaforo']
+        widgets = {
+            'semaforo': forms.Select(attrs={'class': 'form-select'}),
+        }
+
+    def init(self, args, **kwargs):
+        super().init(args, **kwargs)
+        self.fields['data1'].widget.attrs.update({
+            'class': 'miSelect',
+        })

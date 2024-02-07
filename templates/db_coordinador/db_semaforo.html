@@ -35,25 +35,28 @@
         <button class="btn btnagre" type="submit">Guardar Semaforo <i
             class="fa-regular fa-square-plus mas"></i></button>
       </div>
+
+      <script>
+        function submitForm() {
+          // Obtener todos los campos de entrada del formulario
+          var formElements = document.getElementById("myForm").elements;
+
+          // Verificar si algún campo está vacío
+          for (var i = 0; i < formElements.length; i++) {
+            if (formElements[i].type !== "button" && formElements[i].value === "") {
+              alert("Por favor, complete todos los campos antes de enviar el formulario.");
+              return false; // Evita que el formulario se envíe si hay campos vacíos
+            }
+          }
+
+          // Enviar el formulario si todos los campos están completos
+          document.getElementById("myForm").submit();
+        }
+      </script>
+
     </form>
   </div>
 
-  <script>
-    function submitForm() {
-        // Obtener todos los campos de entrada del formulario
-        var formElements = document.getElementById("myForm").elements;
 
-        // Verificar si algún campo está vacío
-        for (var i = 0; i < formElements.length; i++) {
-            if (formElements[i].type !== "button" && formElements[i].value === "") {
-                alert("Por favor, complete todos los campos antes de enviar el formulario.");
-                return false; // Evita que el formulario se envíe si hay campos vacíos
-            }
-        }
-
-        // Enviar el formulario si todos los campos están completos
-        document.getElementById("myForm").submit();
-    }
-</script>
 
   {% endblock %}

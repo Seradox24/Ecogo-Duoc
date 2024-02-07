@@ -1,6 +1,6 @@
 from pyexpat.errors import messages
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SalidaTerrenoForm, UserCreationWithMetadataForm, UserEditForm, UsersMetadataForm
+from .forms import SalidaTerrenoForm, UserCreationWithMetadataForm, UserEditForm, UsersMetadataForm, SalidaTerrenoFormSemaforo
 from .models import SalidaTerreno
 from core.decorators import Coordinador_required
 from django.contrib.auth.decorators import login_required
@@ -476,14 +476,13 @@ def semaforo_salida(request, id):
     salida = get_object_or_404(SalidaTerreno, id=id)
 
     if request.method == 'POST':
-        form = SalidaTerrenoForm(request.POST, instance=salida, files=request.FILES)
+        form = SalidaTerrenoFormSemaforo(request.POST, instance=salida, files=request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, "Guardado Correctamente!")
             return redirect('listar_salida')
-
     else:
-        form = SalidaTerrenoForm(instance=salida)
+        form = SalidaTerrenoFormSemaforo(instance=salida)
 
     return render(request, 'db_coordinador/db_semaforo.html', {'form': form, 'instance': salida})
 
