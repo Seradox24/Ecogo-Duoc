@@ -158,7 +158,7 @@ def gest_usuarios(request):
 
 
     try:
-        paginator = Paginator(usuarios, 1)
+        paginator = Paginator(usuarios, 5)
         usuarios = paginator.page(page)
     except:
         raise Http404
@@ -505,3 +505,7 @@ def lista_usuarios(request):
         usuarios = usuarios_filtrados
 
     return render(request, 'db_coordinador/db_gest_usuarios.html', {'usuarios': usuarios})
+
+def ver_perfil_usuario(request, usuario_id):
+    usuario = get_object_or_404(usuario, id=usuario_id)
+    return render(request, 'db_coordinador/db_gest_usuarios.html', {'usuario': usuario})
