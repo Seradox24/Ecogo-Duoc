@@ -47,7 +47,7 @@ def gest_asig_docente(request):
 @Docente_required
 def docente_listar_salida(request):
 
-    salidas = SalidaTerreno.objects.all()
+    salidas = SalidaTerreno.objects.all().order_by('-id')
     page = request.GET.get('page', 1)
 
     try:

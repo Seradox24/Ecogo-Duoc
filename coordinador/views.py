@@ -56,11 +56,11 @@ def crear_salida(request):
 @login_required
 @Coordinador_required
 def listar_salida(request):
-    salidas = SalidaTerreno.objects.all()
+    salidas = SalidaTerreno.objects.all().order_by('-id')
     page = request.GET.get('page', 1)
 
     try:
-        paginator = Paginator(salidas, 1)
+        paginator = Paginator(salidas, 2)
         salidas = paginator.page(page)
     except:
         raise Http404
