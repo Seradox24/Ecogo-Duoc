@@ -82,13 +82,13 @@
             <tr class="tabla text-center tacs">
                 <td>
                     {% if s.semaforo.id == 1 %}
-                        <a href="{% url 'semaforo_salida' s.id %}"  class="btn btn-success btn-sm">Editar semaforo</a>
+                        <a href="{% url 'semaforo_salida' s.id %}"  class="btn btn-success btn-circle btn-xl"><i class="fa-solid fa-pen-to-square"></i></a>
                     {% elif s.semaforo.id == 2 %}
-                        <a href="{% url 'semaforo_salida' s.id %}"  class="btn btn-warning btn-sm">Editar semaforo</a>
+                        <a href="{% url 'semaforo_salida' s.id %}"  class="btn btn-warning btn-circle btn-xl"><i class="fa-solid fa-pen-to-square"></i></a>
                     {% elif s.semaforo.id == 3 %}
-                        <a href="{% url 'semaforo_salida' s.id %}"  class="btn btn-danger btn-sm">Editar semaforo</a>
+                        <a href="{% url 'semaforo_salida' s.id %}"  class="btn btn-danger btn-circle btn-xl"><i class="fa-solid fa-pen-to-square"></i></a>
                     {% else %}
-                        <a href="{% url 'semaforo_salida' s.id %}"  class="btn btn-secondary btn-sm">Editar semaforo</a>
+                        <a href="{% url 'semaforo_salida' s.id %}"  class="btn btn-secondary btn-circle btn-xl"><i class="fa-solid fa-pen-to-square"></i></a>
                     {% endif %}
                     
                 </td>
