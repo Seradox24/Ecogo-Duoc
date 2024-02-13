@@ -152,7 +152,7 @@ def agreg_usuarios(request):
 
 
 def gest_usuarios(request):
-    usuarios = UsersMetadata.objects.all().order_by('nombres')
+    usuarios = UsersMetadata.objects.all().order_by('-id')
     page = request.GET.get('page', 1)
 
 
@@ -489,7 +489,6 @@ def semaforo_salida(request, id):
 
 
 def lista_usuarios(request):
-    print("xd")
     # Obtener el valor de búsqueda del parámetro GET
     search_query = request.GET.get('search', '')
 

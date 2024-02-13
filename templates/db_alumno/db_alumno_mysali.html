@@ -4,18 +4,24 @@
 
 {% block content %}  
 
+<div class="card text-bg-dark align-items-center">
+  <h1>Mis Salidas</h1>
+</div>
 
+<br>
+
+{% for s in salidas %}
 <div class="card text-bg-dark ">
     <img src="{% static 'images/caminante-mochila-pie-cima-montana.jpg' %}" class="card-img .d-block" alt="..." style="width: 100%; height: 30vh; object-fit: cover;">
     <div class="card-img-overlay cardgrandient">
 
         <div class="d-flex">
             <div class="p-2 flex-grow-1">
-                <h6 class="card-subtitle mb-2 text-stroke">Proxima salida : 27/enero/2024</h6>
-      <h5 class="card-title">Actividad: Trekking </h5>
-      <p class="card-text">Lugar: Los Molles.</p>
-      <p class="card-text">Duración: 3 días, 2 noches.</p>
-      <p class="card-text">Asignatura: Taller de activades al aire libre.</p>
+                <h6 class="card-subtitle mb-2 text-stroke">Proxima salida : {{ s.fecha_ingreso | title }}</h6>
+      <h5 class="card-title">Actividad: {{ s.actividad | title }} </h5>
+      <p class="card-text">Lugar: {{ s.lugar_ejecucion | title }}</p>
+      <p class="card-text">Duración: {{ s.dias | title }} días, {{ s.noches | title }} noches.</p>
+      <p class="card-text">Asignatura: {{ s.asignatura | title }}</p>
       
 
             </div>
@@ -28,7 +34,17 @@
                         <div class="container overflow-hidden text-center">
                             <div class="row gx-5">
                               <div class="col">
-                               <div class="p-3"><i class="fa-solid fa-circle fs-1 text-success"></i></div>
+                               <div class="p-3">
+                                {% if s.semaforo.id == 1 %}
+                                    <i class="fa-solid fa-circle fs-1 text-success"></i>
+                                {% elif s.semaforo.id == 2 %}
+                                    <i class="fa-solid fa-circle fs-1 text-warning"></i>
+                                {% elif s.semaforo.id == 3 %}
+                                    <i class="fa-solid fa-circle fs-1 text-danger"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-circle fs-1 text-secondary"></i>
+                                {% endif %}
+                               </div>
                               </div>
                               <div class="col">
                                 <div class="p-3">Programada y verificada</div>
@@ -59,26 +75,15 @@
       
     </div>
 </div>
+<br>
+{% endfor %}
 
 
-<!-- fin primera linea baner -->
-<div class="py-1"></div>
-<!-- Banner actividad -->
-<div class="card text-bg-dark ">
-    <img src="{% static 'images/caminante-mochila-pie-cima-montana.jpg' %}" class="card-img .d-block" alt="..." style="width: 100%; height: 30vh; object-fit: cover;">
-    <div class="card-img-overlay cardgrandient">
-      <h6 class="card-subtitle mb-2 text-stroke">Proxima salida : 27/enero/2024</h6>
-      <h5 class="card-title">Actividad: Trekking </h5>
-      <p class="card-text">Lugar: Los Molles.</p>
-      <p class="card-text">Duración: 3 días, 2 noches.</p>
-      <p class="card-text">Asignatura: Taller de activades al aire libre.</p>
-      <p class="card-text"><small>Última actualización hace 3 minutos</small></p>
-    </div>
+
+
+<div>
+  {% include 'layout/paginator.html' %}
 </div>
-<!-- fin primera linea baner -->
-
-
-
 
 
 {% endblock %}
