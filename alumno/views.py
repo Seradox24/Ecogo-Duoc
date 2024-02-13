@@ -8,6 +8,9 @@ from django.utils import timezone
 # views.py
 from django.contrib import messages
 from .models import Documento_inasis, Estado
+from coordinador.models import SalidaTerreno
+from django.core.paginator import Paginator
+from django.http import Http404
 # Ajusta según la estructura de tus modelos
 
 
@@ -83,7 +86,22 @@ def ji_alumno(request):
 @login_required
 @Alumno_required
 def msalida_alumno(request):
-    return render(request, 'db_alumno/db_alumno_mysali.html')
+    salidas = SalidaTerreno.objects.all().order_by('-id')
+    page = request.GET.get('page', 1)
+
+    try:
+        paginator = Paginator(salidas, 5)
+        salidas = paginator.page(page)
+    except:
+        raise Http404
+
+
+    data = {
+        'salidas': salidas,
+        'paginator': paginator
+    }
+
+    return render(request, 'db_alumno/db_alumno_mysali.html',data)
 
 @login_required
 def aperfil(request):

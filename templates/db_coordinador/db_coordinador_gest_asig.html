@@ -27,8 +27,15 @@
     </script>
 {% endblock %}
 
-<div class="card text-bg-dark align-items-center">
-  <h1>Lista de Asignaturas</h1>
+<div class="card text-bg-dark">
+  <div class="row align-items-center">
+      <div class="col-auto me-auto">
+          <a href="javascript: history.go(-1)" class="btn btn-light ms-2"><i class="fa-solid fa-chevron-left"></i></a>
+      </div>
+      <div class="col text-center">
+          <h1>Lista de Asignaturas</h1>
+      </div>
+  </div>
 </div>
 
 <br>
@@ -36,7 +43,7 @@
 <div class="card">
   <div class="card-body">
     <div class="mb-3">
-      <a href="{% url 'agreg_asig' %}" class="btn btn-success float-end">Agregar Asignatura</a>
+      <a href="{% url 'agreg_asig' %}" class="btn btn-success float-end">Agregar Asignatura <i class="fa-regular fa-square-plus mas"></i></a>
     </div>
     <h1>Lista de Asignaturas</h1>
     <ul class="list-group">
