@@ -1,7 +1,8 @@
 # En el archivo admin.py de tu aplicación (por ejemplo, 'core/admin.py')
 from django.contrib import admin
-from .models import Situacion, DiaSemana, Actividad, ExpAprendizaje, Semaforo
-from .models import SalidaTerreno
+from .models import Situacion, DiaSemana, Actividad, ExpAprendizaje
+from .models import SalidaTerreno,PronosticoClima, CurrentClima
+
 
 class SituacionAdmin(admin.ModelAdmin):
     list_display = ['id', 'estado']
@@ -51,4 +52,5 @@ admin.site.register(Situacion, SituacionAdmin)
 admin.site.register(DiaSemana, DiaSemanaAdmin)
 admin.site.register(Actividad, ActividadAdmin)
 admin.site.register(ExpAprendizaje, ExpAprendizajeAdmin)
-admin.site.register(Semaforo, SemaforoAdmin)
+admin.site.register(PronosticoClima)
+admin.site.register(CurrentClima)
