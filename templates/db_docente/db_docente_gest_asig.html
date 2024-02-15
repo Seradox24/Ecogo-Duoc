@@ -4,15 +4,18 @@
 
 {% block content %}
 
-<div class="card text-bg-dark align-items-center">
-  <h1>Lista de Asignaturas</h1>
+<div class="input-group">
+  <button class="btn btnnav" type="button" id="button-addon2" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></button>
+  <div class="col text-center text-bg-dark">
+      <h1>Lista de Asignaturas</h1>
+  </div>
+  <button class="btn btnnav" type="button" id="button-addon2"><i class="fa-solid fa-question"></i></button>
 </div>
 
 <br>
 
 <div class="card">
   <div class="card-body">
-    <h1>Lista de Asignaturas</h1>
     <ul class="list-group">
       {% for asignatura in asignaturas %}
       <li class="list-group-item">

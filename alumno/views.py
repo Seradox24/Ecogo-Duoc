@@ -14,6 +14,8 @@ from datetime import datetime, timedelta
 from django.utils.timezone import make_aware
 from pytz import timezone as pytz_timezone
 from .models import PronosticoClima, CurrentClima
+from django.core.paginator import Paginator
+from django.http import Http404
 
 def obtener_clima(salida_terreno, name):
     # Verificar si existe información actualizada en los últimos 15 minutos
