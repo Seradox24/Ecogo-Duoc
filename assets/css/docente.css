@@ -76,3 +76,15 @@
     font-size: 12px;
     line-height: 1.42857;
 }
+
+.btnnav{
+    background-color:#222222 !important;
+    color: white !important;
+
+}
+
+.btnnav:hover{
+    background-color: transparent !important;
+    border-color: black !important;
+    color: #222222 !important;
+}

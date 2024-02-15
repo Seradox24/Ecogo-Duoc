@@ -3,14 +3,6 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <head>
-    <!-- Otros elementos del head -->
-    <!-- Agrega las siguientes líneas para cargar Bootstrap y jQuery -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  </head>
 
   <script>
     function confirmarEliminacion(boton) {
@@ -33,54 +25,57 @@
     }
   </script>
 
-
-  <div class="card text-bg-dark">
-    <div class="row align-items-center">
-        <div class="col-auto me-auto">
-            <a href="javascript: history.go(-1)" class="btn btn-light ms-2"><i class="fa-solid fa-chevron-left"></i></a>
-        </div>
-        <div class="col text-center">
-            <h1>Gestión de Usuarios</h1>
-        </div>
-    </div>
+<div class="input-group">
+  <button class="btn btnnav" type="button" id="button-addon2" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></button>
+  <div class="col text-center text-bg-dark">
+      <h1>Gestión de Usuarios</h1>
+  </div>
+  <button class="btn btnnav" type="button" id="button-addon2"><i class="fa-solid fa-question"></i></button>
 </div>
 
-  <br>
+<br>
+
+  <div class="card text-dark bg-light mb-3">
+    <div class="card-body">
+
+      <form method="get" action="{% url 'lista_usuarios' %}">
+        <div class="row">
+          <div class="col-md-4 mb-2">
+            <label for="perfil">Perfil:</label>
+            <select name="perfil" class="form-control">
+              <option value="">Todos</option>
+              <option value="Docente">Docente</option>
+              <option value="Alumno">Alumno</option>
+              <option value="Coordinador">Coordinador</option>
+            </select>
+          </div>
+          
+          <div class="col-md-4 mb-2">
+            <label for="sexo">Sexo:</label>
+            <select name="sexo" class="form-control">
+              <option value="">Todos</option>
+              <option value="MASCULINO">Masculino</option>
+              <option value="FEMENINO">Femenino</option>
+            </select>
+          </div>
+          
+          <div class="col-md-4 mb-2">
+            <label for="search">Buscar:</label>
+            <div class="input-group">
+              <input type="text" name="search" class="form-control" placeholder="Buscar" value="{{ request.GET.search }}">
+              <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <div class="card">
     <div class="card-body">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <a href="{% url 'agreg-usuarios' %}" class="btn btn-success">Agregar Usuario <i class="fa-regular fa-square-plus mas"></i></a>
       </div>
-
-      <form method="get" action="{% url 'lista_usuarios' %}">
-        <br>
-        
-        <label for="perfil">Perfil:</label>
-        <select name="perfil" class="form-control">
-          <option value="">Todos</option>
-          <option value="Docente">Docente</option>
-          <option value="Alumno">Alumno</option>
-          <option value="Coordinador">Coordinador</option>
-        </select>
-        <br>
-        
-        <label for="sexo">Sexo:</label>
-        <select name="sexo" class="form-control">
-          <option value="">Todos</option>
-          <option value="MASCULINO">Masculino</option>
-          <option value="FEMENINO">Femenino</option>
-        </select>
-        <br>
-        
-        <div class="input-group">
-          <input type="text" name="search" class="form-control" placeholder="Buscar por nombre de usuario" value="{{ request.GET.search }}">
-          <div class="input-group-append">
-            <button type="submit" class="btn btn-primary">Buscar</button>
-          </div>
-        </div>
-      </form>
-      
       <h1 class="mt-4">Lista de Usuarios</h1>
       <ul class="list-group">
         {% for usuario in usuarios %}
@@ -107,7 +102,7 @@
             <hr>
             <div class="collapse" id="collapseUsuario{{ usuario.id }}">
               <!-- Contenido del perfil -->
-              <h5>INFORMACIÓN ADICIONAL DE: {{ usuario.user.username }}</h5>
+              <h5>Informació adicional de: {{ usuario.user.username }}</h5>
               
               <!-- Enlace de descarga de la ficha médica -->
               {% for documento in usuario.documentos.all %}
