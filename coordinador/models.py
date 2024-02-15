@@ -1,39 +1,7 @@
-# from django.core.validators import MaxValueValidator
-# from django.db import models
-# from core.models import *
-
-# # Create your models here.
-
-# class SalidaTerreno(models.Model):
-#     situacion = models.CharField()
-#     numero_cuenta = models.IntegerField()
-#     semestre = models.CharField()
-#     anio = models.PositiveIntegerField(validators=[MaxValueValidator(3000)])
-#     semana = models.PositiveIntegerField(validators=[MaxValueValidator(99)])
-#     actividad = models.CharField()
-#     fecha_ingreso = models.DateField()
-#     fecha_termino = models.DateField()
-#     dias = models.PositiveIntegerField(validators=[MaxValueValidator(99)])
-#     noches = models.PositiveIntegerField(validators=[MaxValueValidator(99)])
-#     dias_actividad = models.PositiveIntegerField(validators=[MaxValueValidator(99)])
-#     lugar_ejecucion = models.CharField(max_length=60)
-#     asignatura = models.CharField()
-#     exp_aprendizaje = models.CharField()
-#     num_alumnos = models.PositiveIntegerField(validators=[MaxValueValidator(150)])
-#     seccion_docente = models.CharField()
-#     docente_titular = models.CharField()
-#     docentes_apoyo = models.TextField(max_length=100)
-#     num_salida = models.IntegerField(validators=[MaxValueValidator(999)])
-#     asig_comp_terreno = models.CharField()
-#     observaciones = models.TextField()
-
-#     def __str__(self):
-#         return f"Salida Terreno - {self.id}"
-
-
 from django.core.validators import MaxValueValidator
 from django.db import models
 from core.models import *
+
 
 class Situacion(models.Model):
     estado = models.CharField(max_length=100)
@@ -96,3 +64,48 @@ class SalidaTerreno(models.Model):
     class Meta:
         verbose_name = 'Salida Terreno'
         verbose_name_plural = 'Salidas Terreno'
+ 
+
+
+class PronosticoClima(models.Model):
+    salida_terreno = models.ForeignKey(SalidaTerreno, on_delete=models.CASCADE)
+    fecha = models.DateTimeField()
+    ubicacion = models.CharField(max_length=100, null=True, blank=True)  # Sin valor predeterminado
+    region = models.CharField(max_length=100, default="sin informacion", null=True, blank=True)
+    pais = models.CharField(max_length=100, default="sin informacion", null=True, blank=True)
+    temperatura_max = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    temperatura_min = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    uv_index = models.IntegerField(null=True, blank=True)
+    probabilidad_lluvia = models.IntegerField(null=True, blank=True)
+    condiciones = models.CharField(max_length=100, null=True, blank=True)
+    icono = models.URLField(null=True, blank=True)
+    ultima_actualizacion = models.DateTimeField(auto_now=True)# Campo para la fecha y hora de la última actualización
+    ultima_actualizacion_api = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"Pronóstico para {self.ubicacion} - {self.fecha} - {self.salida_terreno} "
+
+    class Meta:
+        verbose_name = 'Pronóstico Clima'
+        verbose_name_plural = 'Pronósticos Clima'
+        unique_together = ['salida_terreno', 'fecha']
+
+
+class CurrentClima(models.Model):
+    salida_terreno = models.ForeignKey(SalidaTerreno, on_delete=models.CASCADE)
+    ubicacion = models.CharField(max_length=100,null=True, blank=True)
+    region = models.CharField(max_length=100,null=True, blank=True)
+    pais = models.CharField(max_length=100,null=True, blank=True)
+    temperatura_actual = models.DecimalField(max_digits=5, decimal_places=2,null=True, blank=True)
+    condicion_text = models.CharField(max_length=100,null=True, blank=True)
+    condicion_icono = models.URLField(null=True, blank=True)
+    ultima_actualizacion_servidor =  models.DateTimeField(auto_now=True)
+    ultima_actualizacion_api = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"Clima actual para {self.salida_terreno} - {self.ubicacion} - {self.ultima_actualizacion_servidor}"
+
+    class Meta:
+        verbose_name = 'Clima Actual'
+        verbose_name_plural = 'Climas Actuales'
+        unique_together = ['salida_terreno']        

@@ -246,51 +246,75 @@
 
 
 <!-- profesor / implementos  -->
+
 <div class="text-center   ">
   <div class="row">
     <div class=" col-12 col-md-6 pt-3 ">
       <div class="card text-bg-dark ">
-        <h5 class="card-title ">Clima de la zona : </h5>
+
+        <h5 class="card-title ">Clima de la zona : {{current_clima.ubicacion}}, {{current_clima.pais}}  </h5>
 
         
         <div class="card-group">
           <div class="card  pt-2">
 
-            <i class="fa-solid fa-cloud fs-1"></i>
+            <p class="card-text fw-bold"><small class="text-body-secondary">{{ current_clima.condicion_text }}</small></p>
+
+            
+
+            
+            <div class="d-flex justify-content-center">
+              <img src="{{ current_clima.condicion_icono }}" alt="{{ current_clima.condicion_text }}" class="img-fluid" width="100" height="100">
+              
+            </div>
+
 
             <h5 class="card-title "> </h5>
             <div class="card-body">
-              <h5 class="card-title">23/12/23</h5>
-              <p class="card-text">16°</p>
-              <p class="card-text"><small class="text-body-secondary">Última actualización hace 3 minutos</small></p>
+              <h5 class="card-title">Actual</h5>
+              <h5 class="card-title">{{ current_clima.ultima_actualizacion_api|date:"d/m/y" }}</h5>
+              <p class="card-text fw-bold">{{ current_clima.temperatura_actual|floatformat:"0" }}°</p>
+              <p class="card-text">
+                <small class="text-body-secondary">
+                    Última actualización: 
+                    {{ current_clima.ultima_actualizacion_api.day }} /{{ current_clima.ultima_actualizacion_api.month }}/{{ current_clima.ultima_actualizacion_api.year }}
+                    a las {{ current_clima.ultima_actualizacion_api.hour }}:{{ current_clima.ultima_actualizacion_api.minute|default:"00" }}
+                </small>
+            </p>
             </div>
           </div>
-          <div class="card pt-2">
-            
-            <i class="fa-solid fa-sun fs-1"></i>
 
-            <div class="card-body">
-              <h5 class="card-title">24/12/23</h5>
-              <p class="card-text ">19°</p>
-              <p class="card-text"><small class="text-body-secondary">Última actualización hace 3 minutos</small></p>
-            </div>
-          </div>
-          <div class="card  pt-2">
+          {% for pronos in pronostico %}
 
-            <i class="fa-solid fa-cloud-rain fs-1"></i>
-
-            <div class="card-body">
-              <h5 class="card-title">25/12/23</h5>
-              <p class="card-text">26°</p>
-              <p class="card-text"><small class="text-body-secondary">Última actualización hace 3 minutos</small></p>
-            </div>
-          </div>
-        </div>
-
-
-        
-        
           
+
+          <div class="card pt-2">
+
+            <p class="card-text fw-bold"><small class="text-body-secondary">{{ pronos.condiciones }}</small></p>
+          <div class="d-flex justify-content-center">
+            <img src="{{ pronos.icono }}" alt="{{ pronos.condiciones }}" class="img-fluid" width="100" height="100">
+          </div>
+            
+
+            <div class="card-body">
+
+              <h5 class="card-title">{{ pronos.fecha|date:"l" }}</h5>
+              <h5 class="card-title">{{ pronos.fecha|date:"d/m/y" }}</h5>
+              <p class="card-text text-danger fw-bold ">{{ pronos.temperatura_max|floatformat:"0" }}°</p>
+              <p class="card-text text-primary fw-bold  ">{{ pronos.temperatura_min|floatformat:"0" }}°</p>
+              <p class="card-text">
+                <small class="text-body-secondary">
+                  Última actualización: 
+                  {{ pronos.ultima_actualizacion_api.day }}/{{ pronos.ultima_actualizacion_api.month }}/{{ pronos.ultima_actualizacion_api.year }}
+                  a las {{ pronos.ultima_actualizacion_api.hour }}:{{ pronos.ultima_actualizacion_api.minute|default:"00" }}
+              </small></p>
+            </div>
+          </div>
+
+          
+          
+          {% endfor %}     
+        </div>        
       </div>  
     </div>
 

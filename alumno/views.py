@@ -2,19 +2,172 @@ from django.shortcuts import render, redirect, get_object_or_404
 from core.models import UsersMetadata, Perfiles
 from core.decorators import Alumno_required
 from django.contrib.auth.decorators import login_required
-from coordinador.models import SalidaTerreno
-from django.db.models import Q
+from coordinador.models import SalidaTerreno, PronosticoClima, CurrentClima
+from django.db.models import Q,F
 from django.utils import timezone
-# views.py
 from django.contrib import messages
 from .models import Documento_inasis, Estado
-# Ajusta según la estructura de tus modelos
+import requests
+import json
+from django.http import JsonResponse
+from datetime import datetime, timedelta
+from django.utils.timezone import make_aware
+from pytz import timezone as pytz_timezone
+from .models import PronosticoClima, CurrentClima
+
+def obtener_clima(salida_terreno, name):
+    # Verificar si existe información actualizada en los últimos 15 minutos
+    try:
+        ultima_actualizacion = PronosticoClima.objects.filter(salida_terreno=salida_terreno).latest('ultima_actualizacion').ultima_actualizacion
+    except PronosticoClima.DoesNotExist:
+        ultima_actualizacion = None
+
+    if ultima_actualizacion is not None:
+        tiempo_transcurrido = timezone.now() - ultima_actualizacion
+        # Si la última actualización es menor a 15 minutos, no se realiza la actualización
+        if tiempo_transcurrido < timedelta(hours=5):
+            print('Si la última actualización es menor a 5 horas, no se realiza la actualización')
+            return []
+
+    # Si no hay información actualizada o han pasado más de 15 minutos, se consulta la API
+    
+    api_key = '10e980c96dbf46c6991205607240702'
+    ubicacion = f'{name},%20Chile'
+    url = f'http://api.weatherapi.com/v1/forecast.json?key={api_key}&q={ubicacion}&days=3&aqi=yes&alerts=yes&lang=es'
+    response = requests.get(url)
+    data = response.json()
+    PronosticoClima.objects.filter(salida_terreno=salida_terreno).delete()
+
+    current_clima_data = data['current']
+    ultima_actualizacion_api_str = current_clima_data['last_updated']
+    print(ultima_actualizacion_api_str)
+    ultima_actualizacion_api = datetime.strptime(ultima_actualizacion_api_str, '%Y-%m-%d %H:%M')
+    print(ultima_actualizacion_api)
+    ultima_actualizacion_api = timezone.make_aware(ultima_actualizacion_api, timezone=timezone.utc)
+    print(ultima_actualizacion_api)
+
+    # Extraer la información para los tres días del pronóstico
+    pronosticos_guardados = []
+    for dia in data['forecast']['forecastday']:
+        fecha_str = dia['date']  # Obtener la cadena de fecha
+        fecha = datetime.strptime(fecha_str, '%Y-%m-%d')  # Convertir la cadena a un objeto datetime
+        fecha = timezone.make_aware(fecha, timezone=timezone.utc)
+
+        # Convertir la fecha a la zona horaria de Chile continental
+        chile_tz = pytz_timezone('America/Santiago')
+        fecha_chile = fecha.astimezone(chile_tz)
+
+
+        # Verificar si ya existe un pronóstico para esta fecha y salida de terreno
+        pronostico_existente = PronosticoClima.objects.filter(salida_terreno=salida_terreno, fecha=fecha_chile).first()
+        if pronostico_existente:
+            # Actualizar el pronóstico existente con la nueva información
+            pronostico_existente.ubicacion = data['location']['name']
+            pronostico_existente.region = data['location']['region']
+            pronostico_existente.pais = data['location']['country']
+            pronostico_existente.temperatura_max = dia['day']['maxtemp_c']
+            pronostico_existente.temperatura_min = dia['day']['mintemp_c']
+            pronostico_existente.uv_index = dia['day']['uv']
+            pronostico_existente.probabilidad_lluvia = dia['day']['daily_chance_of_rain']
+            pronostico_existente.condiciones = dia['day']['condition']['text']
+            pronostico_existente.icono = dia['day']['condition']['icon']
+            pronostico_existente.ultima_actualizacion_api = ultima_actualizacion_api
+            pronostico_existente.save()
+            pronosticos_guardados.append(pronostico_existente)
+        else:
+            # Si no existe un pronóstico para esta fecha y salida de terreno, crear uno nuevo
+            pronostico = PronosticoClima.objects.create(
+                salida_terreno=salida_terreno,
+                ubicacion=data['location']['name'],
+                region=data['location']['region'],
+                pais=data['location']['country'],
+                fecha=fecha_chile,
+                temperatura_max=dia['day']['maxtemp_c'],
+                temperatura_min=dia['day']['mintemp_c'],
+                uv_index=dia['day']['uv'],
+                probabilidad_lluvia=dia['day']['daily_chance_of_rain'],
+                condiciones=dia['day']['condition']['text'],
+                icono=dia['day']['condition']['icon'],
+                ultima_actualizacion_api=ultima_actualizacion_api
+            )
+            pronosticos_guardados.append(pronostico)
+
+    return pronosticos_guardados
+
+
+def obtener_current_clima(salida_terreno, name):
+    # Verificar si existe información actualizada en los últimos 15 minutos
+    try:
+        ultima_actualizacion_servidor = CurrentClima.objects.filter(salida_terreno=salida_terreno).latest('ultima_actualizacion_servidor').ultima_actualizacion_servidor
+    except CurrentClima.DoesNotExist:
+        ultima_actualizacion_servidor = None
+
+    if ultima_actualizacion_servidor is not None:
+        tiempo_transcurrido = timezone.now() - ultima_actualizacion_servidor
+        # Si la última actualización es menor a 15 minutos, no se realiza la actualización
+        if tiempo_transcurrido < timedelta(minutes=15):
+            print('Si la última actualización es menor a 15 minutos, no se realiza la actualización')
+            return []
+
+    # Si no hay información actualizada o han pasado más de 15 minutos, se consulta la API
+    api_key = '10e980c96dbf46c6991205607240702'
+    ubicacion = f'{name},%20Chile'
+    url = f'http://api.weatherapi.com/v1/forecast.json?key={api_key}&q={ubicacion}&days=3&aqi=yes&alerts=yes&lang=es'
+    response = requests.get(url)
+    data = response.json()
+
+    # Extraer la información del clima actual
+    current_clima_data = data['current']
+    ultima_actualizacion_api_str = current_clima_data['last_updated']
+    print(ultima_actualizacion_api_str)
+    ultima_actualizacion_api = datetime.strptime(ultima_actualizacion_api_str, '%Y-%m-%d %H:%M')
+    print(ultima_actualizacion_api)
+    ultima_actualizacion_api = timezone.make_aware(ultima_actualizacion_api, timezone=timezone.utc)
+    print(ultima_actualizacion_api)
+
+    # Convertir la fecha a la zona horaria de Chile continental
+    chile_tz = pytz_timezone('America/Santiago')
+    ultima_actualizacion_servidor = timezone.now().astimezone(chile_tz)
+
+    # Verificar si ya existe un registro para esta salida de terreno
+    current_clima_existente = CurrentClima.objects.filter(salida_terreno=salida_terreno).first()
+    if current_clima_existente:
+        # Actualizar el registro existente con la nueva información
+        current_clima_existente.ubicacion = data['location']['name']
+        current_clima_existente.region = data['location']['region']
+        current_clima_existente.pais = data['location']['country']
+        current_clima_existente.temperatura_actual = current_clima_data['temp_c']
+        current_clima_existente.condicion_text = current_clima_data['condition']['text']
+        current_clima_existente.condicion_icono = current_clima_data['condition']['icon']
+        current_clima_existente.ultima_actualizacion_servidor = ultima_actualizacion_servidor
+        current_clima_existente.ultima_actualizacion_api = ultima_actualizacion_api
+        current_clima_existente.save()
+        return [current_clima_existente]
+    else:
+        # Si no existe un registro, crear uno nuevo
+        current_clima = CurrentClima.objects.create(
+            salida_terreno=salida_terreno,
+            ubicacion=data['location']['name'],
+            region=data['location']['region'],
+            pais=data['location']['country'],
+            temperatura_actual=current_clima_data['temp_c'],
+            condicion_text=current_clima_data['condition']['text'],
+            condicion_icono=current_clima_data['condition']['icon'],
+            ultima_actualizacion_servidor=ultima_actualizacion_servidor,
+            ultima_actualizacion_api=ultima_actualizacion_api
+        )
+        return [current_clima]
+
 
 
 @login_required
 @Alumno_required
 def home_alumno(request):
     user = request.user
+    
+    now = timezone.now()
+    now_chile = now.astimezone(timezone.get_default_timezone())
+    print(now_chile)
 
     # Obtén el objeto UsersMetadata asociado al usuario
     user_metadata = UsersMetadata.objects.get(user=user)
@@ -29,13 +182,42 @@ def home_alumno(request):
 
     # Toma la primera salida de terreno después de ordenar
     primera_salida_cercana = salidas_terreno.first()
+    
+    if not primera_salida_cercana:
+        print("No hay salidas de terreno próximas disponibles para mostrar..")
+        return render(request, 'db_alumno/db_home.html', {'data': None})
+    
     print(primera_salida_cercana)
 
-    return render(request, 'db_alumno/db_home.html', {'data': primera_salida_cercana})
+    name = primera_salida_cercana.lugar_ejecucion
+    name = name.replace(" ", "%20")
+    print(name)
+    
+
+    # Llamar a la función obtener_clima salida_terreno_id, name, region)
+    pronosticos_guardados = obtener_clima(primera_salida_cercana, name)
+    current_clima = obtener_current_clima(primera_salida_cercana, name)
+    print(pronosticos_guardados)
+    print('-----------------')
+    print(current_clima)
+
+    
+
+# Suponiendo que tienes una instancia de SalidaTerreno llamada 'salida_terreno'
+
+# Consulta para obtener los pronósticos climáticos asociados a la salida de terreno
+    pronosticos = PronosticoClima.objects.filter(salida_terreno=primera_salida_cercana).order_by('-fecha')[:2]
 
 
+# Invertir el orden de los pronósticos
+    pronosticos = reversed(pronosticos)
+    print(pronosticos)
 
+# Consulta para obtener el clima actual asociado a la salida de terreno
+    clima_actual = CurrentClima.objects.get(salida_terreno=primera_salida_cercana)
+    print(clima_actual.ubicacion)
 
+    return render(request, 'db_alumno/db_home.html', {'data': primera_salida_cercana, 'pronostico': pronosticos, 'current_clima': clima_actual})
 
 
 
@@ -46,6 +228,8 @@ def home_alumno(request):
 @login_required
 @Alumno_required
 def ji_alumno(request):
+
+
     user = request.user
     user_metadata = UsersMetadata.objects.get(user=user)
     salidas_terreno = SalidaTerreno.objects.filter(
@@ -57,6 +241,10 @@ def ji_alumno(request):
         documentos = Documento_inasis.objects.filter(users_metadata=user_metadata, salida_terreno=salida)
         print(documentos)  # Imprime los documentos obtenidos
         salida.documentos = documentos
+    
+    
+
+
 
     
 
