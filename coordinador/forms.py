@@ -128,7 +128,7 @@ class UserEditForm(UserChangeForm):
 
 class UsersMetadataForm(forms.ModelForm):
     username_field = forms.CharField(required=False, widget=forms.HiddenInput())  # Campo adicional para capturar el nombre de usuario
-    fields = ['sexo', 'perfil', 'nacionalidad', 'semestre', 'sede', 'nom_carrera', 'jornada', 'rut', 'nombres', 'ap_paterno', 'ap_materno', 'fnacimiento', 'estado_civil', 'direccion', 'numero', 'celular', 'contacto_emergencia', 'estado', 'foto', ]
+    fields = ['sexo', 'perfil', 'nacionalidad', 'semestre', 'sede', 'nom_carrera', 'jornada', 'rut', 'nombres', 'ap_paterno', 'ap_materno', 'fnacimiento', 'estado_civil', 'direccion', 'numero', 'celular', 'contacto_emergencia', 'estado', 'foto',]
     class Meta:
         model = UsersMetadata
         exclude = ['user', 'slug', 'correoduoc']  
@@ -138,7 +138,7 @@ class UsersMetadataForm(forms.ModelForm):
             'sexo': forms.Select(attrs={'class': 'form-select'}),
             'perfil': forms.Select(attrs={'class': 'form-select'}),
             'nacionalidad': forms.Select(attrs={'class': 'form-select'}),
-            'semestre': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
+            'semestre': forms.Select(choices=SEMESTRE_CHOICES, attrs={'class': 'form-select'}),
             'sede': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
             'nom_carrera': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
             'jornada': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),

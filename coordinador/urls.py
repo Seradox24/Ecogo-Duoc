@@ -29,4 +29,5 @@ urlpatterns = [
     path('semaforo-salida/<id>/', semaforo_salida, name="semaforo_salida"),
     path('lista-usuarios/', views.lista_usuarios, name='lista_usuarios'),
     path('ver-perfil-usuario/<int:usuario_id>/', ver_perfil_usuario, name='ver_perfil_usuario'),
+    path('manual-coordinador/', manual_coordinador, name="manual_coordinador"),
 ] 
