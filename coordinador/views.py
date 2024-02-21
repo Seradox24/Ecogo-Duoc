@@ -18,7 +18,7 @@ from django.http import Http404
 from coordinador.forms import AsignaturaForm
 from core.models import Asignatura
 from django.db.models import Q
-
+from django.contrib.auth.models import User
 @login_required
 @Coordinador_required
 def home_coordinador(request):
@@ -488,9 +488,8 @@ def semaforo_salida(request, id):
 
 
 
+
 def lista_usuarios(request):
-    print("xd")
-    # Obtener el valor de búsqueda del parámetro GET
     search_query = request.GET.get('search', '')
 
     # Filtrar los usuarios según el valor de búsqueda
@@ -500,7 +499,7 @@ def lista_usuarios(request):
         Q(perfil__nombre__icontains=search_query) |
         Q(sexo__nombre__icontains=search_query) |
         Q(estado__icontains=search_query)
-    ).distinct()
+    )
 
     perfil_seleccionado = request.GET.get('perfil', '')
     sexo_seleccionado = request.GET.get('sexo', '')
@@ -508,16 +507,21 @@ def lista_usuarios(request):
 
     # Aplicar filtros adicionales
     if perfil_seleccionado:
-        usuarios_filtrados = usuarios.filter(perfil__nombre=perfil_seleccionado)
-        print("Usuarios después del filtro de perfil: ", usuarios_filtrados)
-        usuarios = usuarios_filtrados
+        usuarios = usuarios.filter(perfil__nombre=perfil_seleccionado)
+        print("Usuarios después del filtro de perfil: ", usuarios)
 
     if sexo_seleccionado:
-        usuarios_filtrados = usuarios.filter(sexo__nombre=sexo_seleccionado)
-        print("Usuarios después del filtro de sexo: ", usuarios_filtrados)
-        usuarios = usuarios_filtrados
+        usuarios = usuarios.filter(sexo__nombre=sexo_seleccionado)
+        print("Usuarios después del filtro de sexo: ", usuarios)
+
+    # Ordenar los usuarios por el campo 'id' en orden descendente
+    usuarios = UsersMetadata.objects.all().order_by('-id')
+    for usuario in usuarios:
+        print(usuario.id, usuario.user.username)
 
     return render(request, 'db_coordinador/db_gest_usuarios.html', {'usuarios': usuarios})
+
+
 
 def ver_perfil_usuario(request, usuario_id):
     usuario = get_object_or_404(usuario, id=usuario_id)

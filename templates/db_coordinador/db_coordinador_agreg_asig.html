@@ -31,16 +31,7 @@
             <label for="sigla">Sigla:</label>
             <input type="text" class="form-control" id="sigla" name="sigla" maxlength="10">
         </div>
-    
-        <div class="form-group">
-            <label for="docentes">Docentes:</label>
-            <select class="form-control" id="docentes" name="docentes" multiple>
-                {% for docente in docentes_disponibles %}
-                    <option value="{{ docente.id }}">{{ docente }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    
+
         <div class="form-group">
             <label for="secciones">Secciones:</label>
             <select class="form-control" id="secciones" name="secciones" multiple>

@@ -20,17 +20,6 @@
           <div>
             <strong>Nombre:</strong> {{ asignatura.nombre }}<br>
             <strong>Sigla:</strong> {{ asignatura.sigla }}<br>
-            <strong>Docentes:</strong>
-            {% if asignatura.docentes.all %}
-            <ul class="list-group">
-              {% for docente in asignatura.docentes.all %}
-              <li class="list-group-item">{{ docente.user.first_name }} {{ docente.user.last_name }}</li>
-              {% endfor %}
-            </ul>
-            {% else %}
-            No hay información disponible.
-            {% endif %}
-            <br>
             <strong>Secciones:</strong>
             {% if asignatura.secciones.all %}
             <ul class="list-group">

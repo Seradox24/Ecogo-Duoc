@@ -38,7 +38,8 @@
     <div class="mb-3">
       <a href="{% url 'agreg_asig' %}" class="btn btn-success float-end">Agregar Asignatura</a>
     </div>
-    <h1>Lista de Asignaturas</h1>
+    <br>
+    <br>
     <ul class="list-group">
       {% for asignatura in asignaturas %}
       <li class="list-group-item">
@@ -46,17 +47,6 @@
           <div>
             <strong>Nombre:</strong> {{ asignatura.nombre }}<br>
             <strong>Sigla:</strong> {{ asignatura.sigla }}<br>
-            <strong>Docentes:</strong>
-            {% if asignatura.docentes.all %}
-            <ul class="list-group">
-              {% for docente in asignatura.docentes.all %}
-              <li class="list-group-item">{{ docente.user.first_name }} {{ docente.user.last_name }}</li>
-              {% endfor %}
-            </ul>
-            {% else %}
-            No hay información disponible.
-            {% endif %}
-            <br>
             <strong>Secciones:</strong>
             {% if asignatura.secciones.all %}
             <ul class="list-group">
