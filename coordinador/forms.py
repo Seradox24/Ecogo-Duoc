@@ -7,7 +7,7 @@ from django.db import models
 from core import models
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-
+from .models import *
 
 
 SEMESTRE_CHOICES = [
@@ -201,3 +201,15 @@ class SalidaTerrenoFormSemaforo(forms.ModelForm):
         self.fields['data1'].widget.attrs.update({
             'class': 'miSelect',
         })
+
+
+
+
+
+class SalidaTerrenoImplementoForm(forms.ModelForm):
+    class Meta:
+        model = SalidaTerrenoImplemento
+        fields = ['salida_terreno', 'implemento', 'presente']
+        widgets = {
+            'implemento': forms.CheckboxSelectMultiple
+        }

@@ -3,7 +3,7 @@ from django.core.paginator import Paginator
 from core.models import UsersMetadata, Perfiles
 from core.decorators import Alumno_required
 from django.contrib.auth.decorators import login_required
-from coordinador.models import SalidaTerreno, PronosticoClima, CurrentClima
+from coordinador.models import SalidaTerreno, PronosticoClima, CurrentClima,SalidaTerrenoImplemento
 from django.db.models import Q,F
 from django.utils import timezone
 from django.contrib import messages
@@ -19,6 +19,7 @@ from .forms import BajaEstudianteForm
 from django.http import Http404, HttpResponseBadRequest
 from .models import PronosticoClima, CurrentClima
 from django.core.paginator import Paginator
+
 
 
 def obtener_clima(salida_terreno, name):
@@ -243,12 +244,31 @@ def home_alumno(request,baja_estudiante_id=None):
     else:
         form = BajaEstudianteForm(instance=baja_estudiante)
 
+#implementos
+        
+
+    implementos_asociados = []
+    if primera_salida_cercana:
+        try:
+            # Intentar obtener los implementos asociados a la primera salida de terreno cercana
+            implementos_asociados = primera_salida_cercana.salidaterrenoimplemento_set.first().implemento.all()
+        except SalidaTerrenoImplemento.DoesNotExist:
+            print("No hay implementos asociados a la salida de terreno.")
+        except Exception as e:
+            print(f"Error al obtener los implementos asociados: {e}")    
+    
+
+
+
+
+
     context = {
         'form': form,
         'data': primera_salida_cercana,
         'pronostico': pronosticos,
         'current_clima': clima_actual,
         'baja_estudiante':baja_estudiante,
+        'implementos': implementos_asociados,
     }
 
     # Renderización de la plantilla con los datos

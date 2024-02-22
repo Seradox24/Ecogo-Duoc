@@ -2,7 +2,7 @@
 from django.contrib import admin
 from .models import Situacion, DiaSemana, Actividad, ExpAprendizaje
 from .models import SalidaTerreno,PronosticoClima, CurrentClima
-
+from .models import *
 
 class SituacionAdmin(admin.ModelAdmin):
     list_display = ['id', 'estado']
@@ -44,6 +44,18 @@ class SalidaTerrenoAdmin(admin.ModelAdmin):
 
     asig_comp_terreno_display.short_description = 'Asignaturas Comp. Terreno'
 
+
+
+class ImplementoAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'tipo', 'requerido')
+
+admin.site.register(Implemento, ImplementoAdmin)
+
+class SalidaTerrenoImplementoAdmin(admin.ModelAdmin):
+    list_display = ('salida_terreno', 'presente')
+    filter_horizontal = ('implemento',)
+
+admin.site.register(SalidaTerrenoImplemento, SalidaTerrenoImplementoAdmin)
 
 # Registra el modelo con su respectivo administrador
 admin.site.register(SalidaTerreno, SalidaTerrenoAdmin)

@@ -14,6 +14,7 @@
     <img src="{% static 'images/caminante-mochila-pie-cima-montana.jpg' %}" class="card-img .d-block" alt="..." style="width: 100%; height: 30vh; object-fit: cover;">
     <div class="card-img-overlay cardgrandient">
       <h6 class="card-subtitle mb-2 text-stroke">Proxima salida :  {{ data.fecha_ingreso }}</h6>
+      <h6 class="card-subtitle mb-2 text-stroke">Finaliza: {{ data.fecha_termino}} </h6>
       <h5 class="card-title">Actividad: {{data.actividad}} </h5>
       <p class="card-text">Lugar: {{data.lugar_ejecucion}}.</p>
       <p class="card-text">Duración: {{data.dias}} días, {{data.noches}} noches. /     
@@ -173,70 +174,90 @@
 
 
 
-      <div class="col-12 col-md-6 pt-3   ">
-        <div class="card  border border-black">
-          <h5 class="card-title  " >Implementos Necesarios:</h5>
-            
-            <div class="card-body  ">
-
-                <table class="table caption-top ">
-                    
+      <div class="col-12 col-md-6 pt-3">
+        <div class="card border border-black">
+            <h5 class="card-title">Implementos Necesarios:</h5>
+            <div class="card-body">
+                <table class="table caption-top">
                     <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nombre:</th>
-                        <th scope="col">Tipo</th>
-                        <th scope="col">Requerido</th>
-                      </tr>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Obligatorio</th>
+                        </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>- Traje Neopren</td>
-                        <td>- Ropa</td>
-                        <td>- Si</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>- Máscara de Buzo</td>
-                        <td>- Ropa</td>
-                        <td>- Si</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">4</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">5</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">6</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      
+                        {% if implementos %}
+                            {% for implemento in implementos %}
+                                {% if forloop.counter0 < 4 %}
+                                    <tr>
+                                        <th scope="row">{{ forloop.counter }}</th>
+                                        <td>{{ implemento.nombre }}</td>
+                                        <td>{{ implemento.tipo }}</td>
+                                        <td>{% if implemento.requerido %}Si{% else %}-{% endif %}</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                            {% if implementos|length > 6 %}
+                                <tr>
+                                    <td colspan="4">
+                                        <!-- Botón para activar el segundo modal -->
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miModalUnico2">
+                                          Ver más ...
+                                        </button>
+    
+                                        <!-- Segundo Modal -->
+                                        <div class="modal fade" id="miModalUnico2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="miModalUnicoLabel2" aria-hidden="true">
+                                          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                <!-- Título del segundo modal -->
+                                                <h1 class="modal-title fs-5" id="miModalUnicoLabel2">Título del segundo modal único</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                                              </div>
+                                              <div class="modal-body">
+                                                <!-- Contenido del segundo modal -->
+                                                <table class="table caption-top">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">Nombre</th>
+                                                            <th scope="col">Tipo</th>
+                                                            <th scope="col">Obligatorio</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for implemento in implementos %}
+                                                            <tr>
+                                                                <th scope="row">{{ forloop.counter }}</th>
+                                                                <td>{{ implemento.nombre }}</td>
+                                                                <td>{{ implemento.tipo }}</td>
+                                                                <td>{% if implemento.requerido %}Si{% else %}-{% endif %}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                              </div>
+                                              <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4">No hay implementos asociados a esta salida de terreno.</td>
+                            </tr>
+                        {% endif %}
                     </tbody>
-                  </table>            
-              
+                </table>
             </div>
-          </div>
-      </div>
+        </div>
     </div>
-  </div>
-
-
 
     
 

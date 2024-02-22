@@ -4,7 +4,6 @@ from .forms import SalidaTerrenoForm, UserCreationWithMetadataForm, UserEditForm
 from .models import SalidaTerreno
 from core.decorators import Coordinador_required
 from django.contrib.auth.decorators import login_required
-from core.models import UsersMetadata
 from django.contrib.auth.decorators import login_required
 from .forms import UserCreationWithMetadataForm, UsersMetadataForm
 from django.contrib import messages
@@ -18,6 +17,10 @@ from django.http import Http404
 from coordinador.forms import AsignaturaForm
 from core.models import Asignatura
 from django.db.models import Q
+from django.contrib.auth.models import User
+from core.models import UsersMetadata, Perfiles  
+from .models import *
+
 
 @login_required
 @Coordinador_required
@@ -235,87 +238,6 @@ def carga_masiva_alumno(request):
     return render(request, 'db_coordinador/db_carga_masiva_alumno.html')
 
 
-# ...
-
-# @login_required
-# @Coordinador_required
-# def cargar_datos(request):
-#     if request.method == 'POST':
-#         # Recupera el DataFrame de la sesión del usuario
-#         data_frame_dict = request.session.get('data_frame')
-#         if data_frame_dict is not None:
-#             df = pd.DataFrame.from_dict(data_frame_dict)
-            
-#             # Aquí puedes procesar el DataFrame y cargar los datos en tu modelo
-#             print(df)
-
-
-
-#             # Elimina el DataFrame de la sesión del usuario
-#             del request.session['data_frame']
-
-#         return redirect('home_coordinador')
-
-#     return HttpResponseBadRequest("Bad Request: Se esperaba una solicitud POST.")
-
-
-from django.contrib.auth.models import User
-from core.models import UsersMetadata, Perfiles  # Asegúrate de ajustar esto con la ruta correcta de tu modelo
-
-
-
-
-# @login_required
-# @Coordinador_required
-# def cargar_datos(request):
-#     if request.method == 'POST':
-       
-#         data_frame_dict = request.session.get('data_frame')
-#         if data_frame_dict is not None:
-#             df = pd.DataFrame.from_dict(data_frame_dict)
-
-           
-#             for index, row in df.iterrows():
-                
-#                 rut = row['RUT']
-#                 userito=row['CORREO DUOC']
-#                 jornada = row['JORNADA']
-#                 nombre = row['NOMBRES'].replace(" ", "")  # Elimina espacios del nombre
-#                 apellido_paterno = row['AP.PATERNO'].replace(" ", "")  # Elimina espacios del apellido
-#                 print(f"-{rut}- {userito} - - {jornada} - - {nombre} - - {apellido_paterno}  - {userito}")
-#                 print(f"contraseña = {rut}{jornada}{nombre[:3]}{apellido_paterno[-2:]}")
-               
-#                 user = User.objects.filter(username=userito).first()
-
-#                 if user:
-                    
-#                     user.set_password(f"{rut}{jornada}{nombre[:3]}{apellido_paterno[-2:]}")
-                    
-#                     print(user)
-#                     print(user.username)
-#                     print(user.password)
-#                     user.save()
-                    
-#                 else:
-                    
-#                     user = User.objects.create_user(username=userito, password=f"{rut}{jornada}{nombre[:3]}{apellido_paterno[-2:]}")
-                    
-#                     print(user)
-#                     print(user.username)
-#                     print(user.password)
-
-               
-
-#             # Elimina el DataFrame de la sesión del usuario
-#             del request.session['data_frame']
-
-#         return redirect('home_coordinador')
-
-#     return HttpResponseBadRequest("Bad Request: Se esperaba una solicitud POST.")
-
-
-
-
 @login_required
 @Coordinador_required
 def cargar_datos(request):
@@ -521,3 +443,99 @@ def lista_usuarios(request):
 def ver_perfil_usuario(request, usuario_id):
     usuario = get_object_or_404(usuario, id=usuario_id)
     return render(request, 'db_coordinador/db_gest_usuarios.html', {'usuario': usuario})
+
+
+
+
+#generar pdf para salida 
+
+
+import io
+from django.http import FileResponse
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+from reportlab.lib import colors
+from alumno.models import SalidaTerreno, BajaEstudiante
+from reportlab.lib.styles import getSampleStyleSheet
+
+def generar_pdf(request, salida_id):
+    try:
+        salida = SalidaTerreno.objects.get(id=salida_id)
+        secciones = salida.seccion.all()
+
+        # Datos para la tabla
+        data = []
+        # Encabezados de la tabla
+        headers = ["Sección", "Estudiante", "Bajada"]
+
+        for seccion in secciones:
+            try:
+                # Filtrar los estudiantes que pertenecen a la sección
+                estudiantes = seccion.alumnos.all()
+                for estudiante in estudiantes:
+                    bajada = BajaEstudiante.objects.filter(estudiante=estudiante, salida_terreno=salida).first()
+                    bajada_nombre = bajada.bajada.nombre if bajada and bajada.bajada else "Sede Valparaíso"
+                    data.append([seccion.nombre, str(estudiante), bajada_nombre])
+            except BajaEstudiante.DoesNotExist:
+                pass  # No hay estudiantes asociados a esta sección
+
+        # Configurar estilos de la tabla
+        style = TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.lightblue),  # Encabezados en color
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),  # Texto de encabezado en blanco
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # Alineación central
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),  # Fuente en negrita para encabezados
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),  # Espacio inferior para encabezados
+            ('BACKGROUND', (0, 1), (-1, -1), colors.beige),  # Color de fondo para filas de datos
+        ])
+
+        # Configurar la tabla
+        table = Table([headers] + data)
+        table.setStyle(style)
+
+        # Definir estilo para el título
+        styles = getSampleStyleSheet()
+        style_title = styles["Title"]
+
+        # Crear el documento PDF
+        buffer = io.BytesIO()
+        doc = SimpleDocTemplate(buffer, pagesize=letter)
+        elements = []
+        elements.append(Paragraph("Lista de Estudiantes", style=style_title))
+        elements.append(table)
+
+        # Construir el PDF
+        doc.build(elements)
+
+        # Devolver el PDF como respuesta
+        buffer.seek(0)
+        return FileResponse(buffer, as_attachment=True, filename=f'estudiantes_{salida_id}.pdf')
+
+    except SalidaTerreno.DoesNotExist:
+        return HttpResponse("La salida a terreno especificada no existe.")
+
+
+
+
+def lista_implementos_salida(request, salida_terreno_id):
+    salida_terreno = get_object_or_404(SalidaTerreno, pk=salida_terreno_id)
+    implementos = Implemento.objects.all()
+
+    if request.method == 'POST':
+        implementos_seleccionados = request.POST.getlist('implementos')
+        if salida_terreno.salidaterrenoimplemento_set.exists():
+            salida_terreno.salidaterrenoimplemento_set.first().implemento.clear()
+        else:
+            salida_terreno.salidaterrenoimplemento_set.create(salida_terreno=salida_terreno)
+        for implemento_id in implementos_seleccionados:
+            implemento = Implemento.objects.get(pk=implemento_id)
+            salida_terreno.salidaterrenoimplemento_set.first().implemento.add(implemento)
+
+        # Recuperar los implementos asociados actualizados después de guardar
+        implementos_asociados = salida_terreno.salidaterrenoimplemento_set.first().implemento.all()
+        return render(request, 'db_coordinador/lista_implementos_salida.html', {'salida_terreno': salida_terreno, 'implementos': implementos, 'implementos_asociados': implementos_asociados})
+
+    # Obtener los implementos asociados si existen
+    implementos_asociados = salida_terreno.salidaterrenoimplemento_set.first().implemento.all() if salida_terreno.salidaterrenoimplemento_set.exists() else []
+
+    return render(request, 'db_coordinador/lista_implementos_salida.html', {'salida_terreno': salida_terreno, 'implementos': implementos, 'implementos_asociados': implementos_asociados})
