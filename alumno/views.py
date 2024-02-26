@@ -1,21 +1,26 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator
 from core.models import UsersMetadata, Perfiles
 from core.decorators import Alumno_required
 from django.contrib.auth.decorators import login_required
-from coordinador.models import SalidaTerreno, PronosticoClima, CurrentClima
+from coordinador.models import SalidaTerreno, PronosticoClima, CurrentClima,SalidaTerrenoImplemento
 from django.db.models import Q,F
 from django.utils import timezone
 from django.contrib import messages
-from .models import Documento_inasis, Estado
+from .models import Documento_inasis, Estado,PronosticoClima, CurrentClima,BajaEstudiante
 import requests
 import json
 from django.http import JsonResponse
 from datetime import datetime, timedelta
 from django.utils.timezone import make_aware
 from pytz import timezone as pytz_timezone
+from .forms import BajaEstudianteForm
+
+from django.http import Http404, HttpResponseBadRequest
 from .models import PronosticoClima, CurrentClima
 from django.core.paginator import Paginator
-from django.http import Http404
+
+
 
 def obtener_clima(salida_terreno, name):
     # Verificar si existe información actualizada en los últimos 15 minutos
@@ -164,7 +169,7 @@ def obtener_current_clima(salida_terreno, name):
 
 @login_required
 @Alumno_required
-def home_alumno(request):
+def home_alumno(request,baja_estudiante_id=None):
     user = request.user
     
     now = timezone.now()
@@ -219,8 +224,57 @@ def home_alumno(request):
     clima_actual = CurrentClima.objects.get(salida_terreno=primera_salida_cercana)
     print(clima_actual.ubicacion)
 
-    return render(request, 'db_alumno/db_home.html', {'data': primera_salida_cercana, 'pronostico': pronosticos, 'current_clima': clima_actual})
 
+#seccion de bajada del estudiante 
+    estudiante = user_metadata
+    salida_terreno = primera_salida_cercana
+
+    # Buscamos una BajaEstudiante existente que coincida con el estudiante y la salida a terreno
+    baja_estudiante = BajaEstudiante.objects.filter(estudiante=estudiante, salida_terreno=salida_terreno).first() if estudiante and salida_terreno else None
+
+    # Si no encontramos una BajaEstudiante existente, creamos una nueva
+    if not baja_estudiante:
+        baja_estudiante = BajaEstudiante(estudiante=estudiante, salida_terreno=salida_terreno)
+
+    if request.method == 'POST':
+        form = BajaEstudianteForm(request.POST, instance=baja_estudiante)
+        if form.is_valid():
+            form.save()
+            return redirect('home_alumno')
+    else:
+        form = BajaEstudianteForm(instance=baja_estudiante)
+
+#implementos
+        
+
+    implementos_asociados = []
+    if primera_salida_cercana:
+        try:
+            # Intentar obtener los implementos asociados a la primera salida de terreno cercana
+            implementos_asociados = primera_salida_cercana.salidaterrenoimplemento_set.first().implemento.all()
+        except SalidaTerrenoImplemento.DoesNotExist:
+            print("No hay implementos asociados a la salida de terreno.")
+        except Exception as e:
+            print(f"Error al obtener los implementos asociados: {e}")    
+    
+
+
+
+
+
+    context = {
+        'form': form,
+        'data': primera_salida_cercana,
+        'pronostico': pronosticos,
+        'current_clima': clima_actual,
+        'baja_estudiante':baja_estudiante,
+        'implementos': implementos_asociados,
+    }
+
+    # Renderización de la plantilla con los datos
+    return render(request, 'db_alumno/db_home.html', context)
+
+    
 
 
 

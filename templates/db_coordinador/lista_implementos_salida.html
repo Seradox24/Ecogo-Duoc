@@ -1,0 +1,23 @@
+{% extends '../layout/dash_base_docente.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+<h1>Lista de Implementos para Salida de Terreno {{ salida_terreno.id }}</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <h2>Seleccionar Implementos:</h2>
+        <ul>
+            {% for implemento in implementos %}
+                <li>
+                    <input type="checkbox" name="implementos" value="{{ implemento.id }}" {% if implemento in implementos_asociados %}checked{% endif %}>
+                    <label>{{ implemento.nombre }}</label>
+                </li>
+            {% endfor %}
+        </ul>
+        <button type="submit">Guardar Implementos</button>
+    </form>
+
+{% endblock %}
