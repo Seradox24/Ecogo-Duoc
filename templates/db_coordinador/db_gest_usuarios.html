@@ -3,7 +3,6 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-
   <script>
     function confirmarEliminacion(boton) {
       Swal.fire({
@@ -25,19 +24,18 @@
     }
   </script>
 
-<div class="input-group">
-  <button class="btn btnnav" type="button" id="button-addon2" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></button>
-  <div class="col text-center text-bg-dark">
+  <div class="input-group">
+    <button class="btn btnnav" type="button" id="button-addon2" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></button>
+    <div class="col text-center text-bg-dark">
       <h1>Gestión de Usuarios</h1>
+    </div>
+    <button class="btn btnnav" type="button" id="button-addon2"><i class="fa-solid fa-question"></i></button>
   </div>
-  <button class="btn btnnav" type="button" id="button-addon2"><i class="fa-solid fa-question"></i></button>
-</div>
 
-<br>
+  <br>
 
   <div class="card text-dark bg-light mb-3">
     <div class="card-body">
-
       <form method="get" action="{% url 'lista_usuarios' %}">
         <div class="row">
           <div class="col-md-4 mb-2">
@@ -49,7 +47,7 @@
               <option value="Coordinador">Coordinador</option>
             </select>
           </div>
-          
+
           <div class="col-md-4 mb-2">
             <label for="sexo">Sexo:</label>
             <select name="sexo" class="form-control">
@@ -58,7 +56,7 @@
               <option value="FEMENINO">Femenino</option>
             </select>
           </div>
-          
+
           <div class="col-md-4 mb-2">
             <label for="search">Buscar:</label>
             <div class="input-group">
@@ -89,7 +87,7 @@
                 <strong>Estado:</strong> {{ usuario.estado }}<br>
               </div>
               <div class="d-flex align-items-center">
-                <button class="btn btn-info me-2" type="button" data-toggle="collapse" data-target="#collapseUsuario{{ usuario.id }}" aria-expanded="false" aria-controls="collapseUsuario{{ usuario.id }}">
+                <button class="btn btn-info me-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUsuario{{ usuario.id }}" aria-expanded="false" aria-controls="collapseUsuario{{ usuario.id }}">
                   Ver Perfil
                 </button>
                 <a href="{% url 'edit-usuarios' usuario.id %}" class="btn btn-primary me-2">Editar</a>
@@ -102,8 +100,8 @@
             <hr>
             <div class="collapse" id="collapseUsuario{{ usuario.id }}">
               <!-- Contenido del perfil -->
-              <h5>Informació adicional de: {{ usuario.user.username }}</h5>
-              
+              <h5>Información adicional de: {{ usuario.user.username }}</h5>
+
               <!-- Enlace de descarga de la ficha médica -->
               {% for documento in usuario.documentos.all %}
                 <a href="{{ documento.archivo.url }}" download="{{ documento.nombre }}">
