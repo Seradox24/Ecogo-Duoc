@@ -29,6 +29,7 @@ urlpatterns = [
     path('semaforo-salida/<id>/', semaforo_salida, name="semaforo_salida"),
     path('lista-usuarios/', views.lista_usuarios, name='lista_usuarios'),
     path('ver-perfil-usuario/<int:usuario_id>/', ver_perfil_usuario, name='ver_perfil_usuario'),
+    path('manual-coordinador/', manual_coordinador, name="manual_coordinador"),
     path('generate-pdf/<int:salida_id>/', views.generar_pdf, name='generar_pdf'),
     path('salida_terreno/<int:salida_terreno_id>/implementos/', lista_implementos_salida, name='lista_implementos_salida'),
 ] 

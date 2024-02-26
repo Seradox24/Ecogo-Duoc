@@ -446,6 +446,11 @@ def ver_perfil_usuario(request, usuario_id):
 
 
 
+@login_required
+@Coordinador_required
+def manual_coordinador(request):
+    return render(request, 'db_coordinador/db_menu_coordinador.html')
+
 
 #generar pdf para salida 
 

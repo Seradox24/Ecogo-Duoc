@@ -1,0 +1,53 @@
+{% extends '../layout/dash_base_docente.html' %} 
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}  
+
+<div class="input-group">
+    <button class="btn btnnav" type="button" id="button-addon2" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></button>
+    <div class="col text-center text-bg-dark">
+        <h1>Manual de Usuario Coordinador</h1>
+    </div>
+    <button class="btn btnnav" type="button" id="button-addon2" onclick="redirigir()"><i class="fa-solid fa-question"></i></button>
+</div>
+
+<br>
+
+<div class="card tex text-center">
+    <h1>Gestionar Salidas a Terreno</h1>
+
+    <ul class="list-group">
+        <li class="list-group-item"><h5>Crear nueva salida a terreno</h5>
+            <p>Para comenzar con las gestion de las salidad a terreno, debera presionar en el boton con el nombre de Agregar nueva Salida a Terreno: <div class="d-grid gap-2 col-6 mx-auto">
+                <a class="btn btnagre">Agregar nueva salida a Terreno <i class="fa-regular fa-square-plus mas"></i></a>
+            </div></p>
+            <br>
+            <p>Luego debera rellenar el formulario de salida con todos los datos que se solicitan, cuando ya tenga lo datos ingresados, revise cautelosamente para listar los datos deseados. Para finalizar presione el boton: <button class="btn btnagre" type="button">Generar salida a Terreno <i class="fa-regular fa-square-plus mas"></i></button></p>
+        </li>
+        <li class="list-group-item">
+            <h5>Modificar Salida a Terreno</h5>
+            <p>Para modificar algun dato de una Salida a Terreno debe dirigirse Gestionar Salidas a terreno y seleccionar la salida que desea modificar y presionar el boton: <a  class="btn btn-primary btn-sm">Editar</a></p>
+            <br>
+            <p>Luego de presionarle boton, la pagina lo redireccionara a un lista con los datos ingresados, usted debera editar los datos los cuales desea modidifcar, finalrmente debera presionar ael boton: <button class="btn btnagre" >Modificar salida a Terreno <i class="fa-regular fa-square-plus mas" aria-hidden="true"></i></button></p>
+        </li>
+        <li class="list-group-item">
+            <h5>Eliminar Salida a Terreno</h5>
+            <p>Para eliminar una Salida a terreno dirigirse Gestionar Salidas a terreno y seleccionar la salida que desea eliminar y precionar el boton: <a  class="btn btn-danger btn-sm">Eliminar</a></p>
+            <br>
+            <p>Luego de ello aparecera un mensaje emergente preguntando si esta segore de realizar la eliminarcon de la Salida a Terreno, ahi debera elegir una opcion, ya sea: No, Cancelar o Sí, Eliminar
+        </li>
+        <li class="list-group-item">
+            <h5>Semaforo de Salida</h5>
+            <p>Para selecciona un estado para el semaforo de la Salida a Terreno debe dirigirse Gestionar Salidas a terreno y seleccionar El semaforo que desea definir o modificar seleccionando el icono: 
+                <br>
+            <div class="d-flex justify-content-center">
+                <a  class="btn btn-secondary btn-circle btn-xl"><i class="fa-solid fa-pen-to-square" aria-hidden="true"></i></a> &nbsp;<a  class="btn btn-danger btn-circle btn-xl"><i class="fa-solid fa-pen-to-square" aria-hidden="true"></i></a> &nbsp;<a  class="btn btn-warning btn-circle btn-xl"><i class="fa-solid fa-pen-to-square" aria-hidden="true"></i></a> &nbsp;<a  class="btn btn-success btn-circle btn-xl"><i class="fa-solid fa-pen-to-square" aria-hidden="true"></i></a>
+            </div>
+            <br>
+            <p>Al momento de presionar un de los iconos, la pagina redireccionara a un sitio donde se tiene que definir el estado del Semaforo, luego de ello presione el boton: <button class="btn btnagre" >Guardar Semaforo <i class="fa-regular fa-square-plus mas" aria-hidden="true"></i></button></p>
+        </li>
+      </ul>
+</div>
+
+{% endblock %}
