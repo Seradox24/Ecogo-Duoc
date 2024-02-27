@@ -109,3 +109,21 @@ class CurrentClima(models.Model):
         verbose_name = 'Clima Actual'
         verbose_name_plural = 'Climas Actuales'
         unique_together = ['salida_terreno']        
+
+
+
+class Implemento(models.Model):
+    nombre = models.CharField(max_length=100, blank=True, null=True)
+    tipo = models.CharField(max_length=100, blank=True, null=True)
+    requerido = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.nombre
+
+class SalidaTerrenoImplemento(models.Model):
+    salida_terreno = models.ForeignKey(SalidaTerreno, on_delete=models.CASCADE, blank=True, null=True)
+    implemento = models.ManyToManyField(Implemento, related_name='salida_terreno_implemento', blank=True)
+    presente = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.implemento} - Salida: {self.salida_terreno.id}"

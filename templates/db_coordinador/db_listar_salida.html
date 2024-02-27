@@ -83,7 +83,7 @@
                 <th>Numero de salida</th>
                 <th>Asig. comp. terreno</th>
                 <th>Observaciones</th>
-                <th colspan="2">Opciones</th>
+                <th colspan="3">Opciones</th>
               
             </tr>
         
@@ -154,6 +154,17 @@
                 </td>
                 <td>
                     <a href="{% url 'eliminar_salida' s.id %}" onclick="confirmarEliminacion(this); return false;" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+
+                <td class="">
+                    <a href="{% url 'generar_pdf' s.id %}" class="btn btn-warning btn-sm">Descenso estudiantes</a>
+                    
+                    
+                </td>
+                <td class="">
+                    <a href="{% url 'lista_implementos_salida' s.id %}" class="btn btn-warning btn-sm">item</a>
+                    
+                    
                 </td>
                 
             </tr>

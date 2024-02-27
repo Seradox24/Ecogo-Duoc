@@ -13,3 +13,5 @@ django-humanize
 pandas
 openpyxl
 requests
+reportlab
+django-jene-pdf

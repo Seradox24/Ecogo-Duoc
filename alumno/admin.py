@@ -2,6 +2,10 @@
 from django.contrib import admin
 from .models import Estado, Documento_inasis
 from core.models import UsersMetadata
+from django.contrib import admin
+from .models import Bajada, BajaEstudiante
+
+
 
 @admin.register(Estado)
 class EstadoAdmin(admin.ModelAdmin):
@@ -20,3 +24,6 @@ class DocumentoInasisAdmin(admin.ModelAdmin):
         # Asigna el usuario actual al campo users_metadata antes de guardar
         obj.users_metadata = UsersMetadata.objects.get(user=request.user)
         obj.save()
+        
+admin.site.register(Bajada)
+admin.site.register(BajaEstudiante)
