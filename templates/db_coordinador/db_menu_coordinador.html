@@ -50,4 +50,100 @@
       </ul>
 </div>
 
+<br>
+
+<div class="card tex text-center">
+    <h1>Gestionar Asignaturas</h1>
+
+    <ul class="list-group">
+        <li class="list-group-item">
+            <h5>Agregar Asignatura</h5>
+        <p>Para agregar una nueva asignatura debe dirigirse a gestionar asignaturas y presionar el boton: <a  class="btn btn-success">Agregar Asignatura <i class="fa-regular fa-square-plus mas" aria-hidden="true"></i></a></p>
+        <br>
+        <p>Luego de ello la pagina lo redireccionara a un formulario, el cual debe rellenar con Nombre, Sigla, Docentes y Secciones. Despues de ingresar los datos debera presionar el boton: <button class="btn btn-primary">Guardar</button></p>
+        </li>
+
+        <li class="list-group-item">
+            <h5>Editar Asignatura</h5>
+            <p>Para modificar algun dato de una Asignatura debe dirigirse a gestionar asignaturas y seleccionar la asignatura que desea modificar y presionar el boton: <a  class="btn btn-primary btn-sm">Editar</a></p>
+            <br>
+            <p>Luego de presionarle boton, la pagina lo redireccionara a un lista con los datos ingresados, usted debera editar los datos los cuales desea modidifcar, finalmente debera presionar el boton: <button class="btn btn-primary">Guardar cambios</button></p>
+        </li>
+        <li class="list-group-item">
+            <h5>Eliminar Asignatura</h5>
+            <p>Para eliminar una Asignatura dirigirse a gestionar asignaturas y seleccionar la asignatura que desea eliminar y precionar el boton: <a  class="btn btn-danger btn-sm">Eliminar</a></p>
+            <br>
+            <p>Luego de ello aparecera un mensaje emergente preguntando si esta seguro de realizar la eliminarcon de la Asignatura, ahi debera elegir una opcion, ya sea: No, Cancelar o Sí, Eliminar
+        </li>
+    </ul>
+</div>
+
+<br>
+
+<div class="card text text-center">
+    <h1>Gestion de Usuarios</h1>
+
+    <ul class="list-group">
+        <li class="list-group-item">
+            <h5>Sistema de busqueda</h5>
+            <p>Cuando este en el mueno de Gestion de Usuarios debe dirigirse a la barra superior de la pagina y seleccionar entre las opciones para filtrar un usuario o usuarios en especifico: 
+                <div class="row">
+                    <div class="col-md-4 mb-2">
+                      <label for="perfil">Perfil:</label>
+                      <select name="perfil" class="form-control">
+                        <option value="">Todos</option>
+                        <option value="Docente">Docente</option>
+                        <option value="Alumno">Alumno</option>
+                        <option value="Coordinador">Coordinador</option>
+                      </select>
+                    </div>
+                    
+                    <div class="col-md-4 mb-2">
+                      <label for="sexo">Sexo:</label>
+                      <select name="sexo" class="form-control">
+                        <option value="">Todos</option>
+                        <option value="MASCULINO">Masculino</option>
+                        <option value="FEMENINO">Femenino</option>
+                      </select>
+                    </div>
+                    
+                    <div class="col-md-4 mb-2">
+                      <label for="search">Buscar:</label>
+                      <div class="input-group">
+                        <input type="text" name="search" class="form-control" placeholder="Buscar" value="">
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                      </div>
+                    </div>
+                  </div>
+              
+            </p>
+            <br>
+            <p>Tambien puede filtrar mediante palabras claves en la barra de busqueda, para un usuarios con un dato especifico.</p>
+        </li>
+
+        <br>
+
+        <li class="list-group-item">
+            <h5>Agregar Usuario</h5>
+            <p>Para agregar un nuevo usuario debe dirigirse a Gestion de Usuarios y presionar el boton: <a class="btn btn-success">Agregar Usuario <i class="fa-regular fa-square-plus mas" aria-hidden="true"></i></a></p>
+            <br>
+            <p>Luego debera rellenar el formulario de salida con todos los datos que se solicitan, cuando ya tenga lo datos ingresados, revise cautelosamente para lograr una creacion de usuario exitosa. Para finalizar presione el boton: <button class="btn btn-primary">Guardar</button></p>
+        </li>
+
+        <li class="list-group-item">
+            <h5>Editar Usuario</h5>
+            <p>Para modificar algun dato del Usuario debe dirigirse a Gestion de Usuarios y seleccionar el usuario que desea modificar y presionar el boton: <a  class="btn btn-primary btn-sm">Editar</a></p>
+            <br>
+            <p>Luego de presionarle boton, la pagina lo redireccionara a un lista con los datos ingresados, usted debera editar los datos los cuales desea modidifcar, finalmente debera presionar el boton: <button class="btn btn-primary">Guardar cambios</button></p>
+        </li>
+        <li class="list-group-item">
+            <h5>Eliminar Asignatura</h5>
+            <p>Para eliminar un Usuario debe dirigirse a Gestion de Usuarios y seleccionar el usuario que desea eliminar y precionar el boton: <a  class="btn btn-danger btn-sm">Eliminar</a></p>
+            <br>
+            <p>Luego de ello aparecera un mensaje emergente preguntando si esta seguro de realizar la eliminarcon del Usuario, ahi debera elegir una opcion, ya sea: No, Cancelar o Sí, Eliminar
+        </li>
+
+    </ul>
+
+</div>
 {% endblock %}
