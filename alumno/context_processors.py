@@ -18,7 +18,7 @@ def urls_processor(request):
             if perfil_nombre == 'Alumno':
                 urls = [
                     {'url': 'home_alumno', 'nombre': 'Home', 'icon': ' txt fa fa-house'},
-                    {'url': 'ji_alumno', 'nombre': 'Justificación de Inasistencia', 'icon': 'txt fa fa-heart-circle-plus'},
+                    #{'url': 'ji_alumno', 'nombre': 'Justificación de Inasistencia', 'icon': 'txt fa fa-heart-circle-plus'},
                     {'url': 'msalida_alumno', 'nombre': 'Mis Salidas', 'icon': 'txt fa fa-person-walking-luggage'},
                     # Añade más URLs para el perfil de alumno aquí
                 ]
@@ -27,7 +27,7 @@ def urls_processor(request):
                     {'url': 'home_docente', 'nombre': 'Home', 'icon': ' fa fa-house'},
                     {'url': 'gest_asig_docente', 'nombre': 'Lista de asignaturas', 'icon': 'txt fa fa-book-bookmark'},
                     {'url': 'docente_listar_salida', 'nombre': 'Lista de salidas', 'icon': 'txt fa fa-book-bookmark'},
-                    {'url': 'ji_docente', 'nombre': 'Justificación alumnos', 'icon': 'txt fa fa-book-bookmark'},
+                    #{'url': 'ji_docente', 'nombre': 'Justificación alumnos', 'icon': 'txt fa fa-book-bookmark'},
 
                     # Añade las URLs para el perfil de docente aquí
                 ]
@@ -47,9 +47,12 @@ def urls_processor(request):
                 ]
             else:
                 urls = []  # Si el usuario no tiene un rol reconocido, no proporcionamos ninguna URL
+                perfil_nombre ='mada'
         else:
-            urls = []  # Si el usuario no tiene UsersMetadata, perfil o nombre, no proporcionamos ninguna URL
+            urls = [] # Si el usuario no tiene UsersMetadata, perfil o nombre, no proporcionamos ninguna URL
+            perfil_nombre ='mada' 
     else:
         urls = []  # Si el usuario no está autenticado, no proporcionamos ninguna URL
+        perfil_nombre ='mada'
 
-    return {'urls': urls}
+    return {'urls': urls,'perfil':perfil_nombre}

@@ -173,7 +173,7 @@
 
 
 
-
+{% comment %} 
       <div class="col-12 col-md-6 pt-3">
         <div class="card border border-black">
             <h5 class="card-title">Implementos Necesarios:</h5>
@@ -257,7 +257,7 @@
                 </table>
             </div>
         </div>
-    </div>
+    </div> {% endcomment %}
 
     
 
@@ -268,9 +268,9 @@
 
 <!-- profesor / implementos  -->
 
-<div class="text-center   ">
+<div class="text-center  col-12 col-md-6 pt-3  ">
   <div class="row">
-    <div class=" col-12 col-md-6 pt-3 ">
+    <div class=" ">
       <div class="card text-bg-dark ">
 
         <h5 class="card-title ">Clima de la zona : {{current_clima.ubicacion}}, {{current_clima.pais}}  </h5>
@@ -343,7 +343,7 @@
 
 
     
-    <div class="col-12 col-md-6 pt-2  ">
+    {% comment %} <div class="col-12 col-md-6 pt-2  ">
       <div class="text-center " >
         <div class="row py-2">
           <div class="card border-black">
@@ -392,8 +392,11 @@
     </div>
 
 
-  </div>
-  <div class="row py-2 ">
+  </div> {% endcomment %}
+
+  
+</div>
+    </div><div class="py-2 ">
 
     <div class="card border-black">
       <div class="card-body">
@@ -409,8 +412,6 @@
 
 
   </div>
-</div>
-    </div>
   </div>
 </div>
 
