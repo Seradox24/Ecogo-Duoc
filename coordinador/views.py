@@ -67,8 +67,8 @@ def obtener_secciones(request):
     secciones_dict = [{'id': seccion.id, 'asignatura': seccion.asignatura.nombre, 'seccion': seccion.nombre.nombre} for seccion in secciones]
     
     # Imprimir las secciones por consola para verificar
-    for seccion in secciones_dict:
-        print(seccion)
+    #for seccion in secciones_dict:
+    #    print(seccion)
     
     # Devolver las secciones como una respuesta JSON
     return JsonResponse(secciones_dict, safe=False)
@@ -111,17 +111,27 @@ def editar_salida(request, id):
             messages.success(request, "Modificado Correctamente!")
             return redirect('listar_salida')
         else:
-             print('Errores del formulario:')
-             print(form.errors)
-             print('Errores específicos de docentes_apoyo:')
-             print(form.errors.get('docentes_apoyo'))
-             print(request.POST)
+            print('Errores del formulario:')
+            print(form.errors)
+            print('Errores específicos de docentes_apoyo:')
+            print(form.errors.get('docentes_apoyo'))
+            print(request.POST)
     else:
         form = SalidaTerrenoForm(instance=salida)
-        # Imprimir los datos del formulario
-        # print(form.as_p())  Esto imprimirá el formulario en formato HTML
+        # Obtener las asignaturas seleccionadas y pasarlas a la plantilla
+        asignaturas_seleccionadas = salida.asignaturas.all()
+        asignaturas_seleccionadas_ids = [asignatura.id for asignatura in asignaturas_seleccionadas]
+        print("Asignaturas seleccionadas:", asignaturas_seleccionadas)
 
-    return render(request, 'db_coordinador/db_editar_salida.html', {'form': form, 'instance': salida})
+        # Obtener las secciones seleccionadas y pasarlas a la plantilla
+        secciones_seleccionadas = salida.secciones.all()
+        secciones_seleccionadas_ids = [seccion.id for seccion in secciones_seleccionadas]
+        print("Secciones seleccionadas:", secciones_seleccionadas)
+
+    return render(request, 'db_coordinador/db_editar_salida.html', {'form': form, 'instance': salida, 'asignaturas_seleccionadas_ids': asignaturas_seleccionadas_ids, 'secciones_seleccionadas_ids': secciones_seleccionadas_ids,'secciones_seleccionadas': secciones_seleccionadas,})
+
+
+
 
 
 
