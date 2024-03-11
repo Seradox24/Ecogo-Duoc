@@ -394,12 +394,12 @@ def editar_asignatura(request, asignatura_id):
         form = AsignaturaForm(request.POST, instance=asignatura)
         if form.is_valid():
             form.save()
-            return redirect('gest_asig')  
+            return redirect('gest_asig')  # Ajusta el nombre de la URL según tu configuración
     else:
         form = AsignaturaForm(instance=asignatura)
     
     return render(request, 'db_coordinador/db_edit_asig.html', {'form': form, 'asignatura': asignatura})
-
+ 
 
 @login_required
 @Coordinador_required

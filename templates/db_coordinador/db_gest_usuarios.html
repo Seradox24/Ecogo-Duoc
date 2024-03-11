@@ -41,22 +41,22 @@
           <div class="col-md-4 mb-2">
             <label for="perfil">Perfil:</label>
             <select name="perfil" class="form-control">
-              <option value="">Todos</option>
-              <option value="Docente">Docente</option>
-              <option value="Alumno">Alumno</option>
-              <option value="Coordinador">Coordinador</option>
+              <option value="" {% if not request.GET.perfil %}selected{% endif %}>Todos</option>
+              <option value="Docente" {% if request.GET.perfil == 'Docente' %}selected{% endif %}>Docente</option>
+              <option value="Alumno" {% if request.GET.perfil == 'Alumno' %}selected{% endif %}>Alumno</option>
+              <option value="Coordinador" {% if request.GET.perfil == 'Coordinador' %}selected{% endif %}>Coordinador</option>
             </select>
           </div>
-
+  
           <div class="col-md-4 mb-2">
             <label for="sexo">Sexo:</label>
             <select name="sexo" class="form-control">
-              <option value="">Todos</option>
-              <option value="MASCULINO">Masculino</option>
-              <option value="FEMENINO">Femenino</option>
+              <option value="" {% if not request.GET.sexo %}selected{% endif %}>Todos</option>
+              <option value="MASCULINO" {% if request.GET.sexo == 'MASCULINO' %}selected{% endif %}>Masculino</option>
+              <option value="FEMENINO" {% if request.GET.sexo == 'FEMENINO' %}selected{% endif %}>Femenino</option>
             </select>
           </div>
-
+  
           <div class="col-md-4 mb-2">
             <label for="search">Buscar:</label>
             <div class="input-group">
@@ -68,6 +68,7 @@
       </form>
     </div>
   </div>
+
 
   <div class="card">
     <div class="card-body">

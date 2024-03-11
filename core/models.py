@@ -92,8 +92,6 @@ class Asignatura(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
     sigla = models.CharField(max_length=10)
-    #docentes = models.ManyToManyField('UsersMetadata', related_name='asignaturas', blank=True)
-    #secciones = models.ManyToManyField(Seccion, related_name='asignaturas', blank=True)
 
     def __str__(self):
         return f"{self.nombre} - Sigla {self.sigla} "
