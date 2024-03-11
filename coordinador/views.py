@@ -164,6 +164,7 @@ def agreg_usuarios(request):
             metadata.user = user
             metadata.username_field = user.username
             metadata.save()
+            messages.success(request, "Usuario agregado correctamente!")
             return redirect('gest-usuarios') 
     else:
         user_form = UserCreationWithMetadataForm()
@@ -369,6 +370,7 @@ def agreg_asig(request):
         sigla = request.POST.get('sigla')[:10]
         nueva_asignatura = Asignatura(nombre=nombre, sigla=sigla)
         nueva_asignatura.save()
+        messages.success(request, "Asignatura agregada correctamente!")
         return redirect('gest_asig')
 
     return render(request, 'db_coordinador/db_coordinador_agreg_asig.html', {'mensaje': mensaje})
@@ -394,6 +396,7 @@ def editar_asignatura(request, asignatura_id):
         form = AsignaturaForm(request.POST, instance=asignatura)
         if form.is_valid():
             form.save()
+            messages.success(request, "Asignatura modificada correctamente!")
             return redirect('gest_asig')  
     else:
         form = AsignaturaForm(instance=asignatura)
