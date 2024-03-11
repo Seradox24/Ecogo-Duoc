@@ -80,14 +80,37 @@ class Comuna(models.Model):
         verbose_name = 'Comuna'
         verbose_name_plural = 'Comunas'
 
-
-class Seccion(models.Model):
-    id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=100)
-    alumnos = models.ManyToManyField('UsersMetadata', related_name='secciones', blank=True)
+class NombreSeccion(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+    
 
     def __str__(self):
         return self.nombre
+
+
+class Asignatura(models.Model):
+    id = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=100)
+    sigla = models.CharField(max_length=10)
+    #docentes = models.ManyToManyField('UsersMetadata', related_name='asignaturas', blank=True)
+    #secciones = models.ManyToManyField(Seccion, related_name='asignaturas', blank=True)
+
+    def __str__(self):
+        return f"{self.nombre} - Sigla {self.sigla} "
+
+    class Meta:
+        db_table = 'asignaturas'
+        verbose_name = 'Asignatura'
+        verbose_name_plural = 'Asignaturas'
+
+class Seccion(models.Model):
+    id = models.AutoField(primary_key=True)
+    nombre = models.ForeignKey(NombreSeccion, on_delete=models.CASCADE)
+    asignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE, null=True, default=None)
+    
+
+    def __str__(self):
+        return f"{self.asignatura.nombre} - Sección {self.nombre}"
 
     class Meta:
         db_table = 'secciones'
@@ -95,20 +118,7 @@ class Seccion(models.Model):
         verbose_name_plural = 'Secciones'
 
 
-class Asignatura(models.Model):
-    id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=100)
-    sigla = models.CharField(max_length=10)
-    docentes = models.ManyToManyField('UsersMetadata', related_name='asignaturas', blank=True)
-    secciones = models.ManyToManyField(Seccion, related_name='asignaturas', blank=True)
 
-    def __str__(self):
-        return self.nombre
-
-    class Meta:
-        db_table = 'asignaturas'
-        verbose_name = 'Asignatura'
-        verbose_name_plural = 'Asignaturas'
 
 class ContactoEmergencia(models.Model):
     nombre1 = models.CharField(max_length=100, blank=True, null=True)

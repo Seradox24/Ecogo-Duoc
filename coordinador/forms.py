@@ -72,14 +72,14 @@ class SalidaTerrenoForm(forms.ModelForm):
             'noches': forms.NumberInput(attrs={'class': 'form-control','type':'number'}),
             'diasemana': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox'}),
             'lugar_ejecucion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
-            'asignatura': forms.Select(attrs={'class': 'form-select'}),
+            'asignaturas': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox'}),
             'exp_aprendizaje': forms.Select(attrs={'class': 'form-select'}),
             'num_alumnos': forms.NumberInput(attrs={'class': 'form-control','type':'number' }),
-            'seccion': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox'}),
+            'secciones': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox'}),
             'docente_titular': forms.Select(attrs={'class': 'form-select'}),
             'docentes_apoyo': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox'}),
             'num_salida': forms.NumberInput(attrs={'class': 'form-control','type':'number'}),
-            'asig_comp_terreno': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox'}),
+            #'asig_comp_terreno': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox'}),
             'observaciones': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'semaforo': forms.Select(attrs={'class': 'form-select'}),
         }
@@ -183,7 +183,7 @@ class AsignaturaForm(forms.ModelForm):
 
     class Meta:
         model = Asignatura
-        fields = ['nombre', 'sigla', 'docentes', 'secciones']
+        fields = ['nombre', 'sigla',]
 
 
 

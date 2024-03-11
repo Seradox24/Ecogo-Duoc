@@ -25,17 +25,35 @@ class SemaforoAdmin(admin.ModelAdmin):
     search_fields = ['estado']
 
 
-
 class SalidaTerrenoAdmin(admin.ModelAdmin):
+    def get_filtered_queryset(self):
+        # Filtrar los docentes con perfil de docente
+        return UsersMetadata.objects.filter(perfil__nombre='Docente')
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'docente_titular':
+            print(f"DEBUG: Filtrando usuarios para el campo 'docente_titular'")
+            queryset = UsersMetadata.objects.filter(perfil__nombre='Docente')
+            kwargs['queryset'] = queryset
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == 'docentes_apoyo':
+            print(f"DEBUG: Filtrando usuarios para el campo 'docentes_apoyo'")
+            kwargs['queryset'] = UsersMetadata.objects.filter(perfil__nombre='Docente')
+        return super().formfield_for_manytomany(db_field, request, **kwargs)
+        
     list_display = ['id', 'situacion', 'numero_cuenta', 'semestre', 'anio', 'actividad',
-                    'fecha_ingreso', 'fecha_termino', 'dias', 'noches', 'lugar_ejecucion',
-                    'asignatura', 'exp_aprendizaje', 'num_alumnos', 'docente_titular', 'get_docentes_apoyo',
-                    'num_salida', 'asig_comp_terreno_display', 'observaciones']
+                'fecha_ingreso', 'fecha_termino', 'dias', 'noches', 'lugar_ejecucion',
+                'exp_aprendizaje', 'num_alumnos', 'docente_titular', 'get_docentes_apoyo',
+                'num_salida', 'asig_comp_terreno_display', 'observaciones']
     search_fields = ['id', 'actividad__nombre', 'asignatura__nombre', 'docente_titular__user__first_name',
                      'docente_titular__user__last_name']
 
     def get_docentes_apoyo(self, obj):
+        
         return ', '.join([docente.user.get_full_name() for docente in obj.docentes_apoyo.all()])
+    
 
     get_docentes_apoyo.short_description = 'Docentes de Apoyo'
 
@@ -66,3 +84,4 @@ admin.site.register(Actividad, ActividadAdmin)
 admin.site.register(ExpAprendizaje, ExpAprendizajeAdmin)
 admin.site.register(PronosticoClima)
 admin.site.register(CurrentClima)
+admin.site.register(NombreSeccion)

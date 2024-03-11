@@ -81,7 +81,7 @@
                 <th>Docente titular</th>
                 <th>Docentes de apoyo</th>
                 <th>Numero de salida</th>
-                <th>Asig. comp. terreno</th>
+                
                 <th>Observaciones</th>
                 <th colspan="3">Opciones</th>
               
@@ -120,7 +120,12 @@
                 </td>
                 
                 <td>{{ s.lugar_ejecucion | title }}</td>
-                <td>{{ s.asignatura | title }}</td>
+                <td>
+                    {% for asignaturas in s.asignaturas.all %}
+                    {{ asignaturas.nombre }}
+                    {% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </td>
                 <td>{{ s.exp_aprendizaje | title }}</td>
                 <td>{{ s.num_alumnos | title }}</td>
                 <td>
@@ -139,12 +144,7 @@
                 </td>
                 
                 <td>{{ s.num_salida | title }}</td>
-                <td>
-                    {% for asignatura in s.asig_comp_terreno.all %}
-                        {{ asignatura.nombre }}
-                        {% if not forloop.last %}, {% endif %}
-                    {% endfor %}
-                </td>
+                
                 
                 <td>{{ s.observaciones | title }}</td>
                 <td class="">

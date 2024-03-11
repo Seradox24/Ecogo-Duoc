@@ -20,7 +20,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from core.models import UsersMetadata, Perfiles  
 from .models import *
-
+from django.http import JsonResponse
 
 @login_required
 @Coordinador_required
@@ -55,6 +55,23 @@ def crear_salida(request):
         form = SalidaTerrenoForm()
     return render(request, 'db_coordinador/db_coordinador_crear_sl.html', {'form': form, 'mensaje': mensaje})
 
+from django.http import JsonResponse
+
+
+
+def obtener_secciones(request):
+    asignaturas_seleccionadas = request.GET.getlist('asignaturas[]')
+    secciones = Seccion.objects.filter(asignatura__id__in=asignaturas_seleccionadas)
+    
+    # Crear una lista de diccionarios con el nombre de la asignatura y el nombre de la sección
+    secciones_dict = [{'id': seccion.id, 'asignatura': seccion.asignatura.nombre, 'seccion': seccion.nombre.nombre} for seccion in secciones]
+    
+    # Imprimir las secciones por consola para verificar
+    for seccion in secciones_dict:
+        print(seccion)
+    
+    # Devolver las secciones como una respuesta JSON
+    return JsonResponse(secciones_dict, safe=False)
 
 @login_required
 @Coordinador_required
@@ -85,7 +102,6 @@ from .models import SalidaTerreno
 @login_required
 @Coordinador_required
 def editar_salida(request, id):
-    print(id)
     salida = get_object_or_404(SalidaTerreno, id=id)
 
     if request.method == 'POST':
@@ -95,16 +111,18 @@ def editar_salida(request, id):
             messages.success(request, "Modificado Correctamente!")
             return redirect('listar_salida')
         else:
-             print('editar salida-')
+             print('Errores del formulario:')
              print(form.errors)
              print('Errores específicos de docentes_apoyo:')
              print(form.errors.get('docentes_apoyo'))
              print(request.POST)
-
     else:
         form = SalidaTerrenoForm(instance=salida)
+        # Imprimir los datos del formulario
+        # print(form.as_p())  Esto imprimirá el formulario en formato HTML
 
     return render(request, 'db_coordinador/db_editar_salida.html', {'form': form, 'instance': salida})
+
 
 
 
@@ -354,6 +372,7 @@ def agreg_asig(request):
         return redirect('gest_asig')
 
     return render(request, 'db_coordinador/db_coordinador_agreg_asig.html', {'mensaje': mensaje})
+
 
 
 @login_required

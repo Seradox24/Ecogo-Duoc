@@ -47,10 +47,11 @@ class SalidaTerreno(models.Model):
     dias = models.PositiveIntegerField(validators=[MaxValueValidator(99)])
     noches = models.PositiveIntegerField(validators=[MaxValueValidator(99)])
     lugar_ejecucion = models.CharField(max_length=60)
-    asignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE, related_name='salidas_terreno_asignatura', blank=True, null=True)
+    asignaturas = models.ManyToManyField(Asignatura, related_name='salidas_terreno',blank=True)
     exp_aprendizaje = models.ForeignKey(ExpAprendizaje, on_delete=models.CASCADE, blank=True, null=True)
     num_alumnos = models.PositiveIntegerField(validators=[MaxValueValidator(150)], blank=True, null=True)
-    seccion =  models.ManyToManyField(Seccion, related_name='salidas_terreno',blank=True,)
+    #secciones = models.ManyToManyField(Seccion, through='SalidaSeccion',blank=True)
+    secciones = models.ManyToManyField(Seccion,blank=True)
     docente_titular = models.ForeignKey(UsersMetadata, on_delete=models.CASCADE, related_name='salidas_terreno_titular',  blank=True, null=True)
     docentes_apoyo = models.ManyToManyField(UsersMetadata, related_name='salidas_terreno_apoyo',  blank=True)
     num_salida = models.IntegerField(validators=[MaxValueValidator(999)])
@@ -59,12 +60,17 @@ class SalidaTerreno(models.Model):
     semaforo = models.ForeignKey(Semaforo, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return f"Salida Terreno - {self.actividad} - {self.id}"
+        asignaturas_str = ', '.join([asignatura.nombre for asignatura in self.asignaturas.all()])
+        return f"Salida a terreno de {asignaturas_str} - {self.fecha_ingreso}"
 
     class Meta:
         verbose_name = 'Salida Terreno'
         verbose_name_plural = 'Salidas Terreno'
  
+
+
+
+
 
 
 class PronosticoClima(models.Model):
