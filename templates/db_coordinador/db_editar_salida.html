@@ -117,7 +117,42 @@
 
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Asignatura:</label>
-                {{ form.asignatura }}
+                {% for checkbox in form.asignaturas %}
+            <div class="form-check">
+                {{ checkbox.tag }}
+                <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                    {{ checkbox.choice_label }}
+                </label>
+            </div>
+            {% endfor %}
+            </div>
+
+            <hr>
+
+
+            <p class='h4'>Seccion por docente:</p>
+
+                {% comment %} {% for checkbox in form.seccion %}
+                <div class="form-check">
+                    {{ checkbox.tag }}
+                    <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                        {{ checkbox.choice_label }}
+                    </label>
+                </div>
+                {% endfor %} {% endcomment %}
+
+
+                <div id="secciones-container">
+
+                {% for checkbox in form.secciones %}
+                <div class="form-check">
+                    {{ checkbox.tag }}
+                    <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                        {{ checkbox.choice_label }}
+                    </label>
+                </div>
+                {% endfor %}
+
             </div>
 
             <hr>
@@ -134,19 +169,7 @@
                 <label class="form-label" for="typeNumber">Numero de alumnos</label>
             </div>
 
-            <hr>
-
-
-            <p class='h4'>Seccion por docente:</p>
-
-                {% for checkbox in form.seccion %}
-                <div class="form-check">
-                    {{ checkbox.tag }}
-                    <label class="form-check-label" for="{{ checkbox.id_for_label }}">
-                        {{ checkbox.choice_label }}
-                    </label>
-                </div>
-                {% endfor %}
+          
 
                 <hr>
 
@@ -182,19 +205,19 @@
             </div>
 
 
-            <hr>
+            {% comment %} <hr>
 
 
-            <p class='h5'>Asig. comp. terreno:</p>
+            <p class='h5'>Asig. comp. terreno11:</p>
 
-            {% for checkbox in form.asig_comp_terreno %}
+            {% for checkbox in form.secciones %}
             <div class="form-check">
                 {{ checkbox.tag }}
                 <label class="form-check-label" for="{{ checkbox.id_for_label }}">
                     {{ checkbox.choice_label }}
                 </label>
             </div>
-            {% endfor %}
+            {% endfor %} {% endcomment %}
 
 
             <hr>
@@ -243,6 +266,77 @@
         alert("La Salida a terreno se guardó correctamente!");
         </script>
     {% endif %}
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var xhr; // Variable para almacenar la solicitud AJAX
+            
+            // Array para almacenar las secciones seleccionadas antes de modificar las asignaturas
+            var seccionesSeleccionadasAntes = [];
+        
+            $('input[name="asignaturas"]').change(function() {
+                // Abortar la solicitud AJAX anterior si aún está en curso
+                if (xhr && xhr.readyState != 4) {
+                    xhr.abort();
+                }
+                
+                // Obtener las asignaturas seleccionadas
+                var asignaturasSeleccionadas = $('input[name="asignaturas"]:checked').map(function() {
+                    return this.value;
+                }).get();
+        
+                // Almacenar las secciones seleccionadas antes de modificar las asignaturas
+                seccionesSeleccionadasAntes = $('input[name="secciones"]:checked').map(function() {
+                    return this.value;
+                }).get();
+                
+                // Realizar la solicitud AJAX para obtener las nuevas secciones
+                xhr = $.ajax({
+                    url: '{% url 'obtener_secciones' %}',
+                    method: 'GET',
+                    data: {
+                        asignaturas: asignaturasSeleccionadas
+                    },
+                    success: function(data) {
+                        // Limpiar el contenedor de secciones
+                        $('#secciones-container').empty();
+                        
+                        // Iterar sobre las secciones obtenidas y agregar checkboxes al formulario
+                        data.forEach(function(seccion) {
+                            // Crear un nuevo elemento de checkbox
+                            var checkbox = $('<input>').attr({
+                                type: 'checkbox',
+                                name: 'secciones',
+                                value: seccion.id,
+                                id: 'seccion-' + seccion.id // Asigna un ID único para cada checkbox
+                            });
+                            var label = $('<label>').attr('for', 'seccion-' + seccion.id).text(seccion.asignatura + ' - ' + seccion.seccion);
+    
+                            
+                            // Verificar si la sección estaba seleccionada antes de modificar las asignaturas
+                            if (seccionesSeleccionadasAntes.includes(seccion.id.toString())) {
+                                checkbox.prop('checked', true);
+                            }
+                            
+                            // Agregar el checkbox y su etiqueta al contenedor de secciones
+                            $('#secciones-container').append(checkbox);
+                            $('#secciones-container').append(label);
+                            $('#secciones-container').append('<br>'); // Agregar un salto de línea para separar los checkboxes
+                        });
+                    },
+                    error: function(xhr, errmsg, err) {
+                        console.log(xhr.status + ": " + xhr.responseText);
+                    }
+                });
+            });
+        });
+             
+    </script>
+   
+    
 
 
     

@@ -37,7 +37,7 @@
             <input type="text" class="form-control" id="sigla" name="sigla" maxlength="10">
         </div>
     
-        <div class="form-group">
+        {% comment %} <div class="form-group">
             <label for="docentes">Docentes:</label>
             <select class="form-control" id="docentes" name="docentes" multiple>
                 {% for docente in docentes_disponibles %}
@@ -53,7 +53,7 @@
                     <option value="{{ seccion.id }}">{{ seccion }}</option>
                 {% endfor %}
             </select>
-        </div>
+        </div> {% endcomment %}
     
         <button type="submit" class="btn btn-primary">Guardar</button>
     </form>

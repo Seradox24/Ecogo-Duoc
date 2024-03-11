@@ -12,7 +12,7 @@ urlpatterns = [
     path('listar-salida/', listar_salida, name="listar_salida"),
     path('editar-salida/<int:id>/', editar_salida, name="editar_salida"),
     path('eliminar-salida/<int:id>/', eliminar_salida, name="eliminar_salida"),
-    path('editar-salida/<id>/', editar_salida, name="editar_salida"),
+    #path('editar-salida/<id>/', editar_salida, name="editar_salida"),
     path('eliminar-salida/<id>/', eliminar_salida, name="eliminar_salida"),
     path('gest-usuarios/', gest_usuarios, name='gest-usuarios'),
     path('agreg-usuarios/', agreg_usuarios, name='agreg-usuarios'),
@@ -32,4 +32,7 @@ urlpatterns = [
     path('manual-coordinador/', manual_coordinador, name="manual_coordinador"),
     path('generate-pdf/<int:salida_id>/', views.generar_pdf, name='generar_pdf'),
     path('salida_terreno/<int:salida_terreno_id>/implementos/', lista_implementos_salida, name='lista_implementos_salida'),
+    path('obtener_secciones/', obtener_secciones, name='obtener_secciones'),
+
+
 ] 

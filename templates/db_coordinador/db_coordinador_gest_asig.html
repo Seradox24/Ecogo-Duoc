@@ -50,7 +50,7 @@
           <div>
             <strong>Nombre:</strong> {{ asignatura.nombre }}<br>
             <strong>Sigla:</strong> {{ asignatura.sigla }}<br>
-            <strong>Docentes:</strong>
+            {% comment %} <strong>Docentes:</strong>
             {% if asignatura.docentes.all %}
             <ul class="list-group">
               {% for docente in asignatura.docentes.all %}
@@ -70,7 +70,7 @@
             </ul>
             {% else %}
             No hay información disponible.
-            {% endif %}
+            {% endif %} {% endcomment %}
           </div>
           <div class="d-flex align-items-center">
             <a href="{% url 'editar_asignatura' asignatura.id %}" class="btn btn-primary me-2">Editar</a>
