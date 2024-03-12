@@ -85,3 +85,6 @@ admin.site.register(ExpAprendizaje, ExpAprendizajeAdmin)
 admin.site.register(PronosticoClima)
 admin.site.register(CurrentClima)
 admin.site.register(NombreSeccion)
+admin.site.register(AsignacionUsuarioSeccion)
+admin.site.register(ContactoEmergencia)
+

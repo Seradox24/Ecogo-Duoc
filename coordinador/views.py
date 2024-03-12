@@ -1,6 +1,6 @@
 from pyexpat.errors import messages
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SalidaTerrenoForm, UserCreationWithMetadataForm, UserEditForm, UsersMetadataForm, SalidaTerrenoFormSemaforo
+from .forms import *
 from .models import SalidaTerreno
 from core.decorators import Coordinador_required
 from django.contrib.auth.decorators import login_required
@@ -21,6 +21,7 @@ from django.contrib.auth.models import User
 from core.models import UsersMetadata, Perfiles  
 from .models import *
 from django.http import JsonResponse
+from django.urls import reverse
 
 @login_required
 @Coordinador_required
@@ -397,21 +398,175 @@ def gest_asig(request):
 
 
 
+# @login_required
+# @Coordinador_required
+# def editar_asignatura(request, asignatura_id):
+#     asignatura = get_object_or_404(Asignatura, id=asignatura_id)
+    
+#     if request.method == 'POST':
+#         form = AsignaturaForm(request.POST, instance=asignatura)
+#         if form.is_valid():
+#             form.save()
+#             messages.success(request, "Asignatura modificada correctamente!")
+#             return redirect('gest_asig')  
+#     else:
+#         form = AsignaturaForm(instance=asignatura)
+    
+#     return render(request, 'db_coordinador/db_edit_asig.html', {'form': form, 'asignatura': asignatura})
+
 @login_required
 @Coordinador_required
 def editar_asignatura(request, asignatura_id):
     asignatura = get_object_or_404(Asignatura, id=asignatura_id)
+    asignatura_form = AsignaturaForm(instance=asignatura)
+    seccion_form = SeccionForm(asignatura_id=asignatura_id)
     
+    print("Request method:", request.method)
+
+    secciones = Seccion.objects.filter(asignatura=asignatura)
+
+
     if request.method == 'POST':
-        form = AsignaturaForm(request.POST, instance=asignatura)
+        print("POST request detected")
+        
+        if 'guardar_asignatura' in request.POST:
+            print("Formulario de asignatura enviado")
+            asignatura_form = AsignaturaForm(request.POST, instance=asignatura)
+            if asignatura_form.is_valid():
+                print("Formulario de asignatura válido")
+                asignatura_form.save()
+                messages.success(request, "Asignatura modificada correctamente!")
+                return redirect('gest_asig')
+            else:
+                print("Formulario de asignatura inválido")
+                print("Errores de validación:", asignatura_form.errors)
+        elif 'guardar_seccion' in request.POST:
+            print("Formulario de sección enviado")
+            seccion_form = SeccionForm(request.POST, asignatura_id=asignatura_id)
+            if seccion_form.is_valid():
+                print("Formulario de sección válido")
+                seccion = seccion_form.save(commit=False)
+                seccion.asignatura = asignatura
+                seccion.save()
+                
+                # Imprimir los usuarios seleccionados
+                print("Usuarios seleccionados:", request.POST.getlist('usuarios'))
+                
+                # Asignar los usuarios seleccionados al objeto de sección
+                seccion.usuarios.set(request.POST.getlist('usuarios'))
+                
+                messages.success(request, "Sección creada correctamente!")
+                return redirect('gest_asig')
+            else:
+                print("Formulario de sección inválido")
+                print("Errores de validación:", seccion_form.errors)
+        
+
+        elif 'eliminar_seccion' in request.POST:
+            seccion_id = request.POST.get('eliminar_seccion')
+            try:
+                seccion = Seccion.objects.get(id=seccion_id, asignatura=asignatura)
+                seccion.delete()
+                messages.success(request, "Sección eliminada correctamente!")
+            except Seccion.DoesNotExist:
+                 messages.error(request, "La sección que intentas eliminar no existe o no está asociada a esta asignatura.")
+            return redirect(reverse('editar_asignatura', kwargs={'asignatura_id': asignatura_id}))
+        
+@login_required
+@Coordinador_required
+def editar_asignatura(request, asignatura_id):
+    asignatura = get_object_or_404(Asignatura, id=asignatura_id)
+    asignatura_form = AsignaturaForm(instance=asignatura)
+    seccion_form = SeccionForm(asignatura_id=asignatura_id)
+    
+    print("Request method:", request.method)
+
+    secciones = Seccion.objects.filter(asignatura=asignatura)
+
+
+    if request.method == 'POST':
+        print("POST request detected")
+        
+        if 'guardar_asignatura' in request.POST:
+            print("Formulario de asignatura enviado")
+            asignatura_form = AsignaturaForm(request.POST, instance=asignatura)
+            if asignatura_form.is_valid():
+                print("Formulario de asignatura válido")
+                asignatura_form.save()
+                messages.success(request, "Asignatura modificada correctamente!")
+                return redirect('gest_asig')
+            else:
+                print("Formulario de asignatura inválido")
+                print("Errores de validación:", asignatura_form.errors)
+        elif 'guardar_seccion' in request.POST:
+            print("Formulario de sección enviado")
+            seccion_form = SeccionForm(request.POST, asignatura_id=asignatura_id)
+            if seccion_form.is_valid():
+                print("Formulario de sección válido")
+                seccion = seccion_form.save(commit=False)
+                seccion.asignatura = asignatura
+                seccion.save()
+                
+                # Imprimir los usuarios seleccionados
+                print("Usuarios seleccionados:", request.POST.getlist('usuarios'))
+                
+                # Asignar los usuarios seleccionados al objeto de sección
+                seccion.usuarios.set(request.POST.getlist('usuarios'))
+                
+                messages.success(request, "Sección creada correctamente!")
+                return redirect('gest_asig')
+            else:
+                print("Formulario de sección inválido")
+                print("Errores de validación:", seccion_form.errors)
+        
+
+        elif 'eliminar_seccion' in request.POST:
+            seccion_id = request.POST.get('eliminar_seccion')
+            try:
+                seccion = Seccion.objects.get(id=seccion_id, asignatura=asignatura)
+                seccion.delete()
+                messages.success(request, "Sección eliminada correctamente!")
+            except Seccion.DoesNotExist:
+                 messages.error(request, "La sección que intentas eliminar no existe o no está asociada a esta asignatura.")
+            return redirect(reverse('editar_asignatura', kwargs={'asignatura_id': asignatura_id}))
+        
+        elif 'editar_seccion' in request.POST:
+            seccion_id = request.POST.get('editar_seccion_id')
+            seccion_nombre_id = request.POST.get('nombre')  # Obtén el ID del nombre de la sección desde el formulario
+
+            try:
+                seccion = Seccion.objects.get(id=seccion_id, asignatura=asignatura)
+                nombre_seccion = get_object_or_404(NombreSeccion, id=seccion_nombre_id)  # Recupera la instancia de NombreSeccion
+                seccion.nombre = nombre_seccion  # Asigna la instancia de NombreSeccion al campo nombre
+
+                seccion.save()  # Intenta guardar la instancia de Seccion
+                messages.success(request, "Sección editada correctamente")
+            except Seccion.DoesNotExist:
+                messages.error(request, "La sección que intentas editar no existe o no está asociada a esta asignatura.")
+            except NombreSeccion.DoesNotExist:
+                messages.error(request, "El nombre de la sección proporcionado no es válido.")
+
+            return redirect(reverse('editar_asignatura', kwargs={'asignatura_id': asignatura_id}))
+
+    
+    return render(request, 'db_coordinador/db_edit_asig.html', {'asignatura_form': asignatura_form, 'seccion_form': seccion_form, 'asignatura': asignatura,'secciones': secciones})
+
+
+@login_required
+@Coordinador_required
+def editar_seccion(request, seccion_id):
+    seccion = get_object_or_404(Seccion, id=seccion_id)
+    if request.method == 'POST':
+        form = EditarSeccionForm(request.POST, instance=seccion)
         if form.is_valid():
             form.save()
-            messages.success(request, "Asignatura modificada correctamente!")
-            return redirect('gest_asig')  
+            messages.success(request, "Sección editada correctamente")
+            return redirect('gest_asig')
     else:
-        form = AsignaturaForm(instance=asignatura)
-    
-    return render(request, 'db_coordinador/db_edit_asig.html', {'form': form, 'asignatura': asignatura})
+        form = EditarSeccionForm(instance=seccion)
+    return render(request, 'db_coordinador/db_edit_seccion.html', {'edi_seccion_form': form, 'seccion': seccion})
+
+
 
 
 @login_required

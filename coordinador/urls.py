@@ -33,6 +33,7 @@ urlpatterns = [
     path('generate-pdf/<int:salida_id>/', views.generar_pdf, name='generar_pdf'),
     path('salida_terreno/<int:salida_terreno_id>/implementos/', lista_implementos_salida, name='lista_implementos_salida'),
     path('obtener_secciones/', obtener_secciones, name='obtener_secciones'),
+    path('editar_seccion/<int:seccion_id>/', views.editar_seccion, name='editar_seccion'),
 
 
 ] 

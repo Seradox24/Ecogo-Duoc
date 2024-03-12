@@ -133,3 +133,16 @@ class SalidaTerrenoImplemento(models.Model):
 
     def __str__(self):
         return f"{self.implemento} - Salida: {self.salida_terreno.id}"
+    
+
+class AsignacionUsuarioSeccion(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    seccion = models.ForeignKey(Seccion, on_delete=models.CASCADE)
+    asignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.usuario.username} - {self.seccion.asignatura.nombre} - {self.seccion.nombre}"
+
+    class Meta:
+        verbose_name = 'Asignación Usuario Sección'
+        verbose_name_plural = 'Asignaciones Usuarios Secciones'

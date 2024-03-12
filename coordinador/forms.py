@@ -199,3 +199,112 @@ class SalidaTerrenoImplementoForm(forms.ModelForm):
         widgets = {
             'implemento': forms.CheckboxSelectMultiple
         }
+
+
+
+
+
+
+# class SeccionForm(forms.ModelForm):
+#     def __init__(self, *args, **kwargs):
+#         asignatura_id = kwargs.pop('asignatura_id', None)
+#         instance = kwargs.get('instance') 
+#         print(instance) # Obtener la instancia de la sección
+
+#         super(SeccionForm, self).__init__(*args, **kwargs)
+
+#         if asignatura_id:
+#             asignatura = Asignatura.objects.get(pk=asignatura_id)
+#             secciones_exist = Seccion.objects.filter(asignatura=asignatura).values_list('nombre__id', flat=True)
+#             nombres_disponibles = NombreSeccion.objects.exclude(id__in=secciones_exist)
+
+#             # Si estamos editando una instancia existente, incluir el nombre actual
+#             if instance and instance.nombre:
+#                 self.fields['nombre'].queryset = NombreSeccion.objects.filter(pk=instance.nombre.id) | nombres_disponibles
+#             else:
+#                 self.fields['nombre'].queryset = nombres_disponibles
+
+#         perfil_alumno = Perfiles.objects.get(nombre='Alumno')
+#         self.fields['usuarios'].queryset = UsersMetadata.objects.filter(perfil=perfil_alumno)
+
+#     class Meta:
+#         model = Seccion
+#         fields = ['nombre', 'usuarios']
+#         widgets = {
+#             'nombre': forms.Select(attrs={'class': 'form-control'}),
+#             'usuarios': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}),
+#         }
+
+
+
+
+class SeccionForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        asignatura_id = kwargs.pop('asignatura_id', None)
+        instance = kwargs.get('instance') 
+        print(instance) # Obtener la instancia de la sección
+
+        super(SeccionForm, self).__init__(*args, **kwargs)
+
+        if asignatura_id:
+            asignatura = Asignatura.objects.get(pk=asignatura_id)
+            secciones_exist = Seccion.objects.filter(asignatura=asignatura).values_list('nombre__id', flat=True)
+            nombres_disponibles = NombreSeccion.objects.exclude(id__in=secciones_exist)
+
+            # Si estamos editando una instancia existente, incluir el nombre actual
+            if instance and instance.nombre:
+                self.fields['nombre'].queryset = NombreSeccion.objects.filter(pk=instance.nombre.id) | nombres_disponibles
+                print('dsfasdfasdfasd')
+            else:
+                self.fields['nombre'].queryset = nombres_disponibles
+                print('dsfasdfasdfasd')
+           
+
+        perfil_alumno = Perfiles.objects.get(nombre='Alumno')
+        self.fields['usuarios'].queryset = UsersMetadata.objects.filter(perfil=perfil_alumno)
+
+    class Meta:
+        model = Seccion
+        fields = ['nombre', 'usuarios']
+        widgets = {
+            'nombre': forms.Select(attrs={'class': 'form-control'}),
+            'usuarios': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}),
+        }
+
+
+class EditarSeccionForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(EditarSeccionForm, self).__init__(*args, **kwargs)
+        
+        instance = kwargs.get('instance')
+        
+        if instance:
+            # Obtener el nombre de la sección seleccionada
+            nombre_seccion_actual = instance.nombre
+            
+            # Obtener todas las secciones excepto la actual
+            secciones_excluidas = Seccion.objects.exclude(id=instance.id)
+            nombres_excluidos = [seccion.nombre.id for seccion in secciones_excluidas]
+            
+            # Obtener los nombres de sección que no están siendo utilizados actualmente
+            nombres_disponibles = NombreSeccion.objects.exclude(id__in=nombres_excluidos)
+            
+            # Incluir el nombre actual en el queryset del campo 'nombre'
+            self.fields['nombre'].queryset = NombreSeccion.objects.filter(pk=nombre_seccion_actual.id) | nombres_disponibles
+        else:
+            # Si no hay instancia, mostrar todos los nombres disponibles
+            nombres_disponibles = NombreSeccion.objects.all()
+            self.fields['nombre'].queryset = nombres_disponibles
+        
+        # Filtrar usuarios cuyo perfil sea "Alumno" para el campo 'usuarios'
+        perfil_alumno = Perfiles.objects.get(nombre='Alumno')
+        self.fields['usuarios'].queryset = UsersMetadata.objects.filter(perfil=perfil_alumno)
+
+    class Meta:
+        model = Seccion
+        fields = ['nombre', 'usuarios']
+        widgets = {
+            'nombre': forms.Select(attrs={'class': 'form-control'}),
+            'usuarios': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}),
+        }
+

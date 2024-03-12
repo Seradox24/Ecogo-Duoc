@@ -80,12 +80,7 @@ class Comuna(models.Model):
         verbose_name = 'Comuna'
         verbose_name_plural = 'Comunas'
 
-class NombreSeccion(models.Model):
-    nombre = models.CharField(max_length=100, unique=True)
-    
 
-    def __str__(self):
-        return self.nombre
 
 
 class Asignatura(models.Model):
@@ -103,19 +98,8 @@ class Asignatura(models.Model):
         verbose_name = 'Asignatura'
         verbose_name_plural = 'Asignaturas'
 
-class Seccion(models.Model):
-    id = models.AutoField(primary_key=True)
-    nombre = models.ForeignKey(NombreSeccion, on_delete=models.CASCADE)
-    asignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE, null=True, default=None)
     
 
-    def __str__(self):
-        return f"{self.asignatura.nombre} - Sección {self.nombre}"
-
-    class Meta:
-        db_table = 'secciones'
-        verbose_name = 'Sección'
-        verbose_name_plural = 'Secciones'
 
 
 
@@ -141,7 +125,7 @@ class UsersMetadata(models.Model):
     comuna = models.ForeignKey(Comuna, models.DO_NOTHING, default=1, blank=True, null=True)
     correoduoc = models.CharField(max_length=100, blank=True, null=True)
     foto = models.ImageField(upload_to='usuarios', blank=True, null=True)
-    semestre = models.CharField(max_length=100, blank=True, null=True)
+    semestre = models.IntegerField(blank=True, null=True)
     sede = models.CharField(max_length=100, blank=True, null=True)
     nom_carrera = models.CharField(max_length=100, blank=True, null=True)
     modalidad = models.CharField(max_length=100, blank=True, null=True)
@@ -155,7 +139,8 @@ class UsersMetadata(models.Model):
     direccion = models.CharField(max_length=100, blank=True, null=True)
     numero = models.CharField(max_length=100, blank=True, null=True)
     celular = models.CharField(max_length=100, blank=True, null=True)
-    contacto_emergencia = models.ForeignKey(ContactoEmergencia, models.DO_NOTHING, blank=True, null=True)
+    contacto_emergencia = models.ForeignKey(ContactoEmergencia, on_delete=models.CASCADE, blank=True, null=True)
+    asignaturas_inscritas = models.ManyToManyField(Asignatura, related_name='alumnos_inscritos', blank=True)
 
     def __str__(self):
         return f'{self.nombres} {self.ap_paterno} {self.ap_materno}'
@@ -165,5 +150,25 @@ class UsersMetadata(models.Model):
         verbose_name_plural = 'Users Metadata'
  
 
+class NombreSeccion(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+    
+
+    def __str__(self):
+        return self.nombre
 
 
+class Seccion(models.Model):
+    id = models.AutoField(primary_key=True)
+    nombre = models.ForeignKey(NombreSeccion, on_delete=models.CASCADE)
+    asignatura = models.ForeignKey(Asignatura, on_delete=models.CASCADE, null=True, default=None)
+    usuarios = models.ManyToManyField(UsersMetadata, related_name='secciones', blank=True)
+    
+
+    def __str__(self):
+        return f"{self.asignatura.nombre} - Sección {self.nombre}"
+
+    class Meta:
+        db_table = 'secciones'
+        verbose_name = 'Sección'
+        verbose_name_plural = 'Secciones'

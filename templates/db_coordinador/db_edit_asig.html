@@ -5,6 +5,28 @@
 {% block content %}
 
 
+<script>
+  function confirmarEliminacion(boton) {
+      Swal.fire({
+          title: "¿Estás seguro?",
+          text: "Esta acción no se puede deshacer",
+          icon: "warning",
+          showCancelButton: true,
+          cancelButtonText: "No, Cancelar",
+          confirmButtonText: "Sí, Eliminar",
+          reverseButtons: true,
+          confirmButtonColor: "darkred"
+      }).then((result) => {
+          // result.value será true si se hizo clic en "Sí, Eliminar"
+          if (result.value) {
+              // Enviar el formulario si se confirma la eliminación
+              boton.closest("form").submit();
+          }
+      });
+  }
+</script>
+
+
 <div class="input-group">
   <button class="btn btnnav" type="button" id="button-addon2" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></button>
   <div class="col text-center text-bg-dark">
@@ -28,16 +50,203 @@
     <form method="post">
       {% csrf_token %}
       <div class="mb-3">
-        {{ form.nombre|as_crispy_field }}
+        {{ asignatura_form.nombre|as_crispy_field }}
       </div>
       <div class="mb-3">
-        {{ form.sigla|as_crispy_field }}
+        {{ asignatura_form.sigla|as_crispy_field }}
       </div>
       </div>
-      <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      <button type="submit" name="guardar_asignatura" class="btn btn-primary">Guardar cambios</button>
     </form>
   </div>
 </div>
+
+
+<br>
+{% if secciones %}
+<div class="card">
+  <div class="card-body">
+    <div class="d-flex justify-content-center align-items-center bg-light " style="">
+        <div class="card p-3 shadow" style="width: 100%; max-width: 100%;">
+          <div class="mb-3">
+            <button type="button" class="btn btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Agregar Seccion<i class="fa-regular fa-square-plus mas"></i>
+          </button>
+          </div>
+          <!-- Button trigger modal -->
+          
+          <!-- Button trigger modal -->
+            <h2 class="text-center p-3">Secciones</h2>
+
+            <nav>
+                <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
+                    {% for seccion in secciones %}
+                        <button class="nav-link {% if forloop.first %}active{% endif %}" id="nav-{{ seccion.id }}-tab" data-bs-toggle="tab" data-bs-target="#nav-{{ seccion.id }}" type="button" role="tab" aria-controls="nav-{{ seccion.id }}" aria-selected="{{ forloop.first|stringformat:'s'|lower }}">{{ seccion.nombre }}</button>
+                    {% endfor %}
+                </div>
+            </nav>
+            <div class="tab-content p-3 border bg-light" id="nav-tabContent">
+                {% for seccion in secciones %}
+                    <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="nav-{{ seccion.id }}" role="tabpanel" aria-labelledby="nav-{{ seccion.id }}-tab">
+                        <h3>{{ seccion.nombre }}</h3>
+                        <p>
+                            {% if seccion.usuarios.all %}
+                                {% for usuario in seccion.usuarios.all %}
+                                    {{ usuario }} / semestre - {{ usuario.semestre }}{% if not forloop.last %},<br> {% endif %}
+                                {% endfor %}
+
+                                <div class="d-flex justify-content-center">
+                                  <a href="{% url 'editar_seccion' seccion.id %}" class="btn btn-warning text-center">
+                                    Editar <i class="fa-regular fa-square-plus mas"></i>
+                                  </a>
+                                  
+                                  <form method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="eliminar_seccion" value="{{ seccion.id }}">
+                                    <button type="submit" class="btn btn-danger mx-4" onclick="confirmarEliminacion(this)">Eliminar</button>
+                                </form>
+                              </div>
+                            {% else %}
+                                Sin Alumnos asociados
+                                <div class ='d-flex'>
+                                  <a href="{% url 'editar_seccion' seccion.id %}" class="btn btn-warning text-center">
+                                    Editar <i class="fa-regular fa-square-plus mas"></i>
+                                  </a>
+                                  
+                                <form method="post">
+                                  {% csrf_token %}
+                                  <input type="hidden" name="eliminar_seccion" value="{{ seccion.id }}">
+                                  <button type="submit" class="btn btn-danger mx-4" onclick="confirmarEliminacion(this)">Eliminar</button>
+                              </form>
+                              
+
+                            </div>
+                            {% endif %}
+                        </p>
+                    </div>
+
+
+
+<!-- Modal para editar la sección -->
+<!-- Modal para editar la sección -->
+<div class="modal fade" id="editarSeccionModal{{ seccion.id }}" tabindex="-1" aria-labelledby="editarSeccionModalLabel{{ seccion.id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarSeccionModalLabel{{ seccion.id }}">Editar Sección</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="card bg-body-secondary">
+          <div class="card-body">
+              <form method="post">
+              {% csrf_token %}
+              <hr>
+              <div class="d-flex align-items-center pb-3">
+                  <label style="margin-right: 12px;" for="">Nombre de la sección: </label>
+                  {{ seccion_form.nombre }}
+              </div>
+              <input type="hidden" name="editar_seccion_id" value="{{ seccion.id }}"> <!-- Campo oculto para enviar el ID de la sección -->
+              <hr>
+              <p class='h5'>Agregar o quitar alumnos:</p>
+              
+
+              {% for checkbox in seccion_form.usuarios %}
+              <div class="form-check">
+                  {{ checkbox.tag }}
+                  <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                      {{ checkbox.choice_label }}
+                  </label>
+              </div>
+              {% endfor %}
+              <!-- body -->
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="submit" name="editar_seccion" class="btn btn-primary">Editar</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% else %}
+    <p class='text-center '>No hay secciones asociadas a esta asignatura.</p>
+    <div class="d-flex justify-content-center">
+      <button type="button" class="btn btn-success text-center" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+          Agregar Seccion <i class="fa-regular fa-square-plus mas"></i>
+      </button>
+  </div>
+{% endif %}
+</div>
+</div>
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content fw-bold">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 fw-bold" id="staticBackdropLabel">Agregar seccion</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body ">
+
+<!-- body -->
+        <div class="card bg-body-secondary">
+          <div class="card-body">
+            <form method="post">
+              {% csrf_token %}
+              <hr>
+              <div class="d-flex align-items-center pb-3">
+                  <label style="margin-right: 12px;" for="">Seccion: </label>
+                  {{ seccion_form.nombre }}
+              </div>
+              <hr>
+              <p class='h5'>Agregar o quitar alumnos:</p>
+              
+
+              {% for checkbox in seccion_form.usuarios %}
+              <div class="form-check">
+                  {{ checkbox.tag }}
+                  <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                      {{ checkbox.choice_label }}
+                  </label>
+              </div>
+              {% endfor %}
+              <!-- body -->
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="submit" name="guardar_seccion" class="btn btn-primary">Aceptar</button>
+              </div>
+          </form>
+                
+    </div>
+    </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
 
 
 
