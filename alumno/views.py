@@ -182,7 +182,7 @@ def home_alumno(request,baja_estudiante_id=None):
     # Filtra las salidas de terreno según la sección, asignatura, situacion del usuario
     # y excluye las salidas de terreno cuya fecha de ingreso ha pasado y cuya fecha de termino ha pasado
     salidas_terreno = SalidaTerreno.objects.filter(
-        Q(seccion__alumnos=user_metadata) | Q(asignatura__docentes=user_metadata),
+       Q(asignatura__docentes=user_metadata),
         Q(situacion=6),
         Q(fecha_ingreso__gte=timezone.now()) | Q(fecha_termino__gt=timezone.now())
     ).order_by('fecha_ingreso')
