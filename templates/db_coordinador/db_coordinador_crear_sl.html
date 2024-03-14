@@ -143,7 +143,7 @@
 
             <hr>
 
-            <p class='h5'>Asig. comp. terreno:</p>
+            <p class='h5'>Asignaturas:</p>
 
             {% for checkbox in form.asignaturas %}
             <div class="form-check">
@@ -154,18 +154,46 @@
             </div>
             {% endfor %}
 
-            <div id="secciones-container">
-                <!-- Iterar sobre los datos de las secciones -->
-                {% for seccion in secciones %}
-                <div class="form-check">
-                    <!-- Mostrar el nombre de la asignatura y el nombre de la sección -->
-                    <label class="form-check-label">
-                        {{ seccion.asignatura }} - {{ seccion.seccion }}
-                        <input class="form-check-input" type="checkbox" name="secciones" value="{{ seccion.id }}">
-                    </label>
+            <hr>
+
+
+            <p class='h5'>Asignatura base:</p>
+<div class="d-flex align-items-center pb-3">
+    <label style="margin-right: 12px;" for="id_asig_base">Asignatura:</label>
+    <select class='form-select' id="id_asig_base" name="asig_base">
+        <option value="">Seleccione una asignatura base</option>
+    </select>
+</div>
+
+
+
+            <hr>
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <p class="h5">Secciones:</p>
+                        <div id="secciones-container">
+                            <!-- Iterar sobre los datos de las secciones -->
+                            {% for seccion in secciones %}
+                            <div class="form-check">
+                                <!-- Mostrar el nombre de la asignatura y el nombre de la sección -->
+                                <label class="form-check-label">
+                                    {{ seccion.asignatura }} - {{ seccion.seccion }}
+                                    <input class="form-check-input" type="checkbox" name="secciones" value="{{ seccion.id }}">
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
-                {% endfor %}
             </div>
+            
+
+
+            <hr>
+
+
+            
 
             {% comment %} <hr>
             
@@ -304,9 +332,11 @@
                             type: 'checkbox',
                             name: 'secciones',
                             value: seccion.id,
-                            id: 'seccion-' + seccion.id // Asigna un ID único para cada checkbox
+                            id: 'seccion-' + seccion.id, // Asigna un ID único para cada checkbox
+                            class: 'form-check-input'
                         });
                         var label = $('<label>').attr('for', 'seccion-' + seccion.id).text(seccion.asignatura + ' - ' + seccion.seccion);
+                        label.addClass('form-check-label');
 
                         
                         // Verificar si la sección estaba seleccionada antes de modificar las asignaturas
@@ -319,7 +349,10 @@
                         $('#secciones-container').append(label);
                         $('#secciones-container').append('<br>'); // Agregar un salto de línea para separar los checkboxes
                     });
+                    
                 },
+
+                
                 error: function(xhr, errmsg, err) {
                     console.log(xhr.status + ": " + xhr.responseText);
                 }
@@ -327,6 +360,49 @@
         });
     });
          
+</script>
+
+
+
+<script>
+    // Función para actualizar el campo de asignatura base con las asignaturas seleccionadas
+    function actualizarAsigBase() {
+        var asignaturasSeleccionadas = document.querySelectorAll('input[name="asignaturas"]:checked');
+        var selectAsigBase = document.getElementById('id_asig_base');
+        var asigBaseSeleccionada = selectAsigBase.value;
+        var asigBaseActualizada = false; // Bandera para indicar si la asignatura base seleccionada ha sido actualizada
+        
+        // Limpiar las opciones del campo de asignatura base
+        selectAsigBase.innerHTML = '<option value="">Seleccione una asignatura base</option>';
+        
+        // Recorrer las asignaturas seleccionadas y agregarlas como opciones al campo de asignatura base
+        asignaturasSeleccionadas.forEach(function(asignatura) {
+            var option = document.createElement('option');
+            option.value = asignatura.value;
+            option.textContent = asignatura.nextElementSibling.textContent.trim();
+            selectAsigBase.appendChild(option);
+            
+            // Verificar si la asignatura actual coincide con la asignatura base seleccionada anteriormente
+            if (asignatura.value === asigBaseSeleccionada) {
+                // Si coincide, marcar la asignatura base como seleccionada
+                selectAsigBase.value = asigBaseSeleccionada;
+                asigBaseActualizada = true;
+            }
+        });
+        
+        // Si la asignatura base no se ha actualizado, deseleccionarla
+        if (!asigBaseActualizada) {
+            selectAsigBase.value = '';
+        }
+    }
+    
+    // Escuchar los cambios en los checkboxes de asignaturas
+    document.querySelectorAll('input[name="asignaturas"]').forEach(function(checkbox) {
+        checkbox.addEventListener('change', actualizarAsigBase);
+    });
+    
+    // Llamar a la función inicialmente para reflejar el estado inicial de las asignaturas seleccionadas
+    actualizarAsigBase();
 </script>
 
 

@@ -143,7 +143,7 @@ class UsersMetadata(models.Model):
     asignaturas_inscritas = models.ManyToManyField(Asignatura, related_name='alumnos_inscritos', blank=True)
 
     def __str__(self):
-        return f'{self.nombres} {self.ap_paterno} {self.ap_materno}'
+        return f'{self.nombres} {self.ap_paterno} {self.ap_materno} '
 
     class Meta:
         verbose_name = 'User Metadata'

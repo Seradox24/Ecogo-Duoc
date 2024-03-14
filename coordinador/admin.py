@@ -44,9 +44,9 @@ class SalidaTerrenoAdmin(admin.ModelAdmin):
         return super().formfield_for_manytomany(db_field, request, **kwargs)
         
     list_display = ['id', 'situacion', 'numero_cuenta', 'semestre', 'anio', 'actividad',
-                'fecha_ingreso', 'fecha_termino', 'dias', 'noches', 'lugar_ejecucion',
-                'exp_aprendizaje', 'num_alumnos', 'docente_titular', 'get_docentes_apoyo',
-                'num_salida', 'asig_comp_terreno_display', 'observaciones']
+                    'fecha_ingreso', 'fecha_termino', 'dias', 'noches', 'lugar_ejecucion',
+                    'exp_aprendizaje', 'num_alumnos', 'docente_titular', 'get_docentes_apoyo',
+                    'num_salida', 'asig_base_terreno_display', 'observaciones']
     search_fields = ['id', 'actividad__nombre', 'asignatura__nombre', 'docente_titular__user__first_name',
                      'docente_titular__user__last_name']
 
@@ -60,7 +60,8 @@ class SalidaTerrenoAdmin(admin.ModelAdmin):
     def asig_comp_terreno_display(self, obj):
         return ', '.join([asignatura.nombre for asignatura in obj.asig_comp_terreno.all()])
 
-    asig_comp_terreno_display.short_description = 'Asignaturas Comp. Terreno'
+    def asig_base_terreno_display(self, obj):
+        return obj.asig_base.nombre if obj.asig_base else ''
 
 
 

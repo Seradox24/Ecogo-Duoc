@@ -22,6 +22,10 @@ from core.models import UsersMetadata, Perfiles
 from .models import *
 from django.http import JsonResponse
 from django.urls import reverse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from .forms import SalidaTerrenoForm
+from .models import SalidaTerreno
 
 @login_required
 @Coordinador_required
@@ -74,6 +78,12 @@ def obtener_secciones(request):
     # Devolver las secciones como una respuesta JSON
     return JsonResponse(secciones_dict, safe=False)
 
+def obtener_asig_base(request):
+    asignaturas_seleccionadas = request.GET.getlist('asignaturas[]')
+    # Lógica para obtener las opciones de asignatura base basadas en las asignaturas seleccionadas
+    opciones_asig_base = ...
+    return JsonResponse({'opciones_asig_base': opciones_asig_base})
+
 @login_required
 @Coordinador_required
 def listar_salida(request):
@@ -95,10 +105,7 @@ def listar_salida(request):
     return render(request, 'db_coordinador/db_listar_salida.html', data)
 
 
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib import messages
-from .forms import SalidaTerrenoForm
-from .models import SalidaTerreno
+
 
 @login_required
 @Coordinador_required

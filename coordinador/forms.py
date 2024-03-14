@@ -8,17 +8,18 @@ from core import models
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import *
+from django.db.models import Q
 
 
 SEMESTRE_CHOICES = [
-    ('I', 'I'),
-    ('II', 'II'),
-    ('III', 'III'),
-    ('IV', 'IV'),
-    ('V', 'V'),
-    ('VI', 'VI'),
-    ('VII', 'VII'),
-    ('VIII', 'VIII'),
+    (1, 'I'),
+    (2, 'II'),
+    (3, 'III'),
+    (4, 'IV'),
+    (5, 'V'),
+    (6, 'VI'),
+    (7, 'VII'),
+    (8, 'VIII'),
 ]
 
 
@@ -60,29 +61,31 @@ class SalidaTerrenoForm(forms.ModelForm):
         model = SalidaTerreno
         fields = '__all__'
         widgets = {
-            'situacion': forms.Select(attrs={'class': 'form-select'}),
-            'numero_cuenta': forms.NumberInput(attrs={'class': 'form-control','type':'number' }),
-            'semestre': forms.Select(choices=SEMESTRE_CHOICES, attrs={'class': 'form-select'}),
-            'anio': forms.NumberInput(attrs={'class': 'form-control','type':'number' }),
-            'semana': forms.NumberInput(attrs={'class': 'form-control','type':'number' }),
-            'actividad': forms.Select(attrs={'class': 'form-select'}),
-            'fecha_ingreso': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
-            'fecha_termino': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
-            'dias': forms.NumberInput(attrs={'class': 'form-control','type':'number' }),
-            'noches': forms.NumberInput(attrs={'class': 'form-control','type':'number'}),
+            'situacion': forms.Select(attrs={'class': 'form-select', 'required': 'required'}),
+            'numero_cuenta': forms.NumberInput(attrs={'class': 'form-control','type':'number', 'required': 'required' }),
+            'semestre': forms.Select(choices=SEMESTRE_CHOICES, attrs={'class': 'form-select', 'required': 'required'}),
+            'anio': forms.NumberInput(attrs={'class': 'form-control','type':'number' , 'required': 'required'}),
+            'semana': forms.NumberInput(attrs={'class': 'form-control','type':'number' , 'required': 'required'}),
+            'actividad': forms.Select(attrs={'class': 'form-select', 'required': 'required'}),
+            'fecha_ingreso': forms.DateInput(attrs={'class': 'form-control','type': 'date', 'required': 'required'}),
+            'fecha_termino': forms.DateInput(attrs={'class': 'form-control','type': 'date', 'required': 'required'}),
+            'dias': forms.NumberInput(attrs={'class': 'form-control','type':'number', 'required': 'required' }),
+            'noches': forms.NumberInput(attrs={'class': 'form-control','type':'number', 'required': 'required'}),
             'diasemana': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox'}),
-            'lugar_ejecucion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
-            'asignaturas': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox'}),
-            'exp_aprendizaje': forms.Select(attrs={'class': 'form-select'}),
-            'num_alumnos': forms.NumberInput(attrs={'class': 'form-control','type':'number' }),
-            'secciones': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox'}),
-            'docente_titular': forms.Select(attrs={'class': 'form-select'}),
+            'lugar_ejecucion': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'required': 'required'}),
+            'asignaturas': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox', }),
+            'exp_aprendizaje': forms.Select(attrs={'class': 'form-select', 'required': 'required'}),
+            'num_alumnos': forms.NumberInput(attrs={'class': 'form-control','type':'number', 'required': 'required' }),
+            'secciones': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox', }),
+            'docente_titular': forms.Select(attrs={'class': 'form-select', 'required': 'required'}),
             'docentes_apoyo': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox'}),
-            'num_salida': forms.NumberInput(attrs={'class': 'form-control','type':'number'}),
-            #'asig_comp_terreno': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox'}),
-            'observaciones': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
-            'semaforo': forms.Select(attrs={'class': 'form-select'}),
+            'num_salida': forms.NumberInput(attrs={'class': 'form-control','type':'number', 'required': 'required'}),
+            'asig_base': forms.Select(attrs={'class': 'form-select', 'required': 'required'}),
+            'observaciones': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'required': 'required'}),
+            'semaforo': forms.Select(attrs={'class': 'form-select', 'required': 'required'}),
         }
+
+   
 
     def init(self, args, **kwargs):
         super().init(args, **kwargs)
@@ -128,7 +131,7 @@ class UserEditForm(UserChangeForm):
 
 class UsersMetadataForm(forms.ModelForm):
     username_field = forms.CharField(required=False, widget=forms.HiddenInput())  # Campo adicional para capturar el nombre de usuario
-    fields = ['sexo', 'perfil', 'nacionalidad', 'semestre', 'sede', 'nom_carrera', 'jornada', 'rut', 'nombres', 'ap_paterno', 'ap_materno', 'fnacimiento', 'estado_civil', 'direccion', 'numero', 'celular', 'contacto_emergencia', 'estado', 'foto',]
+    fields = ['sexo', 'perfil', 'nacionalidad', 'semestre', 'sede', 'nom_carrera', 'jornada', 'rut', 'nombres', 'ap_paterno', 'ap_materno', 'fnacimiento', 'estado_civil', 'direccion', 'numero', 'celular', 'contacto_emergencia', 'estado', 'foto','asignaturas_inscritas']
     class Meta:
         model = UsersMetadata
         exclude = ['user', 'slug', 'correoduoc']  
@@ -146,13 +149,14 @@ class UsersMetadataForm(forms.ModelForm):
             'nombres': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
             'ap_paterno': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
             'ap_materno': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
-            'fnacimiento': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
+            'fnacimiento': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
             'estado_civil': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
             'direccion': forms.Textarea(attrs={'class': 'form-control', 'rows': 1}),
             'numero': forms.NumberInput(attrs={'class': 'form-control','type':'number' }),
             'celular': forms.NumberInput(attrs={'class': 'form-control','type':'number' }),
             'contacto_emergencia': forms.Select(attrs={'class': 'form-select'}),
             'foto': forms.NumberInput(attrs={'class': 'form-control','type': 'file'}),
+            'asignaturas_inscritas': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox'}),
 
         }
         labels = {
@@ -205,6 +209,10 @@ class SalidaTerrenoImplementoForm(forms.ModelForm):
 
 
 
+
+
+
+
 # class SeccionForm(forms.ModelForm):
 #     def __init__(self, *args, **kwargs):
 #         asignatura_id = kwargs.pop('asignatura_id', None)
@@ -221,8 +229,11 @@ class SalidaTerrenoImplementoForm(forms.ModelForm):
 #             # Si estamos editando una instancia existente, incluir el nombre actual
 #             if instance and instance.nombre:
 #                 self.fields['nombre'].queryset = NombreSeccion.objects.filter(pk=instance.nombre.id) | nombres_disponibles
+#                 print('dsfasdfasdfasd')
 #             else:
 #                 self.fields['nombre'].queryset = nombres_disponibles
+#                 print('dsfasdfasdfasd')
+           
 
 #         perfil_alumno = Perfiles.objects.get(nombre='Alumno')
 #         self.fields['usuarios'].queryset = UsersMetadata.objects.filter(perfil=perfil_alumno)
@@ -234,9 +245,6 @@ class SalidaTerrenoImplementoForm(forms.ModelForm):
 #             'nombre': forms.Select(attrs={'class': 'form-control'}),
 #             'usuarios': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}),
 #         }
-
-
-
 
 class SeccionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -254,14 +262,24 @@ class SeccionForm(forms.ModelForm):
             # Si estamos editando una instancia existente, incluir el nombre actual
             if instance and instance.nombre:
                 self.fields['nombre'].queryset = NombreSeccion.objects.filter(pk=instance.nombre.id) | nombres_disponibles
-                print('dsfasdfasdfasd')
             else:
                 self.fields['nombre'].queryset = nombres_disponibles
-                print('dsfasdfasdfasd')
-           
-
-        perfil_alumno = Perfiles.objects.get(nombre='Alumno')
-        self.fields['usuarios'].queryset = UsersMetadata.objects.filter(perfil=perfil_alumno)
+          
+        # Filtrar usuarios por asignaturas inscritas y perfil "Alumno"
+        if asignatura_id:
+            # Consulta para obtener las secciones asociadas a la asignatura
+            secciones_asignatura = Seccion.objects.filter(asignatura=asignatura_id)
+            
+            # Consulta para obtener los IDs de las secciones asociadas a la asignatura
+            secciones_asignatura_ids = secciones_asignatura.values_list('id', flat=True)
+            
+            # Consulta para filtrar usuarios que están inscritos en la asignatura pero no en otra sección de la misma asignatura
+            perfil_alumno = Perfiles.objects.get(nombre='Alumno')
+            self.fields['usuarios'].queryset = UsersMetadata.objects.filter(
+                perfil=perfil_alumno, asignaturas_inscritas=asignatura_id
+            ).exclude(
+                Q(secciones__in=secciones_asignatura_ids) & ~Q(secciones__isnull=True)
+            )
 
     class Meta:
         model = Seccion
@@ -272,33 +290,89 @@ class SeccionForm(forms.ModelForm):
         }
 
 
+
+
+# class EditarSeccionForm(forms.ModelForm):
+#     def __init__(self, *args, **kwargs):
+#         super(EditarSeccionForm, self).__init__(*args, **kwargs)
+        
+#         instance = kwargs.get('instance')
+        
+#         if instance:
+#             # Obtener el nombre de la sección seleccionada
+#             nombre_seccion_actual = instance.nombre
+            
+#             # Obtener todas las secciones excepto la actual
+#             secciones_excluidas = Seccion.objects.exclude(id=instance.id)
+#             nombres_excluidos = [seccion.nombre.id for seccion in secciones_excluidas]
+            
+#             # Obtener los nombres de sección que no están siendo utilizados actualmente
+#             nombres_disponibles = NombreSeccion.objects.exclude(id__in=nombres_excluidos)
+            
+#             # Incluir el nombre actual en el queryset del campo 'nombre'
+#             self.fields['nombre'].queryset = NombreSeccion.objects.filter(pk=nombre_seccion_actual.id) | nombres_disponibles
+#         else:
+#             # Si no hay instancia, mostrar todos los nombres disponibles
+#             nombres_disponibles = NombreSeccion.objects.all()
+#             self.fields['nombre'].queryset = nombres_disponibles
+        
+#         # Filtrar usuarios cuyo perfil sea "Alumno" para el campo 'usuarios'
+#         perfil_alumno = Perfiles.objects.get(nombre='Alumno')
+#         self.fields['usuarios'].queryset = UsersMetadata.objects.filter(perfil=perfil_alumno)
+
+#     class Meta:
+#         model = Seccion
+#         fields = ['nombre', 'usuarios']
+#         widgets = {
+#             'nombre': forms.Select(attrs={'class': 'form-control'}),
+#             'usuarios': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}),
+#         }
+        
 class EditarSeccionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
+        instance = kwargs.get('instance')
+        asignatura_id = instance.asignatura_id if instance else None
+        print("Asignatura ID:", asignatura_id)  # Print para verificar el ID de la asignatura
         super(EditarSeccionForm, self).__init__(*args, **kwargs)
         
-        instance = kwargs.get('instance')
+        # Obtener todos los nombres de sección disponibles
+        nombres_disponibles = NombreSeccion.objects.all()
+        print("Nombres disponibles:", nombres_disponibles)  # Print para verificar los nombres disponibles
         
         if instance:
             # Obtener el nombre de la sección seleccionada
             nombre_seccion_actual = instance.nombre
+            print("Nombre de la sección actual:", nombre_seccion_actual)  # Print para verificar el nombre de la sección actual
             
             # Obtener todas las secciones excepto la actual
-            secciones_excluidas = Seccion.objects.exclude(id=instance.id)
+            secciones_excluidas = Seccion.objects.filter(asignatura=asignatura_id).exclude(id=instance.id)
             nombres_excluidos = [seccion.nombre.id for seccion in secciones_excluidas]
             
-            # Obtener los nombres de sección que no están siendo utilizados actualmente
-            nombres_disponibles = NombreSeccion.objects.exclude(id__in=nombres_excluidos)
-            
-            # Incluir el nombre actual en el queryset del campo 'nombre'
-            self.fields['nombre'].queryset = NombreSeccion.objects.filter(pk=nombre_seccion_actual.id) | nombres_disponibles
-        else:
-            # Si no hay instancia, mostrar todos los nombres disponibles
-            nombres_disponibles = NombreSeccion.objects.all()
-            self.fields['nombre'].queryset = nombres_disponibles
+            # Excluir los nombres de sección ya asignados a otras secciones
+            nombres_disponibles = nombres_disponibles.exclude(id__in=nombres_excluidos)
+            print("Nombres disponibles después de la exclusión:", nombres_disponibles)  # Print para verificar los nombres disponibles
         
-        # Filtrar usuarios cuyo perfil sea "Alumno" para el campo 'usuarios'
-        perfil_alumno = Perfiles.objects.get(nombre='Alumno')
-        self.fields['usuarios'].queryset = UsersMetadata.objects.filter(perfil=perfil_alumno)
+        # Incluir el nombre actual en el queryset del campo 'nombre'
+        self.fields['nombre'].queryset = nombres_disponibles
+        
+        # Filtrar usuarios por asignaturas inscritas y perfil "Alumno"
+        if asignatura_id:
+            # Consulta para obtener las secciones asociadas a la asignatura
+            secciones_asignatura = Seccion.objects.filter(asignatura=asignatura_id)
+            print("Secciones de la asignatura:", secciones_asignatura)  # Print para verificar las secciones de la asignatura
+            
+            # Consulta para obtener los IDs de las secciones asociadas a la asignatura
+            secciones_asignatura_ids = secciones_asignatura.values_list('id', flat=True)
+            print("IDs de las secciones de la asignatura:", secciones_asignatura_ids)  # Print para verificar los IDs de las secciones de la asignatura
+            
+            # Consulta para filtrar usuarios que están inscritos en la asignatura pero no en otra sección de la misma asignatura
+            perfil_alumno = Perfiles.objects.get(nombre='Alumno')
+            users_queryset = UsersMetadata.objects.filter(
+                perfil=perfil_alumno, asignaturas_inscritas=asignatura_id
+            ).exclude(Q(secciones__in=secciones_asignatura_ids) & ~Q(secciones__id=instance.id))
+            print("Usuarios queryset:", users_queryset)  # Print para verificar el queryset de usuarios
+
+            self.fields['usuarios'].queryset = users_queryset
 
     class Meta:
         model = Seccion
@@ -307,4 +381,5 @@ class EditarSeccionForm(forms.ModelForm):
             'nombre': forms.Select(attrs={'class': 'form-control'}),
             'usuarios': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input'}),
         }
+
 

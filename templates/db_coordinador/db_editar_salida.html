@@ -121,7 +121,7 @@
             <div class="form-check">
                 {{ checkbox.tag }}
                 <label class="form-check-label" for="{{ checkbox.id_for_label }}">
-                    {{ checkbox.choice_label }}
+                    {{ checkbox.choice_label }} <br>
                 </label>
             </div>
             {% endfor %}
@@ -129,8 +129,18 @@
 
             <hr>
 
+            <p class='h5'>Asignatura base:</p>
+            <div class="d-flex align-items-center pb-3">
+                <label style="margin-right: 12px;" for="id_asig_base">Asignatura:</label>
+                <select class='form-select' id="id_asig_base" name="asig_base">
+                    <option value="">Seleccione una asignatura base</option>
+                </select>
+            </div>
+            
+            <hr>
 
-            <p class='h4'>Seccion por docente:</p>
+
+            <p class='h4'>Seccion:</p>
 
                 {% comment %} {% for checkbox in form.secciones %}
                 <div class="form-check">
@@ -239,7 +249,7 @@
 
         </script>
             
-        <script>
+        {% comment %} <script>
             function submitForm() {
                 // Obtener todos los campos de entrada del formulario
                 var formElements = document.getElementById("myForm").elements;
@@ -248,14 +258,19 @@
                 for (var i = 0; i < formElements.length; i++) {
                     if (formElements[i].type !== "button" && formElements[i].value === "") {
                         alert("Por favor, complete todos los campos antes de enviar el formulario.");
+                        formElements[i].style.border = "2px solid red";
+                        formValido = false;
                         return false; // Evita que el formulario se envíe si hay campos vacíos
+
                     }
                 }
         
                 // Enviar el formulario si todos los campos están completos
                 document.getElementById("myForm").submit();
             }
-        </script>
+        </script> {% endcomment %}
+
+       
 
             </form>
             </div>
@@ -350,7 +365,95 @@
     
     
     
-
+    <script>
+        // Función para actualizar el campo de asignatura base con las asignaturas seleccionadas
+        function actualizarAsigBase() {
+            var asignaturasSeleccionadas = document.querySelectorAll('input[name="asignaturas"]:checked');
+            var selectAsigBase = document.getElementById('id_asig_base');
+            var asigBaseSeleccionada = selectAsigBase.value;
+            var asigBaseActualizada = false; // Bandera para indicar si la asignatura base seleccionada ha sido actualizada
+            
+            // Limpiar las opciones del campo de asignatura base
+            selectAsigBase.innerHTML = '<option value="">Seleccione una asignatura base</option>';
+            
+            // Recorrer las asignaturas seleccionadas y agregarlas como opciones al campo de asignatura base
+            asignaturasSeleccionadas.forEach(function(asignatura) {
+                var option = document.createElement('option');
+                option.value = asignatura.value;
+                option.textContent = asignatura.nextElementSibling.textContent.trim();
+                selectAsigBase.appendChild(option);
+                
+                // Verificar si la asignatura actual coincide con la asignatura base seleccionada anteriormente
+                if (asignatura.value === asigBaseSeleccionada) {
+                    // Si coincide, marcar la asignatura base como seleccionada
+                    selectAsigBase.value = asigBaseSeleccionada;
+                    asigBaseActualizada = true;
+                }
+            });
+            
+            // Si la asignatura base no se ha actualizado, deseleccionarla
+            if (!asigBaseActualizada) {
+                selectAsigBase.value = '';
+            }
+        }
+        
+        // Escuchar los cambios en los checkboxes de asignaturas
+        document.querySelectorAll('input[name="asignaturas"]').forEach(function(checkbox) {
+            checkbox.addEventListener('change', actualizarAsigBase);
+        });
+        
+        // Llamar a la función inicialmente para reflejar el estado inicial de las asignaturas seleccionadas
+        actualizarAsigBase();
+    
+        // Seleccionar la asignatura base guardada desde form.asig_base al cargar la página
+        var selectAsigBase = document.getElementById('id_asig_base');
+        var asigBaseGuardada = "{{ form.asig_base.value }}";
+        if (asigBaseGuardada) {
+            selectAsigBase.value = asigBaseGuardada;
+        }
+    </script>
+    
+    
+    <script>
+        function submitForm() {
+            // Obtener todos los campos de entrada del formulario
+            var formElements = document.getElementById("myForm").elements;
+        
+            // Verificar si algún campo de checkbox está marcado
+            var checkboxChecked = false;
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    checkboxChecked = true;
+                }
+            });
+        
+            // Verificar si algún campo está vacío
+            for (var i = 0; i < formElements.length; i++) {
+                if (formElements[i].type !== "button" && formElements[i].value === "" && formElements[i].required) {
+                    alert("Por favor, complete todos los campos antes de enviar el formulario.");
+                    return false; // Evita que el formulario se envíe si hay campos vacíos
+                }
+            }
+        
+            // Verificar si al menos un checkbox está marcado
+            if (!checkboxChecked) {
+                alert("Por favor, seleccione al menos una opción.");
+                return false; // Evita que el formulario se envíe si ningún checkbox está marcado
+            }
+        
+            // Enviar el formulario si todos los campos están completos y al menos un checkbox está marcado
+            document.getElementById("myForm").submit();
+        }
+        
+    </script>
+    
+    
+    
+    
+    
+    
+    
 
     
 

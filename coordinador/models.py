@@ -37,7 +37,7 @@ class Semaforo(models.Model):
 class SalidaTerreno(models.Model):
     situacion = models.ForeignKey(Situacion, on_delete=models.CASCADE)
     numero_cuenta = models.IntegerField()
-    semestre = models.CharField(max_length=100,blank=True, null=True)
+    semestre = models.IntegerField(blank=True, null=True)
     anio = models.PositiveIntegerField(validators=[MaxValueValidator(3000)],blank=True, null=True)
     semana = models.PositiveIntegerField(validators=[MaxValueValidator(3000)],blank=True, null=True)
     diasemana =  models.ManyToManyField(DiaSemana, blank=True,)
@@ -55,9 +55,11 @@ class SalidaTerreno(models.Model):
     docente_titular = models.ForeignKey(UsersMetadata, on_delete=models.CASCADE, related_name='salidas_terreno_titular',  blank=True, null=True)
     docentes_apoyo = models.ManyToManyField(UsersMetadata, related_name='salidas_terreno_apoyo',  blank=True)
     num_salida = models.IntegerField(validators=[MaxValueValidator(999)])
-    asig_comp_terreno = models.ManyToManyField(Asignatura, related_name='salidas_terreno_asig_comp_terreno', blank=True)
+    asig_base =  models.ForeignKey(Asignatura, on_delete=models.CASCADE, related_name='salidas_terreno_asignatura', blank=True, null=True)
     observaciones = models.TextField()
     semaforo = models.ForeignKey(Semaforo, on_delete=models.CASCADE, null=True, blank=True)
+
+    
 
     def __str__(self):
         asignaturas_str = ', '.join([asignatura.nombre for asignatura in self.asignaturas.all()])
