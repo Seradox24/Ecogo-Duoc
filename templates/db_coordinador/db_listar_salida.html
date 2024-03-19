@@ -51,7 +51,7 @@
     </div>
     
     <div class="d-flex justify-content-end">
-        <a class="btn btnclima" href="https://www.meteored.cl" target="_blank">Clima en Chile <i class="fa-solid fa-cloud-sun"></i></a>
+        <a class="btn btnclima fw-bold" href="https://www.windy.com/-33.049/-71.606?-33.216,-71.366,10" target="_blank">Clima en Chile <i class="fa-solid fa-cloud-sun"></i></a>
     </div>
 </div>
 
@@ -129,7 +129,7 @@
                 <td>{{ s.exp_aprendizaje | title }}</td>
                 <td>{{ s.num_alumnos | title }}</td>
                 <td>
-                    {% for sec in s.seccion.all %}
+                    {% for sec in s.secciones.all %}
                         {{ sec.nombre }}
                         {% if not forloop.last %}, {% endif %}
                     {% endfor %}
@@ -156,7 +156,7 @@
                     <a href="{% url 'eliminar_salida' s.id %}" onclick="confirmarEliminacion(this); return false;" class="btn btn-danger btn-sm">Eliminar</a>
                 </td>
 
-                <td class="">
+                {% comment %} <td class="">
                     <a href="{% url 'generar_pdf' s.id %}" class="btn btn-warning btn-sm">Descenso estudiantes</a>
                     
                     
@@ -165,7 +165,7 @@
                     <a href="{% url 'lista_implementos_salida' s.id %}" class="btn btn-warning btn-sm">item</a>
                     
                     
-                </td>
+                </td> {% endcomment %}
                 
             </tr>
         

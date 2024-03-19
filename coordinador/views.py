@@ -27,6 +27,11 @@ from django.contrib import messages
 from .forms import SalidaTerrenoForm
 from .models import SalidaTerreno
 
+
+
+
+
+
 @login_required
 @Coordinador_required
 def home_coordinador(request):
@@ -40,10 +45,7 @@ def home_coordinador(request):
     return render(request, 'db_coordinador/db_home_c.html', {'form': form})
 
 
-@login_required
-@Coordinador_required
-def gest_users(request):
-    return render(request, 'db_coordinador/db_coordinador_gest_users.html')
+
 
 
 @login_required
@@ -246,10 +248,6 @@ def eliminar_usuarios(request, id):
 
     return render(request, 'ruta_de_la_plantilla_para_confirmar_eliminar.html', {'usuario': usuario})
 
-@login_required
-@Coordinador_required
-def listar_alumnos_sl(request):
-    return render(request, 'db_coordinador/db_coordinador_listar_alumnos_sl.html')
 
 
 @login_required

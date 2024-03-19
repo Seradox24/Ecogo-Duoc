@@ -24,7 +24,7 @@
       {% endfor %}
         </p>
 
-      <p class="card-text">Asignatura: {{data.asignatura}}.</p>
+      <p class="card-text">Asignatura: {{data.asig_base}}.</p>
       {% comment %} <p class="card-text"><small>Última actualización hace 3 minutos</small></p> {% endcomment %}
     </div>
 </div>
@@ -398,20 +398,41 @@
 </div>
     </div><div class="py-2 ">
 
-    <div class="card border-black">
-      <div class="card-body">
-        <h5 class="card-title">Seccion :</h5>
-        {% for sec in data.seccion.all %}
-                        {{ sec.nombre }}
-                        {% if not forloop.last %}, {% endif %}
-                    {% endfor %}
-         
+      <div class="card border-black">
+        <div class="card-body">
+          <h5 class="card-title">Secciones por Asignatura:</h5>
+          {% for asignatura in data.asignaturas.all %}
+            <span class="fw-bold">{{ asignatura.nombre }}</span>:
+            {% if asignatura.seccion_set.all %}
+              {% for sec in asignatura.seccion_set.all %}
+                {{ sec.nombre }}
+                {% if not forloop.last %}, {% endif %}
+              {% endfor %}
+            {% else %}
+              Asignatura sin secciones actualmente.
+            {% endif %}
+            {% if not forloop.last %} |-| {% endif %}
+          {% endfor %}
+        </div>
       </div>
-    </div>
+      
+      
+      
 
 
 
   </div>
+  </div>
+  
+</div>
+
+
+
+<div class="card px-5 ">
+  <div class="card-body px-5  ">
+    <div class="ratio ratio-16x9 " style="--bs-aspect-ratio: 50%;">
+      <iframe width="650" height="450" src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=°C&metricWind=km/h&zoom=9&overlay=wind&product=ecmwf&level=surface&lat=-33.28&lon=-71.337&detailLat=-33.147&detailLon=-71.581&detail=true" frameborder="0"></iframe>
+    </div>
   </div>
 </div>
 
