@@ -160,12 +160,12 @@
                     <a href="{% url 'generar_pdf' s.id %}" class="btn btn-warning btn-sm">Descenso estudiantes</a>
                     
                     
-                </td>
+                </td>{% endcomment %}
                 <td class="">
-                    <a href="{% url 'lista_implementos_salida' s.id %}" class="btn btn-warning btn-sm">item</a>
+                    <a href="{% url 'enviar_correos' s.id %}" class="btn btn-warning btn-sm">Notificar estudiantes</a>
                     
                     
-                </td> {% endcomment %}
+                </td> 
                 
             </tr>
         

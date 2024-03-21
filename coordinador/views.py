@@ -26,7 +26,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from .forms import SalidaTerrenoForm
 from .models import SalidaTerreno
-
+from azure.communication.email import EmailClient
+from azure.core.credentials import AzureKeyCredential
+import uuid
 
 
 
@@ -736,3 +738,132 @@ def lista_implementos_salida(request, salida_terreno_id):
     implementos_asociados = salida_terreno.salidaterrenoimplemento_set.first().implemento.all() if salida_terreno.salidaterrenoimplemento_set.exists() else []
 
     return render(request, 'db_coordinador/lista_implementos_salida.html', {'salida_terreno': salida_terreno, 'implementos': implementos, 'implementos_asociados': implementos_asociados})
+
+
+
+
+# from django.shortcuts import render, get_object_or_404
+# from .models import SalidaTerreno, Seccion
+
+# def enviar_correos(request, salida_id):
+#     # Obtener la salida de terreno o devolver un error 404 si no existe
+#     salida_terreno = get_object_or_404(SalidaTerreno, pk=salida_id)
+
+#     # Inicializar una lista para almacenar los correos electrónicos
+#     correos_electronicos = []
+
+#     # Recorrer todas las secciones asociadas a la salida a terreno
+#     for seccion in salida_terreno.secciones.all():
+#         # Verificar si hay usuarios asociados a esta sección
+#         if seccion.usuarios.exists():
+#             # Recorrer todos los usuarios en la sección y obtener su correo electrónico
+#             for usuario_metadata in seccion.usuarios.all():
+#                 # Verificar si el usuario tiene un correo electrónico registrado
+#                 if usuario_metadata.correoduoc:
+#                     # Añadir el correo electrónico a la lista de correos electrónicos
+#                     correos_electronicos.append(usuario_metadata.correoduoc)
+#                 else:
+#                     # Enviar un mensaje de advertencia si un usuario no tiene un correo electrónico registrado
+#                     print(f"Usuario {usuario_metadata} en la sección {seccion} no tiene correo electrónico registrado.")
+#         else:
+#             # Enviar un mensaje de advertencia si no hay usuarios asociados a la sección
+#             print(f"No hay usuarios en la sección {seccion}")
+
+#     # Imprimir la lista completa de correos electrónicos
+#     print(f"Total de correos electrónicos: {len(correos_electronicos)}")
+#     print(correos_electronicos)
+
+#     # Renderizar el template con la lista de correos electrónicos
+#     return render(request, 'db_coordinador/correos_salida.html', {'correos_electronicos': correos_electronicos})
+
+
+
+def enviar_correos(request, salida_id):
+    salida_terreno = get_object_or_404(SalidaTerreno, pk=salida_id)
+    correos_electronicos = obtener_correos_electronicos(salida_terreno)
+    print(correos_electronicos)
+
+    if request.method == 'POST':
+        form = ComentarioForm(request.POST)
+        if form.is_valid():
+            comentario = form.cleaned_data['comentario']
+            enviar_correo(correos_electronicos, comentario,salida_terreno)
+            # Aquí puedes agregar lógica adicional, como redirigir a una página de confirmación.
+            return redirect('listar_salida')
+    else:
+        form = ComentarioForm()
+
+    return render(request, 'db_coordinador/correos_salida.html', {'form': form})
+
+def obtener_correos_electronicos(salida_terreno):
+    correos_electronicos = []
+    for seccion in salida_terreno.secciones.all():
+        for usuario_metadata in seccion.usuarios.all():
+            if usuario_metadata.correoduoc:
+                correos_electronicos.append(usuario_metadata.correoduoc)
+    return correos_electronicos
+
+def generar_id_fecha():
+    now = datetime.now()
+    # Formato: #DDMMHHMM
+    return f"#{now.strftime('%d%m%H%M')}"
+
+import os
+
+def enviar_correo(correos, comentario,salidav):
+    try:
+        # Configura tu conexión con Azure (como lo estás haciendo en tu ejemplo)
+        connection_string = "endpoint=https://eco-comuni.unitedstates.communication.azure.com/;accesskey=T7AYjoP8mjm2MA6UWb3A/qgjsx6EUsOJwK+/awi6s+rwJZaDvrQ04Z4QJmE0iRg35Vy53Fb5ntVs/vXo5VPLdg=="
+        client = EmailClient.from_connection_string(connection_string)
+
+        # Carga el contenido HTML desde el archivo
+        directorio_actual = os.path.dirname(os.path.abspath(__file__))
+        ruta_html = os.path.join(directorio_actual, "correo.html")
+        with open(ruta_html, "r") as file:
+            html_content = file.read()
+
+        # Reemplaza las variables en el HTML con los datos dinámicos
+        id_fecha = generar_id_fecha()
+        salida= salidav
+        semaforo_str = str(salida.semaforo)
+        lugar_ejecucion_str = str(salida.lugar_ejecucion)
+
+        situacion_str = str(salida.situacion)
+        actividad_str = str(salida.actividad)
+        # Convierte la fecha en una cadena con el formato "dd/mm/yyyy"
+        fecha_ingreso_str = salida.fecha_ingreso.strftime("%d/%m/%Y")
+        fecha_fecha_termino_str = salida.fecha_termino.strftime("%d/%m/%Y")
+        # Reemplaza la variable en el HTML con la fecha convertida a cadena
+        html_content = html_content.replace("{{ f_ingre }}", fecha_ingreso_str)
+        #html_content = html_content.format(comentario=comentario, id_fecha=id_fecha)
+        html_content = html_content.replace("{{ comentario }}", comentario)
+        html_content = html_content.replace("{{ f_term }}", fecha_fecha_termino_str)
+        html_content = html_content.replace("{{ lugar_ejecucion }}", lugar_ejecucion_str)
+        html_content = html_content.replace("{{ semaforo }}", semaforo_str)
+        html_content = html_content.replace("{{ situacion }}", situacion_str)
+        html_content = html_content.replace("{{ actividad }}", actividad_str)
+        
+
+        # Crea el mensaje y envíalo
+        message = {
+            "senderAddress": "DoNotReply@ecogo.cloud",
+            "recipients": {"to": [{"address": correo} for correo in correos]},
+            "content": {
+                "messageId": f"unique-{uuid.uuid4()}",
+                "subject": f"Salida a terreno: Actualización {id_fecha}",
+                "plainText": f"{comentario}\nHola mundo por correo electrónico.",
+                "html": html_content
+            }
+        }
+
+        poller = client.begin_send(message)
+        result = poller.result()
+
+        # Verifica si el envío fue exitoso
+        if result.successful:
+            print("Correo enviado correctamente")
+        else:
+            print("Error al enviar el correo:", result.error_message)
+
+    except Exception as ex:
+        print("Error general:", ex)

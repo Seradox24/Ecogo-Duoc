@@ -383,3 +383,16 @@ class EditarSeccionForm(forms.ModelForm):
         }
 
 
+
+
+
+class ComentarioForm(forms.Form):
+    comentario = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'form-control border border-primary border border-3', 'maxlength': 500, }),
+        max_length=500,
+        label='Comentario'
+    )
+
+
+
+

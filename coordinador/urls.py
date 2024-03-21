@@ -33,6 +33,7 @@ urlpatterns = [
     path('obtener_secciones/', obtener_secciones, name='obtener_secciones'),
     path('editar_seccion/<int:seccion_id>/', views.editar_seccion, name='editar_seccion'),
     path('obtener_asig_base/', obtener_asig_base, name='obtener_asig_base'),
+    path('enviar-correos/<int:salida_id>/', views.enviar_correos, name='enviar_correos'),
 
 
 ] 

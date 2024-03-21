@@ -1,0 +1,19 @@
+{% extends '../layout/dash_base_docente.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+<h1>notificar alumnos </h1>
+
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enviar correo</button>
+  </form>
+  
+    
+
+{% endblock %}
