@@ -7,19 +7,17 @@ from coordinador.models import SalidaTerreno, PronosticoClima, CurrentClima,Sali
 from django.db.models import Q,F
 from django.utils import timezone
 from django.contrib import messages
-from .models import Documento_inasis, Estado,PronosticoClima, CurrentClima,BajaEstudiante
 import requests
 import json
 from django.http import JsonResponse
 from datetime import datetime, timedelta
 from django.utils.timezone import make_aware
 from pytz import timezone as pytz_timezone
-from .forms import BajaEstudianteForm
-
+from .forms import *
 from django.http import Http404, HttpResponseBadRequest
-from .models import PronosticoClima, CurrentClima
+from .models import *
 from django.core.paginator import Paginator
-
+from django.contrib import messages
 
 
 def obtener_clima(salida_terreno, name):
@@ -262,17 +260,8 @@ def home_alumno(request, baja_estudiante_id=None):
 def ji_alumno(request):
 
 
-    user = request.user
-    user_metadata = UsersMetadata.objects.get(user=user)
-    salidas_terreno = SalidaTerreno.objects.filter(
-    Q(seccion__alumnos=user_metadata) | Q(asignatura__docentes=user_metadata),
-    Q(situacion__in=[5, 6]),  # Aquí agregamos la condición para situaciones 5 o 6
-    Q(fecha_ingreso__gte=timezone.now()) | Q(fecha_termino__gt=timezone.now())
-    ).order_by('fecha_ingreso')
-    for salida in salidas_terreno:
-        documentos = Documento_inasis.objects.filter(users_metadata=user_metadata, salida_terreno=salida)
-        print(documentos)  # Imprime los documentos obtenidos
-        salida.documentos = documentos
+    
+    
     
     
 
@@ -283,9 +272,9 @@ def ji_alumno(request):
 
     # Toma la primera salida de terreno después de ordenar primera_salida_cercana = salidas_terreno.first()
     
-    print(salidas_terreno)
+    
 
-    return render(request, 'db_alumno/db_alumno_asis.html',{'data': salidas_terreno})
+    return render(request, 'db_alumno/db_alumno_asis.html',{})
 
 
 
@@ -322,7 +311,23 @@ def msalida_alumno(request):
 
 @login_required
 def aperfil(request):
-    return render(request, 'db_alumno/db_alumno_perfil.html')
+    if request.method == 'POST':
+        form = DocumentoCerMedicoForm(request.POST, request.FILES)
+        if form.is_valid():
+            documento = form.save(commit=False)
+            # Obtener el nombre de usuario
+            nombre_usuario = request.user.username
+            # Concatenar los datos y guardarlos en el documento
+            documento.nombre = f"Ficha médica alumno {nombre_usuario}"
+            documento.descripcion = f"Documento subido el día {timezone.now().strftime('%d %b %Y')}"
+            documento.users_metadata = request.user.usersmetadata
+            documento.save()
+            messages.success(request, 'Documento subido exitosamente.')
+            return redirect('aperfil')
+    else:
+        form = DocumentoCerMedicoForm()
+    documentos = DocumentoCerMedico.objects.filter(users_metadata=request.user.usersmetadata)
+    return render(request, 'db_alumno/db_alumno_asis.html', {'form': form, 'documentos': documentos})
 
 # Create your views here.
 
@@ -362,7 +367,6 @@ def subir_documento(request, salida_terreno_id):
             descripcion='gfds',  # Ajusta según los campos de tu formulario
             archivo=request.FILES['archivo'],  # Ajusta según los campos de tu formulario
             users_metadata=user_metadata,
-            salida_terreno=salida_terreno
         )
         documento.save()
 

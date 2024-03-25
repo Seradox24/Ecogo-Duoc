@@ -1,5 +1,5 @@
 from django import forms
-from .models import BajaEstudiante, Bajada
+from .models import *
 from coordinador.models import SalidaTerreno
 from django.db import models
 
@@ -26,3 +26,13 @@ class BajaEstudianteForm(forms.ModelForm):
     class Meta:
         model = BajaEstudiante
         fields = ['bajada']
+
+
+
+class DocumentoCerMedicoForm(forms.ModelForm):
+    class Meta:
+        model = DocumentoCerMedico
+        fields = ['archivo']  # Solo mostramos el campo de archivo
+        widgets = {
+            'archivo': forms.FileInput(attrs={'class': 'form-control', 'accept': '.pdf,.jpeg,.jpg,.png,.doc,.docx'}),
+        }

@@ -123,7 +123,7 @@ class UsersMetadata(models.Model):
     perfil = models.ForeignKey(Perfiles, models.DO_NOTHING)
     nacionalidad= models.ForeignKey(Nacionalidad, models.DO_NOTHING, blank=True, null=True)
     comuna = models.ForeignKey(Comuna, models.DO_NOTHING, default=1, blank=True, null=True)
-    correoduoc = models.CharField(max_length=100, blank=True, null=True)
+    correoduoc = models.EmailField(max_length=100, blank=True, null=True)
     foto = models.ImageField(upload_to='usuarios', blank=True, null=True)
     semestre = models.IntegerField(blank=True, null=True)
     sede = models.CharField(max_length=100, blank=True, null=True)

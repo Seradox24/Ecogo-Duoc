@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['*','http://ecogo.brazilsouth.cloudapp.azure.com','ecogo.cloud'
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
+handler404 = 'acceso.views.custom_404'
 
 # Application definition
 

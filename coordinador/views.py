@@ -29,8 +29,9 @@ from .models import SalidaTerreno
 from azure.communication.email import EmailClient
 from azure.core.credentials import AzureKeyCredential
 import uuid
-
-
+from alumno.models import *
+import os
+from django.conf import settings
 
 
 
@@ -175,17 +176,46 @@ def gest_usuarios(request):
     return render(request, 'db_coordinador/db_gest_usuarios.html', {'form': form})
 
 
+# def agreg_usuarios(request):
+#     if request.method == 'POST':
+#         user_form = UserCreationWithMetadataForm(request.POST)
+#         metadata_form = UsersMetadataForm(request.POST)
+
+#         if user_form.is_valid() and metadata_form.is_valid():
+#             user = user_form.save()
+#             metadata = metadata_form.save(commit=False)
+#             metadata.user = user
+#             metadata.username_field = user.username
+#             metadata.save()
+#             messages.success(request, "Usuario agregado correctamente!")
+#             return redirect('gest-usuarios') 
+#     else:
+#         user_form = UserCreationWithMetadataForm()
+#         metadata_form = UsersMetadataForm()
+
+#     return render(request, 'db_coordinador/db_agreg_usuarios.html', {'user_form': user_form, 'metadata_form': metadata_form})
+
+
+
+
+
 def agreg_usuarios(request):
     if request.method == 'POST':
         user_form = UserCreationWithMetadataForm(request.POST)
         metadata_form = UsersMetadataForm(request.POST)
 
         if user_form.is_valid() and metadata_form.is_valid():
-            user = user_form.save()
+            user = user_form.save()  # Guardar usuario primero
             metadata = metadata_form.save(commit=False)
             metadata.user = user
             metadata.username_field = user.username
-            metadata.save()
+            metadata.save()  # Guardar metadata antes de establecer asignaturas
+
+            # Procesar asignaturas_inscritas después de guardar metadata
+            asignaturas_seleccionadas = request.POST.getlist('asignaturas_inscritas')
+            metadata.asignaturas_inscritas.set(asignaturas_seleccionadas)
+            metadata.save()  # Guardar metadata después de establecer asignaturas
+
             messages.success(request, "Usuario agregado correctamente!")
             return redirect('gest-usuarios') 
     else:
@@ -193,6 +223,8 @@ def agreg_usuarios(request):
         metadata_form = UsersMetadataForm()
 
     return render(request, 'db_coordinador/db_agreg_usuarios.html', {'user_form': user_form, 'metadata_form': metadata_form})
+
+
 
 
 def gest_usuarios(request):
@@ -867,3 +899,32 @@ def enviar_correo(correos, comentario,salidav):
 
     except Exception as ex:
         print("Error general:", ex)
+
+
+
+
+def eliminar_documento(request, documento_id):
+    documento = get_object_or_404(DocumentoCerMedico, pk=documento_id)
+    
+    # Obtener la ruta del archivo en el sistema de archivos del servidor
+    ruta_archivo = os.path.join(settings.MEDIA_ROOT, documento.archivo.name)
+    
+    try:
+        # Verificar si el archivo físico existe
+        if os.path.exists(ruta_archivo):
+            # Eliminar el archivo físico del servidor
+            os.remove(ruta_archivo)
+            print(f"El archivo '{documento.archivo.name}' ha sido eliminado del servidor.")
+        else:
+            print(f"El archivo '{documento.archivo.name}' no existe en el servidor.")
+        
+        # Eliminar la entrada del documento de la base de datos
+        documento.delete()
+        print("La entrada del documento ha sido eliminada de la base de datos.")
+        
+        # Redirigir a donde desees después de eliminar el documento
+        return redirect('gest-usuarios')
+    except Exception as e:
+        print(f"Ocurrió un error al intentar eliminar el documento: {e}")
+        # Manejar el error según sea necesario
+        return redirect('gest-usuarios')  # Redirigir a una página de error o a la misma vista

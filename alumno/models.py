@@ -46,4 +46,15 @@ class BajaEstudiante(models.Model):
 
 
 
+class DocumentoCerMedico(models.Model):
+    nombre = models.CharField(max_length=100, default='')
+    descripcion = models.CharField(max_length=200, default='')
+    archivo = models.FileField(upload_to='documentos/documentos_cer_medico/')
+    users_metadata = models.ForeignKey(UsersMetadata, models.SET_NULL,related_name='documentos_cer_medico', null=True)
+    fecha_creacion = models.DateTimeField(auto_now_add=True, null=True)
+    estado = models.ForeignKey(Estado, models.DO_NOTHING, null=True, default=None)
+
+    def __str__(self):
+        return self.nombre
+
 # Create your models here.

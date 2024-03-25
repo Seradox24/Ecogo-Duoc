@@ -103,10 +103,16 @@
               <h5>Información adicional de: {{ usuario.user.username }}</h5>
 
               <!-- Enlace de descarga de la ficha médica -->
-              {% for documento in usuario.documentos.all %}
+              {% for documento in usuario.documentos_cer_medico.all %}
                 <a href="{{ documento.archivo.url }}" download="{{ documento.nombre }}">
                   Descargar Ficha Médica {{ documento.archivo.size|filesizeformat }}
                 </a>
+                <form method="post" action="{% url 'eliminar_documento' documento.id %}" class="ml-2">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este documento?')">Eliminar</button>
+              </form>
+              
+
               {% endfor %}
             </div>
           </li>
@@ -119,4 +125,8 @@
   <div class="mt-3">
     {% include 'layout/paginatorusers.html' %}
   </div>
+
+ 
+
+
 {% endblock %}

@@ -34,6 +34,7 @@ urlpatterns = [
     path('editar_seccion/<int:seccion_id>/', views.editar_seccion, name='editar_seccion'),
     path('obtener_asig_base/', obtener_asig_base, name='obtener_asig_base'),
     path('enviar-correos/<int:salida_id>/', views.enviar_correos, name='enviar_correos'),
+    path('eliminar-documento/<int:documento_id>/', eliminar_documento, name='eliminar_documento'),
 
 
 ] 

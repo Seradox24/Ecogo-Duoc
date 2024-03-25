@@ -75,3 +75,7 @@ def acceso_error(request):
 
 def no_access(request):
     return render(request, 'acceso/no_access.html')
+
+def custom_404(request, exception):
+    print('404 error ')
+    return render(request, 'acceso/no_access.html', status=404)

@@ -131,11 +131,12 @@ class UserEditForm(UserChangeForm):
 
 class UsersMetadataForm(forms.ModelForm):
     username_field = forms.CharField(required=False, widget=forms.HiddenInput())  # Campo adicional para capturar el nombre de usuario
-    fields = ['sexo', 'perfil', 'nacionalidad', 'semestre', 'sede', 'nom_carrera', 'jornada', 'rut', 'nombres', 'ap_paterno', 'ap_materno', 'fnacimiento', 'estado_civil', 'direccion', 'numero', 'celular', 'contacto_emergencia', 'estado', 'foto','asignaturas_inscritas']
+    fields = ['sexo', 'perfil', 'nacionalidad', 'semestre', 'sede', 'nom_carrera', 'jornada', 'rut', 'nombres', 'ap_paterno', 'ap_materno', 'fnacimiento', 'estado_civil', 'direccion', 'numero', 'celular', 'contacto_emergencia', 'estado', 'foto','asignaturas_inscritas','correoduoc']
     class Meta:
         model = UsersMetadata
-        exclude = ['user', 'slug', 'correoduoc']  
+        exclude = ['user', 'slug']  
         widgets = {
+            'correoduoc': forms.EmailInput(attrs={'required': True, 'class': 'form-control', 'help_text': 'Requerido. Ingresa una dirección de correo electrónico válida.'}),
             'comuna': forms.Select(attrs={'class': 'select2'}),
             'slug': forms.TextInput(attrs={'placeholder': 'Ingrese el slug', 'readonly': 'readonly'}),
             'sexo': forms.Select(attrs={'class': 'form-select'}),

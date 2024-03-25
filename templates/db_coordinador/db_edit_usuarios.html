@@ -42,6 +42,11 @@
 
           <!-- Renderizar campos del formulario de metadata -->
           <div class="mb-3">
+            <label for="{{ metadata_form.sexo.id_for_label }}" class="form-label">Dirección de correo electrónico duoc:</label>
+            {{ metadata_form.correoduoc }}
+          </div>
+
+          <div class="mb-3">
             <label for="{{ metadata_form.sexo.id_for_label }}" class="form-label">Sexo:</label>
             {{ metadata_form.sexo }}
           </div>
