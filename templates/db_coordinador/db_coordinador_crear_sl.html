@@ -31,7 +31,7 @@
         <form method="post" action="{% url 'crear_salida' %}" id="" class="needs-validation" novalidate>
             {% csrf_token %}
             <div class="d-flex align-items-center pb-3">
-                <label style="margin-right: 12px;" for="">Situacion: </label>
+                <label style="margin-right: 12px;" for="">Situación: </label>
                 {{ form.situacion }}
                 &nbsp;
                 <div class="valid-feedback">
@@ -47,7 +47,7 @@
             <div class="pb-3">
                 <div class="form-floating">
                     {{ form.numero_cuenta }}
-                    <label class="form-label" for="typeNumber">Numero de cuenta...</label>
+                    <label class="form-label" for="typeNumber">Número de cuenta...</label>
                     <div class="valid-feedback">
                         Listo
                     </div>
@@ -120,7 +120,7 @@
             <hr>
 
             <div class="d-flex pb-3">
-                <label for="fecha">Fecha Ingreso:</label>
+                <label for="fecha">Fecha de Ingreso:</label>
                 {{ form.fecha_ingreso }}
                 &nbsp;
                 <div class="valid-feedback">
@@ -133,8 +133,8 @@
 
             <hr>
 
-            <div class="d-flex pb-3">
-                <label for="fecha">Fecha Termino:</label>
+            <div class="d-flex pb-3">       
+                <label for="fecha">Fecha de Término:</label>
                 {{ form.fecha_termino }}
                 &nbsp;
                 <div class="valid-feedback">
@@ -150,7 +150,7 @@
             <div class="d-flex pb-3">
                 <div class="form-floating mgr">
                     {{ form.dias }}
-                    <label for="floatingTextarea">Dias...</label>
+                    <label for="floatingTextarea">Días...</label>
                     <div class="valid-feedback">
                         Listo
                     </div>
@@ -192,7 +192,7 @@
 
             <div class="form-floating pb-3">
                 {{ form.lugar_ejecucion }}
-                <label for="floatingTextarea">Lugar de Ejecucion...</label>
+                <label for="floatingTextarea">Lugar de Ejecución...</label>
                 <div class="valid-feedback">
                     Listo
                 </div>
@@ -221,7 +221,7 @@
 
             <div class="form-floating pb-3">
                 {{ form.num_alumnos }}
-                <label class="form-label" for="typeNumber">Numero de alumnos</label>
+                <label class="form-label" for="typeNumber">Número de alumnos</label>
                 <div class="valid-feedback">
                     Listo
                 </div>
@@ -346,7 +346,7 @@
 
             <div class="form-floating pb-3">
                 {{ form.num_salida }}
-                <label class="form-label" for="typeNumber">Numero de salida</label>
+                <label class="form-label" for="typeNumber">Número de salida</label>
                 <div class="valid-feedback">
                     Listo
                 </div>
