@@ -1,13 +1,15 @@
-{% extends '../layout/dash_base_docente.html' %} 
+{% extends '../layout/dash_base_docente.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
 
-{% block content %}  
+{% block content %}
 
 <style>
     hr {
-        border: 1px solid #ccc; /* Estilo del borde */
-        margin: 20px 0;        /* Márgenes superior e inferior */
+        border: 1px solid #ccc;
+        /* Estilo del borde */
+        margin: 20px 0;
+        /* Márgenes superior e inferior */
     }
 </style>
 
@@ -15,20 +17,29 @@
 
 
 <div class="input-group">
-    <button class="btn btnnav" type="button" id="button-addon2" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></button>
+    <button class="btn btnnav" type="button" id="button-addon2" onclick="goBack()"><i
+            class="fa-solid fa-chevron-left"></i></button>
     <div class="col text-center text-bg-dark">
         <h1>Agendar Salida a Terreno</h1>
     </div>
-    <button class="btn btnnav" type="button" id="button-addon2" onclick="redirigir()"><i class="fa-solid fa-question"></i></button>
+    <button class="btn btnnav" type="button" id="button-addon2" onclick="redirigir()"><i
+            class="fa-solid fa-question"></i></button>
 </div>
 
 <div class="container justify-content-center py-4">
     <div class="card p-4">
-        <form method="post" action="{% url 'crear_salida' %}" id="myForm">
+        <form method="post" action="{% url 'crear_salida' %}" id="" class="needs-validation" novalidate>
             {% csrf_token %}
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Situacion: </label>
                 {{ form.situacion }}
+                &nbsp;
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario asignar la situación.
+                </div>
             </div>
 
             <hr>
@@ -37,7 +48,14 @@
                 <div class="form-floating">
                     {{ form.numero_cuenta }}
                     <label class="form-label" for="typeNumber">Numero de cuenta...</label>
+                    <div class="valid-feedback">
+                        Listo
+                    </div>
+                    <div class="invalid-feedback">
+                        Es necesario poner el número de cuenta.
+                    </div>
                 </div>
+                
             </div>
 
             <hr>
@@ -45,6 +63,13 @@
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Semestre:</label>
                 {{ form.semestre }}
+                &nbsp;
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario seleccionar un semestre.
+                </div>
             </div>
 
             <hr>
@@ -54,15 +79,27 @@
                 <div class="form-floating">
                     {{ form.anio }}
                     <label for="floatingTextarea">Año...</label>
+                    <div class="valid-feedback">
+                        Listo
+                    </div>
+                    <div class="invalid-feedback">
+                        Es necesario seleccionar un año.
+                    </div>
                 </div>
             </div>
 
             <hr>
-            
+
             <div class="pb-3">
                 <div class="form-floating">
                     {{ form.semana }}
                     <label for="floatingTextarea">Semana...</label>
+                    <div class="valid-feedback">
+                        Listo
+                    </div>
+                    <div class="invalid-feedback">
+                        Es necesario que ingrese la semana.
+                    </div>
                 </div>
             </div>
 
@@ -71,67 +108,113 @@
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Actividad:</label>
                 {{ form.actividad }}
+                &nbsp;
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario que seleccione una actividad.
+                </div>
             </div>
 
             <hr>
-            
+
             <div class="d-flex pb-3">
                 <label for="fecha">Fecha Ingreso:</label>
                 {{ form.fecha_ingreso }}
+                &nbsp;
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario que ingrese la fecha de ingreso.
+                </div>
             </div>
 
             <hr>
 
-            <div class="d-flex pb-3">       
+            <div class="d-flex pb-3">
                 <label for="fecha">Fecha Termino:</label>
                 {{ form.fecha_termino }}
+                &nbsp;
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario que ingrese la fecha de término.
+                </div>
             </div>
 
             <hr>
-            
+
             <div class="d-flex pb-3">
                 <div class="form-floating mgr">
                     {{ form.dias }}
                     <label for="floatingTextarea">Dias...</label>
+                    <div class="valid-feedback">
+                        Listo
+                    </div>
+                    <div class="invalid-feedback">
+                        Es necesario que ingrese la cantidad de días.
+                    </div>
                 </div>
 
                 <hr>
-            
+
                 <div class="form-floating">
                     {{ form.noches }}
                     <label for="floatingTextarea">Noches...</label>
+                    <div class="valid-feedback">
+                        Listo
+                    </div>
+                    <div class="invalid-feedback">
+                        Es necesario que ingrese la cantidad de noches.
+                    </div>
                 </div>
 
-                
+
             </div>
 
             <hr>
-            <p class='h5'>DÍAS  SEMANA:</p>
+            <p class='h5'>DÍAS SEMANA:</p>
 
-        {% for checkbox in form.diasemana %}
-        <div class="form-check form-check-inline">
-        {{ checkbox.tag }}
-        <label class="form-check-label" for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
-        </div>
-        {% endfor %}
+            {% for checkbox in form.diasemana %}
+            <div class="form-check form-check-inline">
+                {{ checkbox.tag }}
+                <label class="form-check-label" for="{{ checkbox.id_for_label }}">{{ checkbox.choice_label }}</label>
+            </div>
+            {% endfor %}
 
-        <hr>
+            <hr>
 
 
-            
-        
+
+
             <div class="form-floating pb-3">
                 {{ form.lugar_ejecucion }}
                 <label for="floatingTextarea">Lugar de Ejecucion...</label>
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario que asigne un lugar de ejecución.
+                </div>
             </div>
 
             <hr>
 
-          
+
 
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Exp. de aprendizaje:</label>
                 {{ form.exp_aprendizaje }}
+                &nbsp;
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario que seleccione una experiencia de aprendizaje.
+                </div>
             </div>
 
             <hr>
@@ -139,6 +222,12 @@
             <div class="form-floating pb-3">
                 {{ form.num_alumnos }}
                 <label class="form-label" for="typeNumber">Numero de alumnos</label>
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario que ingrese el número de alumnos.
+                </div>
             </div>
 
             <hr>
@@ -158,12 +247,19 @@
 
 
             <p class='h5'>Asignatura base:</p>
-<div class="d-flex align-items-center pb-3">
-    <label style="margin-right: 12px;" for="id_asig_base">Asignatura:</label>
-    <select class='form-select' id="id_asig_base" name="asig_base">
-        <option value="">Seleccione una asignatura base</option>
-    </select>
-</div>
+            <div class="d-flex align-items-center pb-3">
+                <label style="margin-right: 12px;" for="id_asig_base">Asignatura:</label>
+                <select class='form-select' id="id_asig_base" name="asig_base">
+                    <option value="">Seleccione una asignatura base</option>
+                </select>
+                &nbsp;
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario que elija una asignatura base.
+                </div>
+            </div>
 
 
 
@@ -179,7 +275,8 @@
                                 <!-- Mostrar el nombre de la asignatura y el nombre de la sección -->
                                 <label class="form-check-label">
                                     {{ seccion.asignatura }} - {{ seccion.seccion }}
-                                    <input class="form-check-input" type="checkbox" name="secciones" value="{{ seccion.id }}">
+                                    <input class="form-check-input" type="checkbox" name="secciones"
+                                        value="{{ seccion.id }}">
                                 </label>
                             </div>
                             {% endfor %}
@@ -187,37 +284,45 @@
                     </div>
                 </div>
             </div>
-            
+
 
 
             <hr>
 
 
-            
 
-            {% comment %} <hr>
-            
+
+            {% comment %}
+            <hr>
+
             <p class='h4'>Seccion por docente:</p>
 
-                {% for checkbox in form.secciones %}
-                <div class="form-check">
-                    {{ checkbox.tag }}
-                    <label class="form-check-label" for="{{ checkbox.id_for_label }}">
-                        {{ checkbox.choice_label }}
-                    </label>
-                </div>
-                {% endfor %} {% endcomment %}
+            {% for checkbox in form.secciones %}
+            <div class="form-check">
+                {{ checkbox.tag }}
+                <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                    {{ checkbox.choice_label }}
+                </label>
+            </div>
+            {% endfor %} {% endcomment %}
             <hr>
 
 
-            
-              
+
+
 
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Docente titular:</label>
                 {{ form.docente_titular }}
+                &nbsp;
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario que selecciones un docente titular.
+                </div>
             </div>
-            
+
             <hr>
 
             <p class='h5'>Docentes de apoyo...:</p>
@@ -237,40 +342,53 @@
 
 
 
-            
+
 
             <div class="form-floating pb-3">
                 {{ form.num_salida }}
                 <label class="form-label" for="typeNumber">Numero de salida</label>
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario que ingrese el número de salida.
+                </div>
             </div>
 
 
-           
+
 
 
             <hr>
-            
+
             <div class="form-floating pb-3">
                 {{ form.observaciones }}
                 <label for="floatingTextarea2">Observaciones...</label>
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Ingrese observaciones para la salida (Opcional).
+                </div>
             </div>
 
 
             <hr>
 
             <div class="d-grid gap-2 col-6 mx-auto">
-                <button class="btn btnagre" type="button" onclick="submitForm()">Generar salida a Terreno <i class="fa-regular fa-square-plus mas"></i></button>
+                <button class="btn btnagre" type="submit">Generar salida a Terreno <i
+                        class="fa-regular fa-square-plus mas"></i></button>
 
             </div>
 
 
-   
 
-            <script>
+
+            <!-- <script>
                 function submitForm() {
                     // Obtener todos los campos de entrada del formulario
                     var formElements = document.getElementById("myForm").elements;
-            
+
                     // Verificar si algún campo está vacío
                     for (var i = 0; i < formElements.length; i++) {
                         if (formElements[i].type !== "button" && formElements[i].value === "") {
@@ -278,12 +396,12 @@
                             return false; // Evita que el formulario se envíe si hay campos vacíos
                         }
                     }
-            
+
                     // Enviar el formulario si todos los campos están completos
                     document.getElementById("myForm").submit();
                 }
-            </script>
-            
+            </script> -->
+
         </form>
     </div>
 </div>
@@ -291,28 +409,28 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         var xhr; // Variable para almacenar la solicitud AJAX
-        
+
         // Array para almacenar las secciones seleccionadas antes de modificar las asignaturas
         var seccionesSeleccionadasAntes = [];
-    
-        $('input[name="asignaturas"]').change(function() {
+
+        $('input[name="asignaturas"]').change(function () {
             // Abortar la solicitud AJAX anterior si aún está en curso
             if (xhr && xhr.readyState != 4) {
                 xhr.abort();
             }
-            
+
             // Obtener las asignaturas seleccionadas
-            var asignaturasSeleccionadas = $('input[name="asignaturas"]:checked').map(function() {
+            var asignaturasSeleccionadas = $('input[name="asignaturas"]:checked').map(function () {
                 return this.value;
             }).get();
-    
+
             // Almacenar las secciones seleccionadas antes de modificar las asignaturas
-            seccionesSeleccionadasAntes = $('input[name="secciones"]:checked').map(function() {
+            seccionesSeleccionadasAntes = $('input[name="secciones"]:checked').map(function () {
                 return this.value;
             }).get();
-            
+
             // Realizar la solicitud AJAX para obtener las nuevas secciones
             xhr = $.ajax({
                 url: '{% url 'obtener_secciones' %}',
@@ -320,12 +438,12 @@
                 data: {
                     asignaturas: asignaturasSeleccionadas
                 },
-                success: function(data) {
+                success: function (data) {
                     // Limpiar el contenedor de secciones
                     $('#secciones-container').empty();
-                    
+
                     // Iterar sobre las secciones obtenidas y agregar checkboxes al formulario
-                    data.forEach(function(seccion) {
+                    data.forEach(function (seccion) {
                         // Crear un nuevo elemento de checkbox
                         var checkbox = $('<input>').attr({
                             type: 'checkbox',
@@ -337,28 +455,28 @@
                         var label = $('<label>').attr('for', 'seccion-' + seccion.id).text(seccion.asignatura + ' - ' + seccion.seccion);
                         label.addClass('form-check-label');
 
-                        
+
                         // Verificar si la sección estaba seleccionada antes de modificar las asignaturas
                         if (seccionesSeleccionadasAntes.includes(seccion.id.toString())) {
                             checkbox.prop('checked', true);
                         }
-                        
+
                         // Agregar el checkbox y su etiqueta al contenedor de secciones
                         $('#secciones-container').append(checkbox);
                         $('#secciones-container').append(label);
                         $('#secciones-container').append('<br>'); // Agregar un salto de línea para separar los checkboxes
                     });
-                    
+
                 },
 
-                
-                error: function(xhr, errmsg, err) {
+
+                error: function (xhr, errmsg, err) {
                     console.log(xhr.status + ": " + xhr.responseText);
                 }
             });
         });
     });
-         
+
 </script>
 
 
@@ -370,17 +488,17 @@
         var selectAsigBase = document.getElementById('id_asig_base');
         var asigBaseSeleccionada = selectAsigBase.value;
         var asigBaseActualizada = false; // Bandera para indicar si la asignatura base seleccionada ha sido actualizada
-        
+
         // Limpiar las opciones del campo de asignatura base
         selectAsigBase.innerHTML = '<option value="">Seleccione una asignatura base</option>';
-        
+
         // Recorrer las asignaturas seleccionadas y agregarlas como opciones al campo de asignatura base
-        asignaturasSeleccionadas.forEach(function(asignatura) {
+        asignaturasSeleccionadas.forEach(function (asignatura) {
             var option = document.createElement('option');
             option.value = asignatura.value;
             option.textContent = asignatura.nextElementSibling.textContent.trim();
             selectAsigBase.appendChild(option);
-            
+
             // Verificar si la asignatura actual coincide con la asignatura base seleccionada anteriormente
             if (asignatura.value === asigBaseSeleccionada) {
                 // Si coincide, marcar la asignatura base como seleccionada
@@ -388,23 +506,43 @@
                 asigBaseActualizada = true;
             }
         });
-        
+
         // Si la asignatura base no se ha actualizado, deseleccionarla
         if (!asigBaseActualizada) {
             selectAsigBase.value = '';
         }
     }
-    
+
     // Escuchar los cambios en los checkboxes de asignaturas
-    document.querySelectorAll('input[name="asignaturas"]').forEach(function(checkbox) {
+    document.querySelectorAll('input[name="asignaturas"]').forEach(function (checkbox) {
         checkbox.addEventListener('change', actualizarAsigBase);
     });
-    
+
     // Llamar a la función inicialmente para reflejar el estado inicial de las asignaturas seleccionadas
     actualizarAsigBase();
 </script>
 
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (() => {
+        'use strict'
 
-   
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
 
-{% endblock %} 
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
+
+
+{% endblock %}

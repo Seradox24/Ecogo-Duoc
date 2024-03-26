@@ -15,12 +15,19 @@
 
 <div class="container justify-content-center py-4">
     <div class="card p-4">
-        <form method="post" action="{% if instance %}{% url 'editar_salida' instance.id %}{% endif %}" id="myForm">
+        <form method="post" action="{% if instance %}{% url 'editar_salida' instance.id %}{% endif %}" id="myForm" class="needs-validation" novalidate>
 
             {% csrf_token %}
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Situacion: </label>
                 {{ form.situacion }}
+                &nbsp;
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario asignar la situación.
+                </div>
             </div>
 
             <hr>
@@ -29,6 +36,12 @@
                 <div class="form-floating">
                     {{ form.numero_cuenta }}
                     <label class="form-label" for="typeNumber">Numero de cuenta...</label>
+                    <div class="valid-feedback">
+                        Listo
+                    </div>
+                    <div class="invalid-feedback">
+                        Es necesario poner el número de cuenta.
+                    </div>
                 </div>
             </div>
 
@@ -37,6 +50,13 @@
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Semestre:</label>
                 {{ form.semestre }}
+                &nbsp;
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario seleccionar un semestre.
+                </div>
             </div>
 
             <hr>
@@ -46,6 +66,12 @@
                 <div class="form-floating">
                     {{ form.anio }}
                     <label for="floatingTextarea">Año...</label>
+                    <div class="valid-feedback">
+                        Listo
+                    </div>
+                    <div class="invalid-feedback">
+                        Es necesario seleccionar un año.
+                    </div>
                 </div>
             </div>
 
@@ -55,6 +81,12 @@
                 <div class="form-floating">
                     {{ form.semana }}
                     <label for="floatingTextarea">Semana...</label>
+                    <div class="valid-feedback">
+                        Listo
+                    </div>
+                    <div class="invalid-feedback">
+                        Es necesario que ingrese la semana.
+                    </div>
                 </div>
             </div>
 
@@ -63,6 +95,13 @@
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Actividad:</label>
                 {{ form.actividad }}
+                &nbsp;
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario que seleccione una actividad.
+                </div>
             </div>
 
             <hr>
@@ -70,11 +109,25 @@
             <div class="d-flex pb-3">
                 <label for="fecha">Fecha Ingreso:</label>
                 <input type="date" class="form-control" id="id_fecha_ingreso" name="fecha_ingreso" value="{{ form.fecha_ingreso.value|date:'Y-m-d' }}">
+                &nbsp;
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario que ingrese la fecha de ingreso.
+                </div>
             </div>
             
             <div class="d-flex pb-3">
                 <label for="fecha">Fecha Termino:</label>
                 <input type="date" class="form-control" id="id_fecha_termino" name="fecha_termino" value="{{ form.fecha_termino.value|date:'Y-m-d' }}">
+                &nbsp;
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario que ingrese la fecha de término.
+                </div>
             </div>
 
             <hr>
@@ -83,6 +136,12 @@
                 <div class="form-floating mgr">
                     {{ form.dias }}
                     <label for="floatingTextarea">Dias...</label>
+                    <div class="valid-feedback">
+                        Listo
+                    </div>
+                    <div class="invalid-feedback">
+                        Es necesario que ingrese la cantidad de días.
+                    </div>
                 </div>
 
                 <hr>
@@ -90,6 +149,12 @@
                 <div class="form-floating">
                     {{ form.noches }}
                     <label for="floatingTextarea">Noches...</label>
+                    <div class="valid-feedback">
+                        Listo
+                    </div>
+                    <div class="invalid-feedback">
+                        Es necesario que ingrese la cantidad de noches.
+                    </div>
                 </div>
             </div>
 
@@ -111,6 +176,12 @@
             <div class="form-floating pb-3">
                 {{ form.lugar_ejecucion }}
                 <label for="floatingTextarea">Lugar de Ejecucion...</label>
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario que asigne un lugar de ejecución.
+                </div>
             </div>
 
             <hr>
@@ -135,6 +206,13 @@
                 <select class='form-select' id="id_asig_base" name="asig_base">
                     <option value="">Seleccione una asignatura base</option>
                 </select>
+                &nbsp;
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario que elija una asignatura base.
+                </div>
             </div>
             
             <hr>
@@ -171,6 +249,13 @@
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Exp. de aprendizaje:</label>
                 {{ form.exp_aprendizaje }}
+                &nbsp;
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario que seleccione una experiencia de aprendizaje.
+                </div>
             </div>
 
             <hr>
@@ -178,6 +263,12 @@
             <div class="form-floating pb-3">
                 {{ form.num_alumnos }}
                 <label class="form-label" for="typeNumber">Numero de alumnos</label>
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario que ingrese el número de alumnos.
+                </div>
             </div>
 
           
@@ -187,6 +278,13 @@
             <div class="d-flex align-items-center pb-3">
                 <label style="margin-right: 12px;" for="">Docente titular:</label>
                 {{ form.docente_titular }}
+                &nbsp;
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario que selecciones un docente titular.
+                </div>
             </div>
             
             <hr>
@@ -213,6 +311,12 @@
             <div class="form-floating pb-3">
                 {{ form.num_salida }}
                 <label class="form-label" for="typeNumber">Numero de salida</label>
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Es necesario que ingrese el número de salida.
+                </div>
             </div>
 
 
@@ -236,6 +340,12 @@
             <div class="form-floating pb-3">
                 {{ form.observaciones }}
                 <label for="floatingTextarea2">Observaciones...</label>
+                <div class="valid-feedback">
+                    Listo
+                </div>
+                <div class="invalid-feedback">
+                    Ingrese observaciones para la salida (Opcional).
+                </div>
             </div>
 
 
@@ -248,7 +358,7 @@
 
         </script>
             
-        {% comment %} <script>
+        {% comment %} <!-- <script>
             function submitForm() {
                 // Obtener todos los campos de entrada del formulario
                 var formElements = document.getElementById("myForm").elements;
@@ -267,7 +377,7 @@
                 // Enviar el formulario si todos los campos están completos
                 document.getElementById("myForm").submit();
             }
-        </script> {% endcomment %}
+        </script> --> {% endcomment %}
 
        
 
@@ -447,13 +557,26 @@
         
     </script>
     
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (() => {
+            'use strict'
     
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
     
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
     
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
     
-    
-    
-
-    
-
 {% endblock %}
