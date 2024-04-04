@@ -256,8 +256,8 @@ def gest_usuarios(request):
 
 def agreg_usuarios(request):
     if request.method == 'POST':
-        user_form = UserCreationWithMetadataForm(request.POST)
-        metadata_form = UsersMetadataForm(request.POST)
+        user_form = UserCreationWithMetadataForm(request.POST,request.FILES,)
+        metadata_form = UsersMetadataForm(request.POST,request.FILES)
 
         if user_form.is_valid() and metadata_form.is_valid():
             user = user_form.save()  # Guardar usuario primero
@@ -307,8 +307,8 @@ def edit_usuarios(request, id):
     usuario = get_object_or_404(UsersMetadata, id=id)
 
     if request.method == 'POST':
-        user_form = UserEditForm(request.POST, instance=usuario.user)
-        metadata_form = UsersMetadataForm(request.POST, instance=usuario)
+        user_form = UserEditForm(request.POST,request.FILES, instance=usuario.user)
+        metadata_form = UsersMetadataForm(request.POST, request.FILES, instance=usuario)
 
         if user_form.is_valid() and metadata_form.is_valid():
             user_form.save()

@@ -14,7 +14,7 @@
 <br>
 
   <div class="container">
-    <form method="post" class="mt-4">
+    <form method="post" enctype="multipart/form-data" class="needs-validation mt-4" novalidate>
       {% csrf_token %}
       {{ user_form|crispy }}
       {{ metadata_form|crispy }}

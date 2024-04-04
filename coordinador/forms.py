@@ -159,7 +159,8 @@ class UsersMetadataForm(forms.ModelForm):
             'numero': forms.NumberInput(attrs={'class': 'form-control','type':'number' }),
             'celular': forms.NumberInput(attrs={'class': 'form-control','type':'number' }),
             'contacto_emergencia': forms.Select(attrs={'class': 'form-select'}),
-            'foto': forms.NumberInput(attrs={'class': 'form-control','type': 'file'}),
+            #'foto': forms.NumberInput(attrs={'class': 'form-control','type': 'file'}),
+            'foto': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'asignaturas_inscritas': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input','type':'checkbox'}),
 
         }

@@ -84,8 +84,11 @@
           
             <ol class="list-group list-group-numbered">
                 <li class="list-group-item d-flex justify-content-between align-items-start">
+                  {% if data.docente_titular.foto %}
+                    <img src="{{ data.docente_titular.foto.url }}" class="card-img .d-block" alt="..." style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
+                    {% else %}
                     <img src="{% static 'images/blankheadshot.png' %}" class="card-img .d-block" alt="..." style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
-    
+                    {% endif %}
                   <div class=" me-auto">
                     <div class="fw-bold me-5">Docente Titular :</div>
                     <div class="ms-5">{{data.docente_titular}}</div>
@@ -133,8 +136,13 @@
       <div class="accordion-body">
         
         <li class="list-group-item d-flex justify-content-between align-items-start">
+          {% if docente_apoyo.foto %}
+              <img src="{{ docente_apoyo.foto.url }}" class="card-img .d-block" alt="..." style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
+                    
+          
+          {% else %}
           <img src="{% static 'images/blankheadshot.png' %}" class="card-img .d-block" alt="..." style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
-
+          {% endif %}
         <div class=" me-auto">
           <div class="fw-bold me-5">Docente N° {{ forloop.counter }} :</div>
           <div class="ms-5">{{ docente_apoyo }} </div>
