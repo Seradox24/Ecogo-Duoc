@@ -237,13 +237,16 @@ def home_alumno(request, baja_estudiante_id=None):
         # Manejar el caso en que no se encuentre el clima actual
         print("No se encontró el clima actual asociado a la salida de terreno.")
         return render(request, 'error.html', {'message': 'No se encontró el clima actual asociado a la salida de terreno.'})
+    
+    documentos_salida = DocumentosTerreno.objects.filter(salida_terreno=primera_salida_cercana)
 
     # Construir el contexto para pasar a la plantilla
     context = {
         'data': primera_salida_cercana,
         'pronostico': pronosticos,
         'current_clima': clima_actual,
-    }
+        'documentos_salida': documentos_salida}
+    
 
     # Renderizar la plantilla con el contexto
     return render(request, 'db_alumno/db_home.html', context)

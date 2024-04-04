@@ -26,13 +26,20 @@
         <h5 class="card-title ">Definir Semaforo</h5>
         <br>
         <div class="row">
+          
           <div class="col miSelect">
             {{ form.semaforo }}
+            {{ form.observaciones.label_tag }}
+            {{ form.observaciones }}
           </div>
+          
+          
         </div>
       </div>
 
       <br>
+
+     
 
       <div class="d-grid gap-2 col-6 mx-auto">
         <button class="btn btnagre" type="submit">Guardar Semaforo <i

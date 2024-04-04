@@ -88,4 +88,6 @@ admin.site.register(CurrentClima)
 admin.site.register(NombreSeccion)
 admin.site.register(AsignacionUsuarioSeccion)
 admin.site.register(ContactoEmergencia)
+admin.site.register(DocumentosTerreno)
+admin.site.register(Semaforo)
 

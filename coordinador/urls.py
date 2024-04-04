@@ -35,6 +35,10 @@ urlpatterns = [
     path('obtener_asig_base/', obtener_asig_base, name='obtener_asig_base'),
     path('enviar-correos/<int:salida_id>/', views.enviar_correos, name='enviar_correos'),
     path('eliminar-documento/<int:documento_id>/', eliminar_documento, name='eliminar_documento'),
+    path('salidas/<int:salida_id>/agregar-documentos/', agregar_documentos_salida, name='agregar_documentos_salida'),
+    path('salidas/<int:salida_id>/eliminar-documento/<int:documento_id>/', eliminar_documento_salida, name='eliminar_documento_salida'),
+
+
 
 
 ] 

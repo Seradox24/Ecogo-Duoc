@@ -34,6 +34,8 @@ class Semaforo(models.Model):
     def __str__(self):
         return self.estado
 
+
+
 class SalidaTerreno(models.Model):
     situacion = models.ForeignKey(Situacion, on_delete=models.CASCADE)
     numero_cuenta = models.IntegerField()
@@ -41,23 +43,24 @@ class SalidaTerreno(models.Model):
     anio = models.PositiveIntegerField(validators=[MaxValueValidator(3000)],blank=True, null=True)
     semana = models.PositiveIntegerField(validators=[MaxValueValidator(3000)],blank=True, null=True)
     diasemana =  models.ManyToManyField(DiaSemana, blank=True,)
-    actividad = models.ForeignKey(Actividad, on_delete=models.CASCADE,blank=True, null=True)
+    actividad = models.ForeignKey(Actividad, on_delete=models.SET_NULL,blank=True, null=True)
     fecha_ingreso = models.DateField()
     fecha_termino = models.DateField()
     dias = models.PositiveIntegerField(validators=[MaxValueValidator(99)])
     noches = models.PositiveIntegerField(validators=[MaxValueValidator(99)])
     lugar_ejecucion = models.CharField(max_length=60)
     asignaturas = models.ManyToManyField(Asignatura, related_name='salidas_terreno',blank=True)
-    exp_aprendizaje = models.ForeignKey(ExpAprendizaje, on_delete=models.CASCADE, blank=True, null=True)
+    exp_aprendizaje = models.ForeignKey(ExpAprendizaje, on_delete=models.SET_NULL, blank=True, null=True)
     num_alumnos = models.PositiveIntegerField(validators=[MaxValueValidator(150)], blank=True, null=True)
     #secciones = models.ManyToManyField(Seccion, through='SalidaSeccion',blank=True)
     secciones = models.ManyToManyField(Seccion,blank=True)
-    docente_titular = models.ForeignKey(UsersMetadata, on_delete=models.CASCADE, related_name='salidas_terreno_titular',  blank=True, null=True)
+    docente_titular = models.ForeignKey(UsersMetadata, on_delete=models.SET_NULL, related_name='salidas_terreno_titular',  blank=True, null=True)
     docentes_apoyo = models.ManyToManyField(UsersMetadata, related_name='salidas_terreno_apoyo',  blank=True)
     num_salida = models.IntegerField(validators=[MaxValueValidator(999)])
-    asig_base =  models.ForeignKey(Asignatura, on_delete=models.CASCADE, related_name='salidas_terreno_asignatura', blank=True, null=True)
+    asig_base =  models.ForeignKey(Asignatura, on_delete=models.SET_NULL, related_name='salidas_terreno_asignatura', blank=True, null=True)
     observaciones = models.TextField()
     semaforo = models.ForeignKey(Semaforo, on_delete=models.CASCADE, null=True, blank=True)
+    
 
     
 
@@ -70,7 +73,13 @@ class SalidaTerreno(models.Model):
         verbose_name_plural = 'Salidas Terreno'
  
 
+class DocumentosTerreno(models.Model):
+    salida_terreno = models.ForeignKey(SalidaTerreno, on_delete=models.CASCADE, related_name='documentos', blank=True, null=True)
+    archivo = models.FileField(upload_to='documentos/salidas/')
+    nombre = models.CharField(max_length=255, blank=True, null=True)
 
+    def __str__(self):
+        return self.archivo.name
 
 
 

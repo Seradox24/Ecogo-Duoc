@@ -7,213 +7,176 @@
 
 
 
-
-<!-- Banner actividad -->
-<div class="card text-bg-dark ">
-    <img src="{% static 'images/caminante-mochila-pie-cima-montana.jpg' %}" class="card-img .d-block" alt="..." style="width: 100%; height: 30vh; object-fit: cover;">
-    <div class="card-img-overlay cardgrandient">
-      <h6 class="card-subtitle mb-2 text-stroke">Proxima salida : 27/enero/2024</h6>
-      <h5 class="card-title">Actividad: Trekking </h5>
-      <p class="card-text">Lugar: Los Molles.</p>
-      <p class="card-text">Duración: 3 días, 2 noches.</p>
-      <p class="card-text">Asignatura: Taller de activades al aire libre.</p>
-      <p class="card-text"><small>Última actualización hace 3 minutos</small></p>
-    </div>
-</div>
-<!-- fin primera linea baner -->
-
-
-<!-- profesor / implementos  -->
-<div class="container text-center  ">
-    <div class="row">
-      <div class=" col-12 col-md-5 pt-3 ">
-        <div class="card text-bg-dark ">
-          <h5 class="card-title">Lista de personal docente y de apoyo  </h5>
+<div class="container text-center">
+  <div class="row ps-5">
+    <div class="col-sm  ">
+      <!-- contenido 1. -->
+      <div class="card text-bg-primary mb-3 border border-black border-2" style="max-width: 18rem;">
+        <div class="card-header fw-bold">Cantidad alumnos</div>
+        <div class="card-body">
+          <h5 class="card-title fs-1 fw-bold"> {{cantidad_alumnos}}</h5>
           
-            <ol class="list-group list-group-numbered">
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <img src="{% static 'images/p2.jpg' %}" class="card-img .d-block" alt="..." style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
-    
-                  <div class="ms-2 me-auto">
-                    <div class="fw-bold">Docente:</div>
-                    Alan Brito
-                  </div>
-                  <!-- Button trigger modal -->
-
-
-                                <button type="button" class="btn  fa-solid fa-address-book text-success fs-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop"> </button>
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                  <div class="modal-dialog">
-                                    <div class="modal-content">
-                                      <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Datos de contacto</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                      </div>
-                                      <div class="modal-body">
-                                        <ul class="list-group">
-                                          <li class="list-group-item">Correo: al.pinto@duocuc.cl</li>
-                                          <li class="list-group-item">Telefono: 1234578</li>
-                                        </ul>
-                                      </div>
-                                      <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                        
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                  
-
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <img src="{% static 'images/p3.jpg' %}" class="card-img .d-block" alt="..." style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
-    
-                  <div class="ms-2 me-auto">
-                    <div class="fw-bold">Docente:</div>
-                    Armando mesa
-                  </div>
-                  <span class="badge bg-primary rounded-pill">14</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <img src="{% static 'images/p1.jpg' %}" class="card-img .d-block" alt="..." style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
-    
-                  <div class="ms-2 me-auto">
-                    <div class="fw-bold">Docente:</div>
-                    Maria pinto
-                  </div>
-                  <span class="badge bg-primary rounded-pill">14</span>
-                </li>
-              </ol>
-        </div>  
-      </div>
-
-
-      
-      <div class="col-12 col-md-5 pt-3   ">
-        <div class="card  border border-black">
-          <h5 class="card-title  " >Implementos Necesarios:</h5>
-            
-            <div class="card-body  ">
-
-                <table class="table caption-top ">
-                    
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nombre:</th>
-                        <th scope="col">Tipo</th>
-                        <th scope="col">Requerido</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>- Traje Neopren</td>
-                        <td>- Ropa</td>
-                        <td>- Si</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>- Máscara de Buzo</td>
-                        <td>- Ropa</td>
-                        <td>- Si</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">4</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">5</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                      </tr>
-                    </tbody>
-                  </table>            
-              
-            </div>
-          </div>
-      </div>
-    </div>
-  </div>
-
-
-
-    
-
-
-
-
-
-
-<!-- profesor / implementos  -->
-<div class="container text-center   ">
-  <div class="row">
-    <div class=" col-12 col-md-5 pt-3 ">
-      <div class="card text-bg-dark ">
-        <h5 class="card-title ">Clima de la zona : </h5>
-
-        
-        <div class="d-flex justify-content-center">
-          <a class="btn btnclima" href="https://www.meteored.cl" target="_blank">Ver Clima <i class="fa-solid fa-cloud-sun"></i></a>
         </div>
-
-
-        
-        
-          
-      </div>  
+      </div>
+      <!-- end contenido 1 -->
     </div>
+    <div class="col-sm">
+      <!-- contenido -->
+      <div class="card text-bg-warning mb-3 border border-black border-2" style="max-width: 18rem;">
+        <div class="card-header fw-bold">Cantidad salidas</div>
+        <div class="card-body">
+          <h5 class="card-title fs-1 fw-bold">{{cantidad_salidas}}</h5>
+        </div>
+      </div>
+      <!-- contenido -->
+    </div>
+    <div class="col-sm">
+      <!-- contenido -->
+      <div class="card text-bg-danger mb-3 border border-black border-2" style="max-width: 18rem;">
+        <div class="card-header fw-bold ">Cantidad asignaturas</div>
+        <div class="card-body">
+          <h5 class="card-title fs-1 fw-bold">{{cantidad_asignaturas}}</h5>
+        </div>
+      </div>
+      <!-- contenido -->
+    </div>
+    <div class="col-sm">
+      <!-- contenido -->
+      <div class="card text-bg-success mb-3 border border-black border-2" style="max-width: 18rem;">
+        <div class="card-header fw-bold">Cantidad secciones</div>
+        <div class="card-body">
+          <h5 class="card-title fs-1 fw-bold">{{cantidad_secciones}}</h5>
+          
+        </div>
+      </div>
+      <!-- contenido -->
+    </div>
+  </div>
 
+
+ <!-- contenido segundo row -->
+
+ <div class="col-sm-6">
+  <!-- Contenido -->
+ 
+  <!-- Contenido -->
+</div>
 
     
-    <div class="col-12 col-md-5 pt-3   ">
+  
 
-      <div class="container text-center">
-  <div class="row py-2">
+  
+    
+    <div class="col-sm-6">
+      <!-- contenido -->
+      <div class="container">
+        <div class="row">
+            <div class="col">
+                <h3>Salidas a terreno</h3>
+                <div class="accordion" id="accordionSalidas">
+                    {% for salida in salidas %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                            <button class="accordion-button border border-black" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}">
+                              <strong> {{ salida.actividad }} |  {{ salida.fecha_ingreso }} - {{ salida.fecha_termino }}</strong>
+                            </button>
+                        </h2>
+                        <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#accordionSalidas">
+                            <div class="accordion-body text-start border border-dark">
+                              <p><strong>Días:</strong> {{ salida.dias }}</p>
+                              <p><strong>Noches:</strong> {{ salida.noches }}</p>
+                              <p><strong>Lugar de ejecución:</strong> {{ salida.lugar_ejecucion }}</p>
+                              <p><strong>Docente titular:</strong> {{ salida.docente_titular }} ({{ salida.docente_titular.correoduoc }})</p>
+                              <p><strong>Docentes de apoyo:</strong>
+                                {% for docente_apoyo in salida.docentes_apoyo.all %}
+                                    {% if docente_apoyo != salida.docente_titular %}
+                                        {{ docente_apoyo }} ({{ docente_apoyo.correoduoc }}){% if not forloop.last %}, {% endif %}
+                                    {% endif %}
+                                    {% if salida.docentes_apoyo.count == 0 or salida.docentes_apoyo.first == salida.docente_titular %}
+                                    No se ha asignado un docente de apoyo. Por favor, edítalo desde "Gestionar Salida a Terreno".
+                                    {% endif %}
+                                {% empty %}
+                                    No se ha asignado un docente de apoyo. Por favor, edítalo desde "Gestionar Salida a Terreno".
+                                {% endfor %}
+                            </p>
+                              <p><strong>Asignatura base:</strong> {{ salida.asig_base.nombre }}</p>
+                              <p><strong>Estado del semáforo:</strong>
+                                {% if salida.semaforo.estado %}
+                                    {{ salida.semaforo.estado }}
+                                {% else %}
+                                    No se ha asignado un valor para el semáforo. Por favor, edítalo desde "Gestionar Salida a Terreno".
+                                {% endif %}
+                            </p>
+                            <hr>
 
-    <div class="card border-black">
-      <div class="card-body">
-        <h5 class="card-title">Descenso estudiante:</h5>
-        <select class="form-select" aria-label="Default select example">
-          <option selected>Seleccione un paradero</option>
-          <option value="1">Parada1</option>
-          <option value="2">Parada2</option>
-          <option value="3">Parada3</option>
-          <option value="4">Parada3</option>
-        </select>
+                              <p><strong>Asignaturas activas:</strong> {{ salida.asignaturas.count }}</p>
+
+                              {% regroup salida.secciones.all by asignatura as secciones_por_asignatura %}
+
+                              {% for asignatura_group in secciones_por_asignatura %}
+                                  <li>Asignatura: {{ asignatura_group.grouper }} - Total de secciones: {{ asignatura_group.list|length }}</li>
+                              {% empty %}
+                                  <p>Sin asignaturas asignadas. Por favor, edítelo desde "Gestionar salida a terreno".</p>
+                              {% endfor %}
+
+                              <hr>
+                              <p><strong>Secciones activas:</strong> {{ salida.secciones.count }}</p>
+
+                                  
+
+                                  {% if salida.secciones.exists %}
+                                    {% for seccion in salida.secciones.all %}
+                                        <li><strong>Asignatura:</strong> {{ seccion }} - <strong> Cantidad de alumnos:</strong>  ({{ seccion.usuarios.all|length }})</li>
+                                    {% endfor %}
+                                {% else %}
+                              <strong> <p>Sin secciones asignadas. Por favor, edítelo desde "Gestionar salida a terreno".</p></strong> 
+                                {% endif %}
+
+                                  
+
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+      <!-- contenido -->
+    </div>
+  </div>
+
+
+
+
+
+
+
+<!-- contenido tercer row -->
+  
+<div class="row pt-5">
+  <div class="col-sm-12">
+    <!-- contenido -->
+    <div class="card px-3 pb-3">  <div class="card-body">
+      <div class="ratio ratio-16x9">
+        <iframe width="100%" height="300"  src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=°C&metricWind=km/h&zoom=9&overlay=wind&product=ecmwf&level=surface&lat=-33.28&lon=-71.337&detailLat=-33.147&detailLon=-71.581&detail=true"
+                frameborder="0"></iframe>
       </div>
     </div>
-
-
   </div>
-  <div class="row py-2 ">
+  
 
-    <div class="card border-black">
-      <div class="card-body">
-        <h5 class="card-title">Sección :</h5>
-         GET6111-6 GET6111-1,GET6111-3, AET6141-1, AET6141-003D, AET6141-005D, GET6121-4, GET6121-2 y GET6121-6
-      </div>
-    </div>
-
-
-
+    <!-- contenido -->
   </div>
-</div>
-    </div>
-  </div>
+  
 </div>
 
+
+
+
+ <!-- fin padre-->
+</div>
 
 
 
@@ -221,5 +184,8 @@
 
 
   
+
+
+
 
 {% endblock %}

@@ -9,26 +9,70 @@
 
 
 
-<!-- Banner actividad -->
-<div class="card text-bg-dark ">
-    <img src="{% static 'images/caminante-mochila-pie-cima-montana.jpg' %}" class="card-img .d-block" alt="..." style="width: 100%; height: 30vh; object-fit: cover;">
-    <div class="card-img-overlay cardgrandient">
-      <h6 class="card-subtitle mb-2 text-stroke">Proxima salida :  {{ data.fecha_ingreso }}</h6>
-      <h6 class="card-subtitle mb-2 text-stroke">Finaliza: {{ data.fecha_termino}} </h6>
-      <h5 class="card-title">Actividad: {{data.actividad}} </h5>
-      <p class="card-text">Lugar: {{data.lugar_ejecucion}}.</p>
-      <p class="card-text">Duración: {{data.dias}} días, {{data.noches}} noches. /     
-        {% for dia in data.diasemana.all %}
-        {{ dia.nombre }}
-        {% if not forloop.last %}, {% endif %}
-      {% endfor %}
-        </p>
-
-      <p class="card-text">Asignatura: {{data.asig_base}}.</p>
-      {% comment %} <p class="card-text"><small>Última actualización hace 3 minutos</small></p> {% endcomment %}
+  <div class="row">
+    <!-- Información actual a la izquierda -->
+    <div class="col-lg-8">
+      <div class="card text-bg-dark ">
+        <img src="{% static 'images/caminante-mochila-pie-cima-montana.jpg' %}" class="card-img .d-block" alt="..." style="width: 100%; height: 35vh; object-fit: cover;">
+        <div class="card-img-overlay cardgrandient">
+          <h6 class="card-subtitle mb-2 fw-bold py-1"><strong>Próxima salida:</strong> {{ data.fecha_ingreso }}</h6>
+          <h6 class="card-subtitle mb-2  fw-bold  py-1"> <strong>Finaliza: </strong> {{ data.fecha_termino }}</h6>
+          <h5 class="card-title  py-1"><strong> Actividad: </strong>{{ data.actividad }}</h5>
+          <p class="card-text  py-1"><strong> Lugar: </strong>{{ data.lugar_ejecucion }}.</p>
+          <p class="card-text  py-1"><strong>Duración:</strong> {{ data.dias }} días, {{ data.noches }} noches.</p>
+          <p class="card-text  py-1"><strong>Asignatura:</strong> {{ data.asig_base }}.</p>
+        </div> 
+      </div>
     </div>
-</div>
-<!-- fin primera linea baner -->
+    <!-- Card adicional a la derecha -->
+    <div class="col-lg-4 ">
+      <div class="card text-white bg-secondary py-1">
+        <div class="card-body d-flex flex-column">
+          <!-- Aquí puedes agregar la información adicional, como el estado de algo -->
+          <h5 class="card-title">Estado Actual</h5>
+          <!-- Row para separar la información -->
+          <div class="row">
+            <div class="col">
+              <!-- Información adicional, como un comentario largo -->
+              <div class="card-text overflow-y-scroll" style="height: 200px;">
+                {{ data.observaciones }}
+              </div>
+              
+            </div>
+          </div>
+          <!-- bloque esfera de color -->
+          <div class="d-flex align-items-center mt-auto">
+            <div class="me-3" style="width: 50px; height: 50px; border-radius: 50%; background-color:
+                {% if data.semaforo == None or data.semaforo == '' %}
+                    white
+                {% elif data.semaforo.id == 1 %}
+                    #28a745 /* Verde */
+                {% elif data.semaforo.id == 2 %}
+                    #ffc107 /* Amarillo */
+                {% elif data.semaforo.id == 3 %}
+                    #dc3545 /* Rojo */
+                {% endif %};"></div>
+            <p class="mb-0">Estado:
+                {% if data.semaforo == None or data.semaforo == '' %}
+                    No asignado, espere a la actualización del docente
+                {% else %}
+                    {{ data.semaforo }}
+                {% endif %}
+            </p>
+        </div>
+        
+          
+          
+          
+          
+          
+          <!-- end bloque esfera de color -->
+        </div>
+      </div>
+    </div>
+    
+    
+  
 
 
 <!-- profesor / implementos  -->
@@ -40,7 +84,7 @@
           
             <ol class="list-group list-group-numbered">
                 <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <img src="{% static 'images/p2.jpg' %}" class="card-img .d-block" alt="..." style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
+                    <img src="{% static 'images/blankheadshot.png' %}" class="card-img .d-block" alt="..." style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
     
                   <div class=" me-auto">
                     <div class="fw-bold me-5">Docente Titular :</div>
@@ -89,7 +133,7 @@
       <div class="accordion-body">
         
         <li class="list-group-item d-flex justify-content-between align-items-start">
-          <img src="{% static 'images/p2.jpg' %}" class="card-img .d-block" alt="..." style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
+          <img src="{% static 'images/blankheadshot.png' %}" class="card-img .d-block" alt="..." style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
 
         <div class=" me-auto">
           <div class="fw-bold me-5">Docente N° {{ forloop.counter }} :</div>
@@ -425,6 +469,26 @@
   </div>
   
 </div>
+
+
+<!-- Listado de documentos -->
+<div class="card">
+  <div class="card-body">
+    <h2 class="card-title text-center">Listado de Documentos:</h2>
+    <ul class="list-group">
+      {% for documento in documentos_salida %}
+        <li class="list-group-item">
+          <a href="{{ documento.archivo.url }} "  download="{{ documento.nombre }}" target="_blank"> Descargar Documento: {{ documento.nombre  }} / {{ documento.archivo.size|filesizeformat  }}</a>
+          
+        </li>
+      {% empty %}
+        <li class="list-group-item text-center">No hay documentos asociados a esta salida.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+
 
 
 

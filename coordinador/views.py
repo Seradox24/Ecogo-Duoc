@@ -32,20 +32,52 @@ import uuid
 from alumno.models import *
 import os
 from django.conf import settings
-
-
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('agg')
+from collections import defaultdict
+import numpy as np
 
 @login_required
 @Coordinador_required
 def home_coordinador(request):
-    form = AsignaturaForm()
+    try:
+        # Obtener el objeto Perfil con el nombre 'Alumno'
+        perfil_alumno = Perfiles.objects.get(nombre='Alumno')
+        # Contar todos los usuarios con el perfil de alumno
+        cantidad_alumnos_g = UsersMetadata.objects.filter(perfil=perfil_alumno).count()
+        # Contar todas las instancias de SalidaTerreno
+        cantidad_salidas_g = SalidaTerreno.objects.count()
+        # Contar todas las instancias de Asignatura
+        cantidad_asignaturas_g = Asignatura.objects.count()
+        # Contar todas las instancias de Seccion
+        cantidad_secciones_g = Seccion.objects.count()
 
-    if request.method == 'POST':
-        form = AsignaturaForm(request.POST)
-        if form.is_valid():
-            form.save()
+        # print("Cantidad total de secciones:", cantidad_secciones)
+        # print("Cantidad de alumnos:", cantidad_alumnos)
+        # print("Cantidad total de salidas a terreno:", cantidad_salidas)
+        # print("Cantidad total de asignaturas:", cantidad_asignaturas)
 
-    return render(request, 'db_coordinador/db_home_c.html', {'form': form})
+        # Nuevo bloque para calcular la cantidad de secciones y alumnos por sección por asignatura
+        salidas = SalidaTerreno.objects.all().order_by('fecha_ingreso')
+        # Aquí se obtienen todas las salidas a terreno disponibles
+
+        contexto = {
+            'cantidad_alumnos': cantidad_alumnos_g,
+            'cantidad_salidas': cantidad_salidas_g,
+            'cantidad_asignaturas': cantidad_asignaturas_g,
+            'cantidad_secciones': cantidad_secciones_g,
+            'salidas': salidas
+        }
+    except Perfiles.DoesNotExist:
+        # Si el perfil 'Alumno' no existe, manejar la excepción
+        contexto = {'error': 'El perfil de alumno no está definido.'}
+    except Exception as e:
+        # Cualquier otra excepción se maneja aquí
+        contexto = {'error': f'Ha ocurrido un error: {e}'}
+
+    return render(request, 'db_coordinador/db_home_c.html', contexto)
+
 
 
 
@@ -56,7 +88,7 @@ def home_coordinador(request):
 def crear_salida(request):
     mensaje = ""
     if request.method == 'POST':
-        form = SalidaTerrenoForm(request.POST)
+        form = SalidaTerrenoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, "Salida creada correctamente!")
@@ -96,7 +128,7 @@ def listar_salida(request):
     page = request.GET.get('page', 1)
 
     try:
-        paginator = Paginator(salidas, 2)
+        paginator = Paginator(salidas, 6)#cambio de cantidad a listar por salida 
         salidas = paginator.page(page)
     except:
         raise Http404
@@ -108,6 +140,29 @@ def listar_salida(request):
     }
 
     return render(request, 'db_coordinador/db_listar_salida.html', data)
+
+
+
+@login_required
+@Coordinador_required
+def agregar_documentos_salida(request, salida_id):
+    salida = get_object_or_404(SalidaTerreno, id=salida_id)
+
+    if request.method == 'POST':
+        form = DocumentosTerrenoForm(request.POST, request.FILES)
+        if form.is_valid():
+            archivos = request.FILES.getlist('archivo')
+            for archivo in archivos:
+                nombre_archivo = archivo.name  # Obtener el nombre del archivo
+                documento = DocumentosTerreno(archivo=archivo, salida_terreno=salida, nombre=nombre_archivo)
+                documento.save()
+            return redirect('agregar_documentos_salida', salida_id=salida_id)
+    else:
+        form = DocumentosTerrenoForm()
+
+    documentos_salida = DocumentosTerreno.objects.filter(salida_terreno=salida)
+    
+    return render(request, 'db_coordinador/agregar_documentos_salida.html', {'salida': salida, 'form': form, 'documentos_salida': documentos_salida})
 
 
 
@@ -310,6 +365,10 @@ def carga_masiva_alumno(request):
 @login_required
 @Coordinador_required
 def cargar_datos(request):
+    sexo_mapping = {'MASCULINO': 1, 'FEMENINO': 2}
+    default_nacionalidad_id = 48 
+    default_comuna_id = 61
+
     if request.method == 'POST':
         data_frame_dict = request.session.get('data_frame')
         if data_frame_dict is not None:
@@ -320,13 +379,41 @@ def cargar_datos(request):
             for index, row in df.iterrows():
                 rut = str(row['RUT']).replace(" ", "") if isinstance(row['RUT'], str) else str(row['RUT'])
                 userito = row['CORREO DUOC'].replace(" ", "") 
+                sexo_excel = row['SEXO'].replace(" ", "")
+                sexo_bd = sexo_mapping.get(sexo_excel, 0)
+                pais_excel = row['NACIONALIDAD'].strip().lower()
+                comuna_excel = row['COMUNA'].strip().lower()
+                comuna1 = Comuna.objects.filter(nombre__iexact=comuna_excel).first()
+                correoduoc1= row['CORREO DUOC'].replace(" ", "") 
+                semestre1 = row['SEMESTRE']
+                sede1 =row['SEDE'].replace(" ", "")
+                Nom_carrera1=row['NOM.CARRERA'].replace(" ", "")
+                Modalidad1 =row['MODALIDAD'].replace(" ", "")
+                ecivil1=row['ESTADO CIVIL'].replace(" ", "")
+                calle1 = row['CALLE'].strip()  # Eliminar espacios en blanco al principio y al final
+                numero1 = str(row['NUMERO']).strip()# Eliminar espacios en blanco al principio y al final
+                celular1 = str(row['TELEFONO']).strip()
+
+
+
+                nacionalidad1 = Nacionalidad.objects.filter(nombre__iexact=pais_excel).first()  # Ignorar mayúsculas y minúsculas
+
+                if nacionalidad1 is None:
+                    # Si no se encuentra la nacionalidad, asignar la predeterminada o realizar alguna otra acción
+                    nacionalidad1 = Nacionalidad.objects.get(pk=default_nacionalidad_id)  # Obtener la nacionalidad predeterminada
+                if comuna1 is None:
+                    # Si no se encuentra la comuna, asignar la predeterminada o realizar alguna otra acción
+                    comuna1 = Comuna.objects.get(pk=default_comuna_id)  # Obtener la comuna predeterminada
+
+
+
                 jornada = row['JORNADA'].replace(" ", "") 
                 nombre = row['NOMBRES'].replace(" ", "")  # Elimina espacios del nombre
                 nombrecarga = row['NOMBRES']
                 apellido_paterno = row['AP.PATERNO'].replace(" ", "")
                 apellido_materno = row['AP.MATERNO'].replace(" ", "")  # Elimina espacios del apellido
                 print(f"-{rut}- {userito} - - {jornada} - - {nombre} - - {apellido_paterno}  - {userito}")
-                print(f"contraseña = {rut}{jornada}{nombre[:3]}{apellido_paterno[-2:]}")
+                print(f"{rut}{nombre[:3]}")
                
                 user = User.objects.filter(username=userito).first()
                 
@@ -339,11 +426,26 @@ def cargar_datos(request):
                     user.save()
                     users_metadata, created = UsersMetadata.objects.get_or_create(user=user)
                     if not created:
-                        users_metadata.sexo_id = 1
+                        users_metadata.sexo = sexo_bd
+                        users_metadata.perfil_id = 1
+                        users_metadata.nacionalidad = nacionalidad1
+                        users_metadata.comuna = comuna1
+                        users_metadata.correoduoc = correoduoc1
+                        users_metadata.semestre = semestre1
+                        users_metadata.sede = sede1
+                        users_metadata.nom_carrera = Nom_carrera1
+                        users_metadata.modalidad = Modalidad1
+                        users_metadata.jornada = jornada
+                        users_metadata.rut = rut
                         users_metadata.nombres = nombrecarga
+
                         users_metadata.ap_paterno = apellido_paterno
                         users_metadata.ap_materno = apellido_materno
-                        users_metadata.perfil_id = 1
+                        users_metadata.estado_civil = ecivil1
+                        users_metadata.direccion = calle1
+                        users_metadata.numero = numero1
+                        users_metadata.celular = celular1
+                        
                         users_metadata.save()
 
     # Si ya existe, actualiza los campos necesarios
@@ -357,7 +459,7 @@ def cargar_datos(request):
                     
                     
                 else:
-                    user = User.objects.create_user(username=userito, password=f"{rut}{jornada}{nombre[:3]}{apellido_paterno[-2:]}")
+                    user = User.objects.create_user(username=userito, password=f"{rut}{nombre[:3]}")
                     print(user)
                     print(user.username)
                     print(user.password)
@@ -366,8 +468,30 @@ def cargar_datos(request):
                    
 
 
+                    # # Crea el objeto UsersMetadata asociado al nuevo usuario
+                    # UsersMetadata.objects.create(sexo_id=1,nombres=nombrecarga,ap_paterno=apellido_paterno,ap_materno =apellido_materno, perfil_id=1, user_id=user.id,)
                     # Crea el objeto UsersMetadata asociado al nuevo usuario
-                    UsersMetadata.objects.create(sexo_id=1,nombres=nombrecarga,ap_paterno=apellido_paterno,ap_materno =apellido_materno, perfil_id=1, user_id=user.id,)
+                    UsersMetadata.objects.create(
+                        sexo_id=1,
+                        nombres=nombrecarga,
+                        ap_paterno=apellido_paterno,
+                        ap_materno=apellido_materno,
+                        perfil_id=1,
+                        user_id=user.id,
+                        nacionalidad=nacionalidad1,
+                        comuna=comuna1,
+                        correoduoc=correoduoc1,
+                        semestre=semestre1,
+                        sede=sede1,
+                        nom_carrera=Nom_carrera1,
+                        modalidad=Modalidad1,
+                        jornada=jornada,
+                        rut=rut,
+                        estado_civil=ecivil1,
+                        direccion=calle1,
+                        numero=numero1,
+                        celular=celular1
+                    )
 
             # Elimina el DataFrame de la sesión del usuario
             del request.session['data_frame']
@@ -437,79 +561,6 @@ def gest_asig(request):
 
 
 
-# @login_required
-# @Coordinador_required
-# def editar_asignatura(request, asignatura_id):
-#     asignatura = get_object_or_404(Asignatura, id=asignatura_id)
-    
-#     if request.method == 'POST':
-#         form = AsignaturaForm(request.POST, instance=asignatura)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, "Asignatura modificada correctamente!")
-#             return redirect('gest_asig')  
-#     else:
-#         form = AsignaturaForm(instance=asignatura)
-    
-#     return render(request, 'db_coordinador/db_edit_asig.html', {'form': form, 'asignatura': asignatura})
-
-@login_required
-@Coordinador_required
-def editar_asignatura(request, asignatura_id):
-    asignatura = get_object_or_404(Asignatura, id=asignatura_id)
-    asignatura_form = AsignaturaForm(instance=asignatura)
-    seccion_form = SeccionForm(asignatura_id=asignatura_id)
-    
-    print("Request method:", request.method)
-
-    secciones = Seccion.objects.filter(asignatura=asignatura)
-
-
-    if request.method == 'POST':
-        print("POST request detected")
-        
-        if 'guardar_asignatura' in request.POST:
-            print("Formulario de asignatura enviado")
-            asignatura_form = AsignaturaForm(request.POST, instance=asignatura)
-            if asignatura_form.is_valid():
-                print("Formulario de asignatura válido")
-                asignatura_form.save()
-                messages.success(request, "Asignatura modificada correctamente!")
-                return redirect('gest_asig')
-            else:
-                print("Formulario de asignatura inválido")
-                print("Errores de validación:", asignatura_form.errors)
-        elif 'guardar_seccion' in request.POST:
-            print("Formulario de sección enviado")
-            seccion_form = SeccionForm(request.POST, asignatura_id=asignatura_id)
-            if seccion_form.is_valid():
-                print("Formulario de sección válido")
-                seccion = seccion_form.save(commit=False)
-                seccion.asignatura = asignatura
-                seccion.save()
-                
-                # Imprimir los usuarios seleccionados
-                print("Usuarios seleccionados:", request.POST.getlist('usuarios'))
-                
-                # Asignar los usuarios seleccionados al objeto de sección
-                seccion.usuarios.set(request.POST.getlist('usuarios'))
-                
-                messages.success(request, "Sección creada correctamente!")
-                return redirect('gest_asig')
-            else:
-                print("Formulario de sección inválido")
-                print("Errores de validación:", seccion_form.errors)
-        
-
-        elif 'eliminar_seccion' in request.POST:
-            seccion_id = request.POST.get('eliminar_seccion')
-            try:
-                seccion = Seccion.objects.get(id=seccion_id, asignatura=asignatura)
-                seccion.delete()
-                messages.success(request, "Sección eliminada correctamente!")
-            except Seccion.DoesNotExist:
-                 messages.error(request, "La sección que intentas eliminar no existe o no está asociada a esta asignatura.")
-            return redirect(reverse('editar_asignatura', kwargs={'asignatura_id': asignatura_id}))
         
 @login_required
 @Coordinador_required
@@ -928,3 +979,31 @@ def eliminar_documento(request, documento_id):
         print(f"Ocurrió un error al intentar eliminar el documento: {e}")
         # Manejar el error según sea necesario
         return redirect('gest-usuarios')  # Redirigir a una página de error o a la misma vista
+    
+
+
+def eliminar_documento_salida(request, salida_id, documento_id):
+    documento = get_object_or_404(DocumentosTerreno, id=documento_id)
+    
+    # Obtener la ruta del archivo en el sistema de archivos del servidor
+    ruta_archivo = os.path.join(settings.MEDIA_ROOT, documento.archivo.name)
+    
+    try:
+        # Verificar si el archivo físico existe
+        if os.path.exists(ruta_archivo):
+            # Eliminar el archivo físico del servidor
+            os.remove(ruta_archivo)
+            print(f"El archivo '{documento.archivo.name}' ha sido eliminado del servidor.")
+        else:
+            print(f"El archivo '{documento.archivo.name}' no existe en el servidor.")
+        
+        # Eliminar la entrada del documento de la base de datos
+        documento.delete()
+        print("La entrada del documento ha sido eliminada de la base de datos.")
+        
+        # Redirigir a donde desees después de eliminar el documento
+        return redirect('agregar_documentos_salida',salida_id=salida_id)
+    except Exception as e:
+        print(f"Ocurrió un error al intentar eliminar el documento: {e}")
+        # Manejar el error según sea necesario
+        return redirect('agregar_documentos_salida',salida_id=salida_id)  # Redirigir a una página de error o a la misma vista

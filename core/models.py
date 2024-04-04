@@ -44,6 +44,7 @@ class Sexo(models.Model):
 
 class Nacionalidad(models.Model):
     id = models.AutoField(primary_key=True)
+    iso = models.CharField(max_length=100, blank=True, null=True)
     nombre = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
@@ -120,9 +121,9 @@ class UsersMetadata(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='usersmetadata')
     estado = models.BooleanField(default=True)
     sexo = models.ForeignKey(Sexo, models.DO_NOTHING)
-    perfil = models.ForeignKey(Perfiles, models.DO_NOTHING)
-    nacionalidad= models.ForeignKey(Nacionalidad, models.DO_NOTHING, blank=True, null=True)
-    comuna = models.ForeignKey(Comuna, models.DO_NOTHING, default=1, blank=True, null=True)
+    perfil = models.ForeignKey(Perfiles, on_delete=models.CASCADE)
+    nacionalidad= models.ForeignKey(Nacionalidad, models.DO_NOTHING,default=48, blank=True, null=True)
+    comuna = models.ForeignKey(Comuna, models.DO_NOTHING, default=61, blank=True, null=True)
     correoduoc = models.EmailField(max_length=100, blank=True, null=True)
     foto = models.ImageField(upload_to='usuarios', blank=True, null=True)
     semestre = models.IntegerField(blank=True, null=True)
@@ -166,7 +167,7 @@ class Seccion(models.Model):
     
 
     def __str__(self):
-        return f"{self.asignatura.nombre} - Sección {self.nombre}"
+        return f"{self.asignatura.nombre} - {self.nombre}"
 
     class Meta:
         db_table = 'secciones'

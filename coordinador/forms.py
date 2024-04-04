@@ -27,6 +27,8 @@ SEMESTRE_CHOICES = [
 class SalidaTerrenoForm(forms.ModelForm):
 
     
+
+    
     
     try:
         # Intenta obtener el perfil de profesor
@@ -83,6 +85,7 @@ class SalidaTerrenoForm(forms.ModelForm):
             'asig_base': forms.Select(attrs={'class': 'form-select', 'required': 'required'}),
             'observaciones': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'required': 'required'}),
             'semaforo': forms.Select(attrs={'class': 'form-select', 'required': 'required'}),
+            
         }
 
    
@@ -182,9 +185,10 @@ class SalidaTerrenoFormSemaforo(forms.ModelForm):
 
     class Meta:
         model = SalidaTerreno
-        fields = ['semaforo']
+        fields = ['semaforo','observaciones']
         widgets = {
             'semaforo': forms.Select(attrs={'class': 'form-select'}),
+            'observaciones': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'required': 'required'}),
         }
 
     def init(self, args, **kwargs):
@@ -396,4 +400,10 @@ class ComentarioForm(forms.Form):
 
 
 
-
+class DocumentosTerrenoForm(forms.ModelForm):
+    class Meta:
+        model = DocumentosTerreno
+        fields = ['archivo']
+        widgets = {
+            'archivo': forms.FileInput(attrs={'class': ' form-control', 'multiple': True}),
+        }

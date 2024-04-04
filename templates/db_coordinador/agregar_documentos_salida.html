@@ -1,0 +1,42 @@
+{% extends '../layout/dash_base_docente.html' %} 
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}  
+
+<h1>Documentos de la Salida {{ salida.id }}</h1>
+
+<!-- Formulario para agregar documentos -->
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="d-grid col-6 mx-auto">
+        <button type="submit" class="btn btn-success btn-block">Agregar Documento</button>
+      </div>
+      
+
+</form>
+<hr>
+
+<!-- Listado de documentos -->
+<div class="card">
+    <div class="card-body">
+      <h2 class="card-title text-center">Listado de Documentos:</h2>
+      <ul class="list-group">
+        {% for documento in documentos_salida %}
+          <li class="list-group-item">
+            <a href="{{ documento.archivo.url }}" target="_blank">{{ documento.archivo.name }}</a>
+            <a class="btn btn-danger btn-sm ms-2" href="{% url 'eliminar_documento_salida' salida.id documento.id %}">Eliminar</a>
+          </li>
+        {% empty %}
+          <li class="list-group-item text-center">No hay documentos asociados a esta salida.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  
+
+
+
+
+{% endblock %}

@@ -146,7 +146,10 @@
                 <td>{{ s.num_salida | title }}</td>
                 
                 
-                <td>{{ s.observaciones | title }}</td>
+                <td data-bs-toggle="popover" data-bs-placement="top" data-bs-trigger="hover" title="{{ s.observaciones }}" data-bs-content="{{ s.observaciones }}">
+                    {{ s.observaciones | truncatechars:30 }}
+                  </td>
+                  
                 <td class="">
                     <a href="{% url 'editar_salida' s.id %}" class="btn btn-primary btn-sm">Editar</a>
                     
@@ -166,6 +169,11 @@
                     
                     
                 </td> 
+
+                <td class="">
+                    <a href="{% url 'agregar_documentos_salida' s.id %}" class="btn btn-success btn-sm">Agregar Documentos</a>
+                </td>
+                
                 
             </tr>
         
