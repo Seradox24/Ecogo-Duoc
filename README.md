@@ -1,2 +1,2 @@
 # Ecogo-Duoc
-Django+poetry+postgres
+Django+postgres
